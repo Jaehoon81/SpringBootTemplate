@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: SpringBootTemplate
+
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: false
+
+  # Jsp Path
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+
+  # Thymeleaf Path (Jsp와 양립불가 -> 사용 X)
+#  thymeleaf:
+#    prefix: classpath:/templates/error/
+#    suffix: .html
+
+  # MySql DB
+  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/springframeworkdemo?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:mysql://localhost:3306/springframeworkdemo?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: jungjh0519
+    password: 1234qwer!!
+
+# Mybatis Path
+mybatis:
+#  type-aliases-package: kr.co.jaehoon.springboottemplate.dto  # mybatis-config.xml 설정으로 대체
+  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath:mappers/*Mapper.xml
+
+# Slf4j Logging
+logging:
+  level:
+#    root: info  # logback-spring.xml의 Root Logger 설정으로 대체
+    kr.co.jaehoon.springboottemplate: debug
+  config: classpath:logback-spring.xml
+
+# Server Port
+server:
+  port: 8080
+
+  error:
+#    path: classpath:/templates/error/*.html  # Spring Boot가 자동으로 맵핑(Html)하는 방식
+    include-exception: true  # whitelabel.enabled=true 시 적용
+    include-stacktrace: always  # whitelabel.enabled=true 시 적용
+    whitelabel:
+      enabled: false
