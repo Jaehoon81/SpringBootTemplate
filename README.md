@@ -29,3 +29,8 @@ SpringBoot Template for Web
   <p>MyBatis(3.0.4) + MySQL + JSP 조합으로 구현</p>
   <br>
 </div>
+
+<div align=left>
+  <p>Release 0.000.001: 회원가입 및 로그인 기능 구현</p>
+  <br>
+</div>
