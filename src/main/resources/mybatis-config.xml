@@ -7,6 +7,7 @@
 <!--        <package name="kr.co.jaehoon.springboottemplate.dto"/>-->
 
         <typeAlias type="kr.co.jaehoon.springboottemplate.dto.MemberDTO" alias="memberDTO"/>
+        <typeAlias type="kr.co.jaehoon.springboottemplate.dto.UserDTO" alias="userDTO"/>
     </typeAliases>
 
 </configuration>

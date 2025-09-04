@@ -25,28 +25,49 @@ repositories {
 }
 
 dependencies {
+    // Spring-Boot Starter/DevTools
     implementation 'org.springframework.boot:spring-boot-starter-web'
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
+    // Spring-Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    // JWT
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+    // JSP/JSTL
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
     implementation 'jakarta.servlet:jakarta.servlet-api'
     implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api'
+    implementation 'org.glassfish.jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-impl'
     implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl'
 
+    // Thymeleaf
 //    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+//    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.1.RELEASE'
 
+    // MySQL + MyBatis
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
     testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'
     runtimeOnly 'com.mysql:mysql-connector-j'
 
+    // Slf4j (Log4j2)
     implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
     testImplementation 'ch.qos.logback:logback-classic:1.5.13'
 
+    // Configuration-Processor, Lombok
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
+    // Bean Validation 구현체 (Hibernate Validator)
+    implementation 'jakarta.validation:jakarta.validation-api'
+    implementation 'org.hibernate.validator:hibernate-validator'
 
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }

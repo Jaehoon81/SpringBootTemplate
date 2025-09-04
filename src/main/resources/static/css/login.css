@@ -1,0 +1,140 @@
+/* General Body and Container Styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 더 현대적인 글꼴 적용 */
+    background-color: #f0f2f5; /* 은은한 배경색 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    color: #333; /* 기본 글자색 */
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 40px; /* 내부 여백 증가 */
+    border-radius: 12px; /* 모서리를 더 둥글게 */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* 부드럽고 넓은 그림자 */
+    width: 500px; /* 컨테이너 너비 조정 */
+    max-width: 90%; /* 반응형 고려 */
+    text-align: center;
+    box-sizing: border-box;
+}
+
+h2 {
+    color: #2c3e50; /* 더 진한 헤딩 색상 */
+    margin-bottom: 30px; /* 헤딩 아래 여백 증가 */
+    font-size: 1.8em; /* 글자 크기 증가 */
+    font-weight: 600; /* 글자 굵기 */
+}
+
+/* Form Group Styling */
+.form-group {
+    margin-bottom: 15px; /* 그룹 간 여백 증가 */
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px; /* 라벨 아래 여백 증가 */
+    color: #555;
+    font-weight: 500;
+    font-size: 0.95em;
+}
+
+/* Input and Select Styling */
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group select { /* select 요소도 함께 스타일링 */
+    width: 100%;
+    padding: 12px 15px; /* 드롭다운 포함, 높이를 키우기 위해 패딩 증가 */
+    border: 1px solid #cdd4da; /* 부드러운 테두리 색상 */
+    border-radius: 8px; /* 모서리 둥글게 */
+    box-sizing: border-box;
+    font-size: 1.05em; /* 글자 크기 약간 증가 */
+    color: #333;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* 전환 효과 추가 */
+}
+
+/* Focus effect for inputs and select */
+.form-group input[type="text"]:focus,
+.form-group input[type="password"]:focus,
+.form-group select:focus {
+    border-color: #007bff; /* 포커스 시 주 색상 적용 */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* 은은한 그림자 효과 */
+    outline: none; /* 기본 아웃라인 제거 */
+}
+
+/* Dropdown specific styling (custom arrow) */
+.form-group select {
+    appearance: none; /* 브라우저 기본 드롭다운 화살표 제거 */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    /* Custom SVG arrow icon */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 20px;
+    cursor: pointer;
+    line-height: 1.5; /* 텍스트 정렬을 위해 줄 높이 조정 */
+}
+
+/* Button Styling */
+button {
+    background-color: #007bff; /* 주 색상 (파란색) */
+    color: white;
+    padding: 12px 25px; /* 패딩 증가 */
+    border: none;
+    border-radius: 8px; /* 모서리 둥글게 */
+    cursor: pointer;
+    font-size: 1.1em; /* 글자 크기 증가 */
+    margin-top: 15px; /* 버튼 위 여백 증가 */
+    font-weight: 600; /* 글자 굵기 */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* 호버 및 클릭 전환 효과 */
+    width: 100%; /* 버튼을 컨테이너 너비에 맞춤 */
+}
+
+button:hover {
+    background-color: #0056b3; /* 호버 시 색상 변경 */
+    transform: translateY(-2px); /* 약간 위로 떠오르는 효과 */
+}
+
+button:active {
+    transform: translateY(0); /* 클릭 시 원위치 */
+}
+
+/* Horizontal Rule (Divider) Styling */
+hr {
+    border: 0;
+    border-top: 1px solid #e0e0e0; /* 부드러운 구분선 */
+    margin: 30px 0; /* 세로 여백 증가 */
+}
+
+/* Message Styling */
+.message {
+    margin-top: 15px;
+    font-weight: 600;
+    font-size: 0.9em;
+    padding: 8px 0;
+}
+
+.message[style*="color: green"] {
+    color: #28a745 !important; /* 성공 메시지 (초록색) */
+}
+
+.message[style*="color: red"] {
+    color: #dc3545 !important; /* 에러 메시지 (빨간색) */
+}
+
+/* Link in p tag */
+p a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 0.9em;
+    margin-top: 10px;
+    display: block; /* 블록 요소로 변경하여 margin-top 적용 */
+}
+
+p a:hover {
+    text-decoration: underline;
+}

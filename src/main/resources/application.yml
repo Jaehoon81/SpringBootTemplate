@@ -8,7 +8,7 @@ spring:
     restart:
       enabled: false
 
-  # Jsp Path
+  # JSP ViewResolver
   mvc:
     view:
       prefix: /WEB-INF/views/
@@ -19,7 +19,7 @@ spring:
 #    prefix: classpath:/templates/error/
 #    suffix: .html
 
-  # MySql DB
+  # MySQL DataSource
   datasource:
 #    driver-class-name: com.mysql.cj.jdbc.Driver
 #    url: jdbc:mysql://localhost:3306/springframeworkdemo?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
@@ -28,11 +28,18 @@ spring:
     username: jungjh0519
     password: 1234qwer!!
 
-# Mybatis Path
+# MyBatis Path
 mybatis:
 #  type-aliases-package: kr.co.jaehoon.springboottemplate.dto  # mybatis-config.xml 설정으로 대체
   config-location: classpath:mybatis-config.xml
   mapper-locations: classpath:mappers/*Mapper.xml
+#  configuration:
+#    map-underscore-to-camel-case: true  # DB 테이블의 컬럼명 자동매핑
+
+# Spring Security (JWT 관련 설정)
+jwt:
+  secret: A/AUmT4wivf/DY1fhYsbNu1Xocnzw6qfNCRd9I+/z5iIrY5SMHSg8C4iZT8Yi8gP7NPUz+CUNUoSi7Fd9HG2Kw==
+  expiration: 3600000  # 1시간(밀리초)
 
 # Slf4j Logging
 logging:
@@ -41,7 +48,7 @@ logging:
     kr.co.jaehoon.springboottemplate: debug
   config: classpath:logback-spring.xml
 
-# Server Port
+# Server Port/Error
 server:
   port: 8080
 
@@ -51,3 +58,6 @@ server:
     include-stacktrace: always  # whitelabel.enabled=true 시 적용
     whitelabel:
       enabled: false
+
+springboot-template:
+  version: 0.000.001  # SpringBootTemplate 프로젝트의 버전을 기록
