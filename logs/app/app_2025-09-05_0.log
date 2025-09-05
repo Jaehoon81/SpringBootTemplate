@@ -1,0 +1,94 @@
+2025-09-05 09:05:17.619[INFO ] : Starting SpringBootTemplateApplication using Java 17.0.12 with PID 8160 (D:\Web\Spring\Workspace\SpringBootTemplate\out\production\classes started by IDBS_Oculus in D:\Web\Spring\Workspace\SpringBootTemplate)
+2025-09-05 09:05:17.621[DEBUG] : Running with Spring Boot v3.3.12, Spring v6.1.20
+2025-09-05 09:05:17.623[INFO ] : No active profile set, falling back to 1 default profile: "default"
+2025-09-05 09:05:17.700[INFO ] : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-09-05 09:05:17.700[INFO ] : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-09-05 09:05:19.891[INFO ] : Tomcat initialized with port 8080 (http)
+2025-09-05 09:05:19.911[INFO ] : Starting service [Tomcat]
+2025-09-05 09:05:19.912[INFO ] : Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-09-05 09:05:20.205[INFO ] : At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2025-09-05 09:05:20.218[INFO ] : Initializing Spring embedded WebApplicationContext
+2025-09-05 09:05:20.218[INFO ] : Root WebApplicationContext: initialization completed in 2517 ms
+2025-09-05 09:05:20.674[DEBUG] : Filter 'jwtRequestFilter' configured for use
+2025-09-05 09:05:20.747[INFO ] : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2025-09-05 09:05:20.888[INFO ] : Adding welcome page template: index
+2025-09-05 09:05:21.306[INFO ] : LiveReload server is running on port 35729
+2025-09-05 09:05:21.358[INFO ] : Tomcat started on port 8080 (http) with context path '/'
+2025-09-05 09:05:21.370[INFO ] : Started SpringBootTemplateApplication in 4.824 seconds (process running for 6.28)
+2025-09-05 09:05:31.772[INFO ] : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-05 09:05:31.772[INFO ] : Initializing Servlet 'dispatcherServlet'
+2025-09-05 09:05:31.773[INFO ] : Completed initialization in 1 ms
+2025-09-05 09:34:45.872[INFO ] : Starting SpringBootTemplateApplication using Java 17.0.12 with PID 8816 (D:\Web\Spring\Workspace\SpringBootTemplate\out\production\classes started by IDBS_Oculus in D:\Web\Spring\Workspace\SpringBootTemplate)
+2025-09-05 09:34:45.874[DEBUG] : Running with Spring Boot v3.3.12, Spring v6.1.20
+2025-09-05 09:34:45.875[INFO ] : No active profile set, falling back to 1 default profile: "default"
+2025-09-05 09:34:45.937[INFO ] : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-09-05 09:34:45.937[INFO ] : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-09-05 09:34:47.450[INFO ] : Tomcat initialized with port 8080 (http)
+2025-09-05 09:34:47.468[INFO ] : Starting service [Tomcat]
+2025-09-05 09:34:47.469[INFO ] : Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-09-05 09:34:47.691[INFO ] : At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2025-09-05 09:34:47.700[INFO ] : Initializing Spring embedded WebApplicationContext
+2025-09-05 09:34:47.700[INFO ] : Root WebApplicationContext: initialization completed in 1762 ms
+2025-09-05 09:34:48.068[DEBUG] : Filter 'jwtRequestFilter' configured for use
+2025-09-05 09:34:48.138[INFO ] : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2025-09-05 09:34:48.283[INFO ] : Adding welcome page template: index
+2025-09-05 09:34:48.721[INFO ] : LiveReload server is running on port 35729
+2025-09-05 09:34:48.770[INFO ] : Tomcat started on port 8080 (http) with context path '/'
+2025-09-05 09:34:48.780[INFO ] : Started SpringBootTemplateApplication in 3.691 seconds (process running for 4.605)
+2025-09-05 09:35:42.638[INFO ] : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-05 09:35:42.638[INFO ] : Initializing Servlet 'dispatcherServlet'
+2025-09-05 09:35:42.639[INFO ] : Completed initialization in 1 ms
+2025-09-05 09:36:00.518[INFO ] : HikariPool-1 - Starting...
+2025-09-05 09:36:00.691[INFO ] : HikariPool-1 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@1b5d7bb2
+2025-09-05 09:36:00.693[INFO ] : HikariPool-1 - Start completed.
+2025-09-05 09:36:00.702[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-05 09:36:00.733[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-05 09:36:00.747[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 13 msec}
+2025-09-05 09:36:00.780[DEBUG] : <==      Total: 1
+2025-09-05 09:36:00.872[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-05 09:36:00.873[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-05 09:36:00.874[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 0 msec}
+2025-09-05 09:36:00.875[DEBUG] : <==      Total: 1
+2025-09-05 09:36:01.005[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-05 09:36:01.006[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-05 09:36:01.007[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-05 09:36:01.010[DEBUG] : <==      Total: 1
+2025-09-05 09:36:01.113[DEBUG] : Secure-Page_UserDetails: [ROLE_USER]
+2025-09-05 09:36:01.691[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-05 09:36:01.691[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-05 09:36:01.692[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-05 09:36:01.695[DEBUG] : <==      Total: 1
+2025-09-05 09:36:01.717[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-05 09:36:01.718[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-05 09:36:01.720[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-05 09:36:01.723[DEBUG] : <==      Total: 1
+2025-09-05 09:36:04.673[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-05 09:36:04.673[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-05 09:36:04.674[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 0 msec}
+2025-09-05 09:36:04.676[DEBUG] : <==      Total: 1
+2025-09-05 09:38:40.838[INFO ] : HikariPool-1 - Shutdown initiated...
+2025-09-05 09:38:40.849[INFO ] : HikariPool-1 - Shutdown completed.

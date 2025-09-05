@@ -28,6 +28,14 @@ $(document).ready(function () {
         }
     });
 
+    // 로그인 폼 구조의 아이디, 비밀번호 입력 필드에 키업 이벤트 리스너 추가
+    $('#login-username, #login-password').on('keyup', function (e) {
+        if (e.key === 'Enter' || e.keyCode === 13) {
+            // Enter 키가 눌렸을 때 로그인 버튼 클릭 이벤트 발생
+            $('#loginBtn').trigger('click');
+        }
+    });
+
     // 로그인 버튼 클릭 이벤트
     $('#loginBtn').click(function () {
         var username = $('#login-username').val();

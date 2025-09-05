@@ -21,11 +21,11 @@
         <h2>로그인</h2>
         <div class="form-group">
             <label for="login-username">* 아이디:</label>
-            <input type="text" id="login-username" name="username">
+            <input type="text" id="login-username" name="username" placeholder="아이디를 입력해주세요." required>
         </div>
         <div class="form-group">
             <label for="login-password">* 비밀번호:</label>
-            <input type="password" id="login-password" name="password">
+            <input type="password" id="login-password" name="password" placeholder="비밀번호를 입력해주세요." required>
         </div>
         <button id="loginBtn">로그인</button>
         <p id="login-message" class="message"></p>
@@ -43,15 +43,15 @@
             <h2>회원가입</h2>
             <div class="form-group">
                 <label for="reg-username">* 아이디:</label>
-                <input type="text" id="reg-username" name="username">
+                <input type="text" id="reg-username" name="username" placeholder="4자 이상의 영문 대소문자, 숫자만 가능" required>
             </div>
             <div class="form-group">
                 <label for="reg-password">* 비밀번호:</label>
-                <input type="password" id="reg-password" name="password">
+                <input type="password" id="reg-password" name="password" placeholder="10자 이상의 영문, 숫자, 특수문자를 모두 포함" required>
             </div>
             <div class="form-group">
                 <label for="reg-displayname">이름 (선택):</label>
-                <input type="text" id="reg-displayname" name="displayname">
+                <input type="text" id="reg-displayname" name="displayname" placeholder="이름을 입력해주세요.">
             </div>
             <div class="form-group">
                 <label for="reg-role">* 권한:</label>

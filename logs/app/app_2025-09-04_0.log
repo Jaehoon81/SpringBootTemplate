@@ -3853,3 +3853,492 @@ org.springframework.security.authentication.BadCredentialsException: 자격 증�
 2025-09-04 16:29:47.549[DEBUG] : <==      Total: 1
 2025-09-04 16:30:28.756[INFO ] : HikariPool-1 - Shutdown initiated...
 2025-09-04 16:30:28.764[INFO ] : HikariPool-1 - Shutdown completed.
+2025-09-04 17:12:20.268[INFO ] : Starting SpringBootTemplateApplication using Java 17.0.12 with PID 4860 (D:\Web\Spring\Workspace\SpringBootTemplate\out\production\classes started by IDBS_Oculus in D:\Web\Spring\Workspace\SpringBootTemplate)
+2025-09-04 17:12:20.270[DEBUG] : Running with Spring Boot v3.3.12, Spring v6.1.20
+2025-09-04 17:12:20.271[INFO ] : No active profile set, falling back to 1 default profile: "default"
+2025-09-04 17:12:20.329[INFO ] : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-09-04 17:12:20.330[INFO ] : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-09-04 17:12:21.961[INFO ] : Tomcat initialized with port 8080 (http)
+2025-09-04 17:12:21.979[INFO ] : Starting service [Tomcat]
+2025-09-04 17:12:21.980[INFO ] : Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-09-04 17:12:22.232[INFO ] : At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2025-09-04 17:12:22.244[INFO ] : Initializing Spring embedded WebApplicationContext
+2025-09-04 17:12:22.245[INFO ] : Root WebApplicationContext: initialization completed in 1914 ms
+2025-09-04 17:12:22.609[DEBUG] : Filter 'jwtRequestFilter' configured for use
+2025-09-04 17:12:22.678[INFO ] : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2025-09-04 17:12:22.813[INFO ] : Adding welcome page template: index
+2025-09-04 17:12:23.234[INFO ] : LiveReload server is running on port 35729
+2025-09-04 17:12:23.279[INFO ] : Tomcat started on port 8080 (http) with context path '/'
+2025-09-04 17:12:23.289[INFO ] : Started SpringBootTemplateApplication in 3.823 seconds (process running for 4.84)
+2025-09-04 17:12:34.896[INFO ] : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-04 17:12:34.896[INFO ] : Initializing Servlet 'dispatcherServlet'
+2025-09-04 17:12:34.898[INFO ] : Completed initialization in 2 ms
+2025-09-04 17:13:01.416[INFO ] : HikariPool-1 - Starting...
+2025-09-04 17:13:01.593[INFO ] : HikariPool-1 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@2f265911
+2025-09-04 17:13:01.595[INFO ] : HikariPool-1 - Start completed.
+2025-09-04 17:13:01.603[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:13:01.638[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-04 17:13:01.653[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 15 msec}
+2025-09-04 17:13:01.691[DEBUG] : <==      Total: 1
+2025-09-04 17:13:01.790[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:13:01.791[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-04 17:13:01.792[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-04 17:13:01.794[DEBUG] : <==      Total: 1
+2025-09-04 17:13:01.934[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:13:01.936[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-04 17:13:01.938[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 2 msec}
+2025-09-04 17:13:01.942[DEBUG] : <==      Total: 1
+2025-09-04 17:13:01.952[DEBUG] : Secure-Page_UserDetails: [ROLE_USER]
+2025-09-04 17:13:02.329[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:13:02.330[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-04 17:13:02.331[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-04 17:13:02.334[DEBUG] : <==      Total: 1
+2025-09-04 17:13:02.341[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:13:02.342[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-04 17:13:02.344[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 0 msec}
+2025-09-04 17:13:02.345[DEBUG] : <==      Total: 1
+2025-09-04 17:13:07.857[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:13:07.857[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-04 17:13:07.858[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-04 17:13:07.859[DEBUG] : <==      Total: 1
+2025-09-04 17:13:07.940[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:13:07.941[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-04 17:13:07.942[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-04 17:13:07.944[DEBUG] : <==      Total: 1
+2025-09-04 17:13:43.452[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:13:43.452[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-04 17:13:43.453[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-04 17:13:43.456[DEBUG] : <==      Total: 1
+2025-09-04 17:13:43.535[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:13:43.536[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-04 17:13:43.537[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 0 msec}
+2025-09-04 17:13:43.538[DEBUG] : <==      Total: 1
+2025-09-04 17:13:43.550[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:13:43.550[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-04 17:13:43.551[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-04 17:13:43.553[DEBUG] : <==      Total: 1
+2025-09-04 17:13:43.563[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:13:43.564[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-04 17:13:43.565[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-04 17:13:43.567[DEBUG] : <==      Total: 1
+2025-09-04 17:13:45.368[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:13:45.369[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-04 17:13:45.370[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-04 17:13:45.371[DEBUG] : <==      Total: 1
+2025-09-04 17:13:45.377[DEBUG] : Secure-Page_UserDetails: [ROLE_USER]
+2025-09-04 17:13:45.422[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:13:45.422[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:13:45.422[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-04 17:13:45.422[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-04 17:13:45.423[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+2. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-04 17:13:45.423[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-04 17:13:45.425[DEBUG] : <==      Total: 1
+2025-09-04 17:13:45.425[DEBUG] : <==      Total: 1
+2025-09-04 17:13:46.884[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:13:46.885[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-04 17:13:46.886[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-04 17:13:46.887[DEBUG] : <==      Total: 1
+2025-09-04 17:15:01.386[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:15:01.387[DEBUG] : ==> Parameters: jungjh0519(String)
+2025-09-04 17:15:01.389[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jungjh0519'
+ {executed in 1 msec}
+2025-09-04 17:15:01.392[DEBUG] : <==      Total: 1
+2025-09-04 17:15:01.498[ERROR] : 자격 증명에 실패하였습니다.
+org.springframework.security.authentication.BadCredentialsException: 자격 증명에 실패하였습니다.
+	at org.springframework.security.authentication.dao.DaoAuthenticationProvider.additionalAuthenticationChecks(DaoAuthenticationProvider.java:93)
+	at org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider.authenticate(AbstractUserDetailsAuthenticationProvider.java:147)
+	at org.springframework.security.authentication.ProviderManager.authenticate(ProviderManager.java:182)
+	at kr.co.jaehoon.springboottemplate.controller.UserRestController.createAuthenticationToken(UserRestController.java:71)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:255)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:188)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:926)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:831)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:547)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:614)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:110)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108)
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:365)
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:100)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:126)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:120)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:131)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:85)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at kr.co.jaehoon.springboottemplate.security.JwtRequestFilter.doFilterInternal(JwtRequestFilter.java:75)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82)
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$3(HandlerMappingIntrospector.java:195)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74)
+	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:230)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:362)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:278)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:842)
+2025-09-04 17:15:07.352[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:15:07.352[DEBUG] : ==> Parameters: jungjh0519(String)
+2025-09-04 17:15:07.353[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jungjh0519'
+ {executed in 0 msec}
+2025-09-04 17:15:07.355[DEBUG] : <==      Total: 1
+2025-09-04 17:15:07.457[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:15:07.457[DEBUG] : ==> Parameters: jungjh0519(String)
+2025-09-04 17:15:07.458[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jungjh0519'
+ {executed in 1 msec}
+2025-09-04 17:15:07.459[DEBUG] : <==      Total: 1
+2025-09-04 17:15:07.477[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:15:07.477[DEBUG] : ==> Parameters: jungjh0519(String)
+2025-09-04 17:15:07.478[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jungjh0519'
+ {executed in 1 msec}
+2025-09-04 17:15:07.479[DEBUG] : <==      Total: 1
+2025-09-04 17:15:07.483[DEBUG] : Secure-Page_UserDetails: [ROLE_ADMIN]
+2025-09-04 17:15:07.565[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:15:07.565[DEBUG] : ==> Parameters: jungjh0519(String)
+2025-09-04 17:15:07.567[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jungjh0519'
+ {executed in 1 msec}
+2025-09-04 17:15:07.569[DEBUG] : <==      Total: 1
+2025-09-04 17:15:07.580[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:15:07.580[DEBUG] : ==> Parameters: jungjh0519(String)
+2025-09-04 17:15:07.582[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+2. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jungjh0519'
+ {executed in 0 msec}
+2025-09-04 17:15:07.584[DEBUG] : <==      Total: 1
+2025-09-04 17:15:09.234[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:15:09.235[DEBUG] : ==> Parameters: jungjh0519(String)
+2025-09-04 17:15:09.236[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jungjh0519'
+ {executed in 1 msec}
+2025-09-04 17:15:09.238[DEBUG] : <==      Total: 1
+2025-09-04 17:15:09.374[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:15:09.375[DEBUG] : ==> Parameters: jungjh0519(String)
+2025-09-04 17:15:09.377[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jungjh0519'
+ {executed in 0 msec}
+2025-09-04 17:15:09.378[DEBUG] : <==      Total: 1
+2025-09-04 17:15:09.391[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:15:09.392[DEBUG] : ==> Parameters: jungjh0519(String)
+2025-09-04 17:15:09.394[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jungjh0519'
+ {executed in 1 msec}
+2025-09-04 17:15:09.395[DEBUG] : <==      Total: 1
+2025-09-04 17:15:11.423[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:15:11.423[DEBUG] : ==> Parameters: jungjh0519(String)
+2025-09-04 17:15:11.424[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jungjh0519'
+ {executed in 1 msec}
+2025-09-04 17:15:11.426[DEBUG] : <==      Total: 1
+2025-09-04 17:15:11.431[DEBUG] : Secure-Page_UserDetails: [ROLE_ADMIN]
+2025-09-04 17:15:11.519[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:15:11.520[DEBUG] : ==> Parameters: jungjh0519(String)
+2025-09-04 17:15:11.521[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jungjh0519'
+ {executed in 1 msec}
+2025-09-04 17:15:11.522[DEBUG] : <==      Total: 1
+2025-09-04 17:15:11.528[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:15:11.528[DEBUG] : ==> Parameters: jungjh0519(String)
+2025-09-04 17:15:11.529[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jungjh0519'
+ {executed in 1 msec}
+2025-09-04 17:15:11.530[DEBUG] : <==      Total: 1
+2025-09-04 17:15:20.401[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:15:20.401[DEBUG] : ==> Parameters: jungjh0519(String)
+2025-09-04 17:15:20.402[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jungjh0519'
+ {executed in 1 msec}
+2025-09-04 17:15:20.403[DEBUG] : <==      Total: 1
+2025-09-04 17:15:20.459[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:15:20.460[DEBUG] : ==> Parameters: jungjh0519(String)
+2025-09-04 17:15:20.461[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jungjh0519'
+ {executed in 1 msec}
+2025-09-04 17:15:20.461[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:15:20.461[DEBUG] : ==> Parameters: jungjh0519(String)
+2025-09-04 17:15:20.462[DEBUG] : <==      Total: 1
+2025-09-04 17:15:20.462[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+2. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jungjh0519'
+ {executed in 1 msec}
+2025-09-04 17:15:20.463[DEBUG] : <==      Total: 1
+2025-09-04 17:15:24.520[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:15:24.521[DEBUG] : ==> Parameters: jungjh0519(String)
+2025-09-04 17:15:24.522[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+2. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jungjh0519'
+ {executed in 1 msec}
+2025-09-04 17:15:24.523[DEBUG] : <==      Total: 1
+2025-09-04 17:15:24.527[DEBUG] : Secure-Page_UserDetails: [ROLE_ADMIN]
+2025-09-04 17:15:24.629[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:15:24.630[DEBUG] : ==> Parameters: jungjh0519(String)
+2025-09-04 17:15:24.631[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jungjh0519'
+ {executed in 1 msec}
+2025-09-04 17:15:24.632[DEBUG] : <==      Total: 1
+2025-09-04 17:15:24.637[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:15:24.637[DEBUG] : ==> Parameters: jungjh0519(String)
+2025-09-04 17:15:24.638[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jungjh0519'
+ {executed in 1 msec}
+2025-09-04 17:15:24.639[DEBUG] : <==      Total: 1
+2025-09-04 17:15:26.648[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:15:26.648[DEBUG] : ==> Parameters: jungjh0519(String)
+2025-09-04 17:15:26.649[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jungjh0519'
+ {executed in 1 msec}
+2025-09-04 17:15:26.650[DEBUG] : <==      Total: 1
+2025-09-04 17:15:26.701[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:15:26.701[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:15:26.701[DEBUG] : ==> Parameters: jungjh0519(String)
+2025-09-04 17:15:26.701[DEBUG] : ==> Parameters: jungjh0519(String)
+2025-09-04 17:15:26.703[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+2. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jungjh0519'
+ {executed in 0 msec}
+2025-09-04 17:15:26.703[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jungjh0519'
+ {executed in 1 msec}
+2025-09-04 17:15:26.704[DEBUG] : <==      Total: 1
+2025-09-04 17:15:26.704[DEBUG] : <==      Total: 1
+2025-09-04 17:15:27.885[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:15:27.886[DEBUG] : ==> Parameters: jungjh0519(String)
+2025-09-04 17:15:27.887[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jungjh0519'
+ {executed in 1 msec}
+2025-09-04 17:15:27.888[DEBUG] : <==      Total: 1
+2025-09-04 17:16:16.138[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:16:16.138[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-04 17:16:16.139[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+2. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-04 17:16:16.140[DEBUG] : <==      Total: 1
+2025-09-04 17:16:16.245[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:16:16.245[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-04 17:16:16.246[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+2. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-04 17:16:16.247[DEBUG] : <==      Total: 1
+2025-09-04 17:16:16.277[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:16:16.278[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-04 17:16:16.279[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-04 17:16:16.280[DEBUG] : <==      Total: 1
+2025-09-04 17:16:16.284[DEBUG] : Secure-Page_UserDetails: [ROLE_USER]
+2025-09-04 17:16:16.401[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:16:16.401[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:16:16.401[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-04 17:16:16.401[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-04 17:16:16.403[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+2. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-04 17:16:16.403[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-04 17:16:16.403[DEBUG] : <==      Total: 1
+2025-09-04 17:16:16.403[DEBUG] : <==      Total: 1
+2025-09-04 17:16:18.569[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:16:18.569[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-04 17:16:18.570[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-04 17:16:18.571[DEBUG] : <==      Total: 1
+2025-09-04 17:16:18.630[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-04 17:16:18.630[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-04 17:16:18.632[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-04 17:16:18.633[DEBUG] : <==      Total: 1
+2025-09-04 17:20:10.237[INFO ] : HikariPool-1 - Shutdown initiated...
+2025-09-04 17:20:10.245[INFO ] : HikariPool-1 - Shutdown completed.

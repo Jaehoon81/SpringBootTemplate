@@ -31,6 +31,6 @@ SpringBoot Template for Web
 </div>
 
 <div align=left>
-  <p>Release 0.000.001: 회원가입 및 로그인 기능 구현</p>
+  <p>1. Release 0.000.001: Spring-Security + JWT 기반 회원가입 및 로그인 기능 구현</p>
   <br>
 </div>
