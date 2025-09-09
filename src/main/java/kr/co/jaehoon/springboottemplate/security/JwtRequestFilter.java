@@ -1,6 +1,10 @@
 package kr.co.jaehoon.springboottemplate.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.SignatureException;
 import jakarta.servlet.FilterChain;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,6 +12,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import kr.co.jaehoon.springboottemplate.service.impl.UserDetailsServiceImpl;
 import kr.co.jaehoon.springboottemplate.dto.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,33 +26,54 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
+//@Slf4j
 public class JwtRequestFilter extends OncePerRequestFilter {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private final UserDetailsServiceImpl userDetailsService;
     private final JwtUtil jwtUtil;
+    private final JwtBlacklistService jwtBlacklistService;
+
+    private final ObjectMapper objectMapper;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+        // 1. 요청이 API 엔드포인트인지 판단 (/api/ 로 시작하는 URI)
+        boolean isApiRequest = request.getRequestURI().startsWith("/api/");
+        // 2. 클라이언트의 'Accept' 헤더를 명시적으로 검사하여 JSON을 원하는지 확인
+        String acceptHeader = request.getHeader("Accept");
+        boolean expectsJsonExplicitly = (acceptHeader != null && acceptHeader.contains(MediaType.APPLICATION_JSON_VALUE));
+        // 3. AJAX 요청인지 확인 (웹에서 AJAX 호출 시 사용하는 X-Requested-With 헤더를 통한 판단)
+        boolean isAjaxRequest = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
+        // JSON 응답을 보내야 하는 조건:
+        // - 명백하게 API 요청인 경우 (경로 기준)
+        // - 또는 클라이언트가 명시적으로 JSON을 요청한 경우
+        // - 또는 일반적인 AJAX 요청인 경우 (일반적으로 JSON 응답을 기대)
+        boolean shouldSendJson = isApiRequest || expectsJsonExplicitly || isAjaxRequest;
+
         String jwt = null;
         String username = null;
 
-        // 1. Authorization 헤더에서 JWT 추출 (기존 방식)
+        // 1. HTTP Authorization 헤더에서 JWT 추출 (모바일 또는 웹의 AJAX에서 명시적으로 보낸 경우)
         final String authorizationHeader = request.getHeader("Authorization");
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             jwt = authorizationHeader.substring(7);
 //            try {
 //                username = jwtUtil.extractUsername(jwt);
 //            } catch (Exception e) {
-//                logger.error("JWT Token extraction failed: " + e.getMessage());
+//                log.error("JWT token extraction failed: {}", e.getMessage());
 //                // 토큰 추출 실패 시 다음 필터로 진행하지 않거나 401 응답 처리
 //                // response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid JWT Token");
 //                // return;
 //            }
         }
-        // 2. Authorization 헤더에 JWT가 없으면 쿠키에서 JWT 추출
+        // 2. HTTP Authorization 헤더에 JWT가 없으면 쿠키에서 JWT 추출 (웹 브라우저의 자동 쿠키 전송)
         if (jwt == null && request.getCookies() != null) {
             jwt = Arrays.stream(request.getCookies())
                     .filter(cookie -> "jwtToken".equals(cookie.getName()))
@@ -53,25 +83,103 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
         // JWT가 존재하면 검증 시작
         if (jwt != null) {
+            // 블랙리스트에 있는 토큰인지 확인 (모바일/웹 토큰 모두 해당)
+            if (jwtBlacklistService.isTokenBlacklisted(jwt)) {
+                log.warn("Attempted to use a blacklisted JWT token: {}", jwt);
+                // 토큰이 블랙리스트에 있는 경우의 인증 실패 처리
+                // 방법 1) 401 HTML 응답을 반환
+//                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "토큰이 무효화되었습니다. 다시 로그인해주세요.");
+//                return;
+                // 방법 2) 401 HTML 응답(response.sendError()) 대신, JwtAuthenticationEntryPoint로 예외를 전달
+//                throw new BadCredentialsException("토큰이 무효화되었습니다. 다시 로그인해주세요.");
+
+                // 방법 3) 직접 401 JSON 응답을 작성하여 전송
+                // (ExceptionTranslationFilter가 JwtRequestFilter에서 발생한 AuthenticationException을 예상대로 Catch하지 못하는 상황)
+                create401JsonResponse(request, response, "토큰이 무효화되었습니다. 다시 로그인해주세요.", shouldSendJson);
+                return;  // 필터 체인 진행을 중단
+            }
+            String unauthorizedMsg = "";
             try {
                 username = jwtUtil.extractUsername(jwt);
+            } catch (ExpiredJwtException e) {
+                username = e.getClaims().getSubject();  // 만료된 토큰에서도 subject는 추출
+
+                unauthorizedMsg = "JWT token has expired for user";
+                log.warn("{}: {}", unauthorizedMsg, ((e.getClaims() != null) ? e.getClaims().getSubject() : "unknown user"));
+                // 만료된 토큰인 경우, 유저네임은 추출 가능하나 유효성 검사에서 실패
+                // JwtAuthenticationEntryPoint에서 401을 처리하고, SecurityContext에 인증 정보는 설정하지 않음
+            } catch (SignatureException e) {
+                unauthorizedMsg = "JWT token signature is invalid";
+                log.warn("{}: {}", unauthorizedMsg, e.getMessage());
+                // 유효하지 않은 서명인 경우, username을 null로 유지하여 인증 실패로 처리
             } catch (Exception e) {
-                logger.warn("JWT token extraction failed or token is invalid: " + e.getMessage());
-                // 유효하지 않은 토큰 처리 (예: 401 에러로 넘기거나, 다음 필터로 진행하지 않음)
-                // 이 단계에서 401을 직접 발생시키지 않으면 SecurityConfig의 JwtAuthenticationEntryPoint로 이동
+                unauthorizedMsg = "Unable to get JWT token or invalid token";
+                log.warn("{}: {}", unauthorizedMsg, e.getMessage());
+                // 그 외 모든 JWT 관련 예외 처리 (유효하지 않은 토큰)
+                // 401 에러로 JwtAuthenticationEntryPoint에 넘기거나, 다음 필터로 진행하지 않음
+            }
+            if (!unauthorizedMsg.isEmpty()) {
+                create401JsonResponse(request, response, unauthorizedMsg, shouldSendJson);
+                return;  // 필터 체인 진행을 중단
             }
         }
-        // username이 있고, 아직 SecurityContext에 인증 정보가 없는 경우에만 인증 진행
+        // username이 있고, 아직 SecurityContext에 인증 정보가 없는 경우에만 인증 시도
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-            if (jwtUtil.validateToken(jwt, (CustomUserDetails) userDetails)) {
+            UserDetails userDetails = null;
+            try {
+                userDetails = this.userDetailsService.loadUserByUsername(username);
+            } catch (Exception e) {
+                log.error("User not found or other UserDetails error during loadUserByUsername: {}", e.getMessage());
+                // 사용자 정보를 불러오는데 실패하면 인증 실패 처리
+                // 방법 1) 401 HTML 응답을 반환
+//                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "사용자 정보를 불러올 수 없습니다.");
+//                return;
+                // 방법 2) 401 HTML 응답(response.sendError()) 대신, JwtAuthenticationEntryPoint로 예외를 전달
+//                throw new BadCredentialsException("사용자 정보를 불러올 수 없습니다.");
+
+                // 방법 3) BadCredentialsException을 발생시키는 대신, 이 부분을 건너뛰어
+                // SecurityContextHolder.getContext().getAuthentication()이 null 상태로 다음 필터로 진행되고
+                // 결국 JwtAuthenticationEntryPoint가 처리하도록 유도함
+            }
+            // 토큰 유효성 최종 검증 (블랙리스트 검증은 이미 위에서 수행됨)
+            if (userDetails != null && jwtUtil.validateToken(jwt, (CustomUserDetails) userDetails)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities()
                 );
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+            } else {
+                log.warn("JWT token validation failed for user: {}", username);
+                // validateToken에서 실패한 경우 (ExpiredJwtException 때문에 validateToken이 false 반환)
+                // 인증 정보가 설정되지 않고, 다음 필터로 넘어가서 최종적으로 JwtAuthenticationEntryPoint가 처리
             }
         }
         chain.doFilter(request, response);
+    }
+
+    private void create401JsonResponse(HttpServletRequest request, HttpServletResponse response, String unauthorizedMsg, boolean shouldSendJson) throws ServletException, IOException {
+        if (shouldSendJson == true) {
+            // JSON 응답을 기대하는 클라이언트 (모바일 앱, API 클라이언트 등)
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);    // 401 Unauthorized
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);  // Content-Type 설정
+            response.setCharacterEncoding("UTF-8");                     // 한글 깨짐 방지
+
+            Map<String, Object> errorDetails = new HashMap<>();
+            errorDetails.put("status", HttpServletResponse.SC_UNAUTHORIZED);
+            errorDetails.put("error", "Unauthorized");
+            errorDetails.put("message", unauthorizedMsg);  // 상세 메시지
+
+            objectMapper.writeValue(response.getWriter(), errorDetails);  // JSON 응답 작성
+        } else {
+            // 웹 브라우저에서 직접 접근(페이지 요청)인 경우:
+            // 1. 401 HTML 응답(response.sendError()) 대신, 응답 상태 코드를 401으로 설정하고 /error 경로로 포워드
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            // 2. MyErrorController에서 사용할 에러 속성들을 수동으로 설정
+            request.setAttribute(RequestDispatcher.ERROR_STATUS_CODE, HttpServletResponse.SC_UNAUTHORIZED);
+            request.setAttribute(RequestDispatcher.ERROR_MESSAGE, unauthorizedMsg);  // 사용자에게 보여줄 메시지
+            request.setAttribute(RequestDispatcher.ERROR_REQUEST_URI, request.getRequestURI());                 // 원래 요청 URI
+            // 3. Spring Boot의 기본 에러 핸들러(BasicErrorController)가 /error 요청을 처리하고 error.jsp를 렌더링
+            request.getRequestDispatcher("/error").forward(request, response);
+        }
     }
 }

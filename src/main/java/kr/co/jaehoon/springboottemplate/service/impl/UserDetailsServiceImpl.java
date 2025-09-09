@@ -25,7 +25,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserDAO userDAO;
     private final UserRepository userRepository;
 
-//    @Transactional
+    @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserDTO user = userDAO.findByUsername(username);
@@ -40,8 +40,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 //        return new User(user.getUsername(), user.getPassword(), authorities);
 
         // 방법 3) CustomUserDetails 객체를 생성하여 반환
-        // CustomUserDetails 내부의 getAuthorities() 메서드에서 user.getRole()을 사용하여
-        // Spring Security의 GrantedAuthority를 적절히 생성함
+        // (CustomUserDetails 내부의 getAuthorities() 메서드에서 user.getRole()을 사용하여 Spring Security의 GrantedAuthority를 적절히 생성함)
         return new CustomUserDetails(user);
     }
 }

@@ -31,7 +31,7 @@
     <script type="text/javascript">
         $('#logoutBtn').click(function () {
             $.ajax({
-                url: '/api/auth/logout',
+                url: '/api/auth/web-logout',
                 type: 'POST',
                 success: function (response) {
                     // 서버에 로그아웃 요청을 보내 쿠키를 만료시킴

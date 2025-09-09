@@ -39,7 +39,9 @@ mybatis:
 # Spring Security (JWT 관련 설정)
 jwt:
   secret: A/AUmT4wivf/DY1fhYsbNu1Xocnzw6qfNCRd9I+/z5iIrY5SMHSg8C4iZT8Yi8gP7NPUz+CUNUoSi7Fd9HG2Kw==
-  expiration: 3600000  # 1시간(밀리초)
+  expiration:
+    web: 3600000  # 웹 브라우저: 1시간 (밀리초)
+    mobile: 600000  # 모바일 앱: 10분 (밀리초)
 
 # Slf4j Logging
 logging:
@@ -60,4 +62,8 @@ server:
       enabled: false
 
 springboot-template:
-  version: 0.000.001  # SpringBootTemplate 프로젝트의 버전을 기록
+  release:
+    version: 0.000.002  # SpringBootTemplate 프로젝트의 Release 버전을 기록
+
+app:
+  version: 1.0.0  # 애플리케이션 버전 정보 (모바일 앱 요청 테스트용)

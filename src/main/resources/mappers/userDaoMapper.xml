@@ -3,7 +3,7 @@
 
 <mapper namespace="kr.co.jaehoon.springboottemplate.repository.dao.UserDAO">
 
-    <select id="findByUsername" resultType="kr.co.jaehoon.springboottemplate.dto.UserDTO">
+    <select id="findByUsername" parameterType="String" resultType="kr.co.jaehoon.springboottemplate.dto.UserDTO">
         SELECT id, username, password, displayname, role, created_at, updated_at
         FROM users
         WHERE username = #{username}

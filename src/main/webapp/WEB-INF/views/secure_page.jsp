@@ -45,7 +45,7 @@
     <script type="text/javascript">
         $('#logoutBtn').click(function () {
             $.ajax({
-                url: '/api/auth/logout',
+                url: '/api/auth/web-logout',
                 type: 'POST',
                 success: function (response) {
                     // 로그아웃 성공 시 JWT 토큰을 localStorage에서 삭제
@@ -64,7 +64,7 @@
         });
 
         // 페이지 로드 시 토큰 유무 확인 (선택 사항)
-        // -> 사용하지 않음: 401 Unauthorized 오류는 Spring Security가 처리하고 로그인 페이지로 리디렉션
+        // -> 사용하지 않음: 401 Unauthorized 오류는 Spring Security가 처리하고 로그인 페이지(index.jsp)로 리다이렉트
         // $(document).ready(function () {
         //     if (!localStorage.getItem('jwtToken')) {
         //         alert('로그인이 필요합니다.');

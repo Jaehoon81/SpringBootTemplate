@@ -65,7 +65,7 @@ h2 {
     outline: none; /* 기본 아웃라인 제거 */
 }
 
-/* Dropdown specific styling (custom arrow) */
+/* Dropdown specific styling (Custom Arrow) */
 .form-group select {
     appearance: none; /* 브라우저 기본 드롭다운 화살표 제거 */
     -webkit-appearance: none;
@@ -103,7 +103,7 @@ button:active {
     transform: translateY(0); /* 클릭 시 원위치 */
 }
 
-/* Horizontal Rule (Divider) Styling */
+/* Horizontal Rule(Divider) Styling */
 hr {
     border: 0;
     border-top: 1px solid #e0e0e0; /* 부드러운 구분선 */

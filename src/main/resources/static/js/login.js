@@ -18,7 +18,7 @@ $(document).ready(function () {
         }
 
         $.ajax({
-            url: '/api/auth/login',
+            url: '/api/auth/web-login',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({ username: username, password: password }),
@@ -26,8 +26,9 @@ $(document).ready(function () {
                 // 로그인 성공 시 JWT는 HttpOnly 쿠키로 서버가 설정하므로 여기서는 별도로 localStorage에 저장할 필요 없음
                 // localStorage.setItem('jwtToken', response.jwt);
 
+                // 웹 로그인 성공 시, 백엔드에서 쿠키를 설정하므로 별도의 응답 데이터 파싱이 필요 없음
                 // $('#login-message').text('로그인 성공!').css('color', 'green');
-                $('#login-message').text(response).css('color', 'green');
+                $('#login-message').text(response).css('color', 'green');  // "로그인(웹) 성공" 메시지
                 $('#login-username').val('');
                 $('#login-password').val('');
                 // 보호된 페이지로 리디렉션
@@ -35,6 +36,13 @@ $(document).ready(function () {
             },
             error: function (xhr) {
                 var errorMsg = '로그인 실패: ' + (xhr.responseText || '알 수 없는 오류');
+                if (xhr.responseJSON) {  // 백엔드에서 에러 메시지가 JSON으로 반환되는 경우
+                    if (xhr.responseJSON.message) {
+                        errorMsg = '로그인 실패: ' + xhr.responseJSON.message;
+                    } else if (typeof xhr.responseJSON === 'string') {
+                        errorMsg = '로그인 실패: ' + xhr.responseJSON;
+                    }
+                }
                 $('#login-message').text(errorMsg).css('color', 'red');
             }
         });

@@ -64,7 +64,7 @@ public class MyErrorController implements ErrorController {
         }
         Throwable exception = (Throwable) request.getAttribute(RequestDispatcher.ERROR_EXCEPTION);
         if (exception != null) {
-            // 모델에 상세 메시지 추가 (운영 배포 시 보안상 stacktrace는 클라이언트에 직접 노출하지 않도록 수정)
+            // 모델에 상세 메시지 추가 (실제 운영 환경에서는 보안상 stacktrace를 클라이언트에 직접 노출하지 않도록 수정)
             model.addAttribute("message", exception.getMessage());
         } else if (error != null) {
             // ERROR_MESSAGE를 message로 활용

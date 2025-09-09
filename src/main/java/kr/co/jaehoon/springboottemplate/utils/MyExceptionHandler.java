@@ -36,6 +36,7 @@ public class MyExceptionHandler {
 //
 //        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("400_BAD_REQUEST");
 //    }
+
     // Bean Validation 실패 시 예외 처리 핸들러
     // (프론트엔드 유효성 검사를 우회하여 백엔드에 Postman 등으로 직접 API 호출을 통한 유효하지 않은 아이디를 보내면 여기서 에러 메시지를 반환)
     @ResponseStatus(HttpStatus.BAD_REQUEST)  // 400 Bad_Request 반환

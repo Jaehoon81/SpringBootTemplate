@@ -158,7 +158,8 @@ p a:hover {
     opacity: 0; /* 완전히 투명 */
     pointer-events: none; /* 클릭 이벤트 비활성화 (숨김 상태에서 클릭 방지) */
 
-    /* 트랜지션 정의:
+    /**
+     * 트랜지션 정의:
      * - 나타날 때: opacity는 0.3초간 트랜지션, visibility는 즉시 visible (delay 0s)
      * - 사라질 때: opacity는 0.3초간 트랜지션, visibility는 opacity 트랜지션 후 hidden (delay 0.0s)
      */
