@@ -80,7 +80,7 @@ public class JwtBlacklistService {
         } catch (Exception e) {
             // 이미 블랙리스트에 추가된 토큰이거나 DB 제약 조건 위배 시 발생 (UNIQUE KEY on token)
             // 경고 로그를 남기거나, 이미 처리되었으므로 무시할 수 있음
-            log.error("Failed to add token to blacklist or token already exists: {}", e.getMessage());
+            log.warn("Failed to add token to blacklist or token already exists: {}", e.getMessage());
         }
     }
 
@@ -98,7 +98,7 @@ public class JwtBlacklistService {
         } catch (Exception e) {
             // 토큰이 블랙리스트에 있는지 확인하는 중 오류 발생
             // 경고 로그를 남기거나, 이미 처리되었으므로 무시할 수 있음
-            log.error("Error checking if JWT token is in blacklist: {}", e.getMessage());
+            log.warn("Error checking if JWT token is in blacklist: {}", e.getMessage());
         }
         return isTokenInBlacklist;
     }

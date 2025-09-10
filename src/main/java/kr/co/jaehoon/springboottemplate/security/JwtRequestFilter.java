@@ -129,7 +129,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             try {
                 userDetails = this.userDetailsService.loadUserByUsername(username);
             } catch (Exception e) {
-                log.error("User not found or other UserDetails error during loadUserByUsername: {}", e.getMessage());
+                log.warn("User not found or other UserDetails error during loadUserByUsername: {}", e.getMessage());
                 // 사용자 정보를 불러오는데 실패하면 인증 실패 처리
                 // 방법 1) 401 HTML 응답을 반환
 //                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "사용자 정보를 불러올 수 없습니다.");

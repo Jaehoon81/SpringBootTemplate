@@ -30,16 +30,4 @@ public class HomeController {
         }
         return "secure_page";
     }
-
-    // 의도적으로 에러를 발생시키는 페이지 (500 Internal_Server_Error 유발)
-    @GetMapping("/trigger-error-page")
-    public String triggerErrorPage() {
-        throw new RuntimeException("의도적으로 발생시킨 에러입니다!");
-    }
-
-    // ADMIN 권한만 접근 가능한 페이지 (403 Forbidden 테스트용)
-    @GetMapping("/admin-page")
-    public String adminPage() {
-        return "admin_page";
-    }
 }

@@ -1,0 +1,674 @@
+2025-09-10 08:54:57.387[INFO ] : Starting SpringBootTemplateApplication using Java 17.0.12 with PID 8564 (D:\Web\Spring\Workspace\SpringBootTemplate\out\production\classes started by IDBS_Oculus in D:\Web\Spring\Workspace\SpringBootTemplate)
+2025-09-10 08:54:57.389[DEBUG] : Running with Spring Boot v3.3.12, Spring v6.1.20
+2025-09-10 08:54:57.390[INFO ] : No active profile set, falling back to 1 default profile: "default"
+2025-09-10 08:54:57.466[INFO ] : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-09-10 08:54:57.466[INFO ] : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-09-10 08:54:59.342[INFO ] : Tomcat initialized with port 8080 (http)
+2025-09-10 08:54:59.365[INFO ] : Starting service [Tomcat]
+2025-09-10 08:54:59.366[INFO ] : Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-09-10 08:54:59.605[INFO ] : At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2025-09-10 08:54:59.615[INFO ] : Initializing Spring embedded WebApplicationContext
+2025-09-10 08:54:59.615[INFO ] : Root WebApplicationContext: initialization completed in 2148 ms
+2025-09-10 08:55:00.094[DEBUG] : Filter 'jwtRequestFilter' configured for use
+2025-09-10 08:55:00.161[INFO ] : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2025-09-10 08:55:00.311[INFO ] : Adding welcome page template: index
+2025-09-10 08:55:00.682[INFO ] : LiveReload server is running on port 35729
+2025-09-10 08:55:00.732[INFO ] : Tomcat started on port 8080 (http) with context path '/'
+2025-09-10 08:55:00.747[INFO ] : Started SpringBootTemplateApplication in 4.196 seconds (process running for 5.612)
+2025-09-10 08:55:09.429[INFO ] : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-10 08:55:09.430[INFO ] : Initializing Servlet 'dispatcherServlet'
+2025-09-10 08:55:09.431[INFO ] : Completed initialization in 1 ms
+2025-09-10 08:55:10.469[WARN ] : Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [108] milliseconds.
+2025-09-10 08:56:29.732[ERROR] : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: java.lang.RuntimeException: 의도적으로 발생시킨 에러입니다!] with root cause
+java.lang.RuntimeException: 의도적으로 발생시킨 에러입니다!
+	at kr.co.jaehoon.springboottemplate.controller.AuthTestController.triggerErrorPage(AuthTestController.java:19)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:255)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:188)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:926)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:831)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:527)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:614)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:110)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108)
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:365)
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:100)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:126)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:120)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:131)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:85)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at kr.co.jaehoon.springboottemplate.security.JwtRequestFilter.doFilterInternal(JwtRequestFilter.java:157)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82)
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$3(HandlerMappingIntrospector.java:195)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74)
+	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:230)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:362)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:278)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:842)
+2025-09-10 08:56:54.063[INFO ] : HikariPool-1 - Starting...
+2025-09-10 08:56:54.229[INFO ] : HikariPool-1 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@155e7b95
+2025-09-10 08:56:54.231[INFO ] : HikariPool-1 - Start completed.
+2025-09-10 08:56:54.266[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 08:56:54.304[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-10 08:56:54.320[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 14 msec}
+2025-09-10 08:56:54.345[DEBUG] : <==      Total: 1
+2025-09-10 08:56:54.451[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 08:56:54.452[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-10 08:56:54.453[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-10 08:56:54.455[DEBUG] : <==      Total: 1
+2025-09-10 08:56:54.547[DEBUG] : ==>  Preparing: SELECT id, token, expires_at, blacklisted_at FROM blacklisted_tokens WHERE token = ? AND expires_at > NOW()
+2025-09-10 08:56:54.549[DEBUG] : ==> Parameters: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc(String)
+2025-09-10 08:56:54.551[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, token, expires_at, blacklisted_at
+        FROM blacklisted_tokens
+        WHERE token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc' AND expires_at > NOW()
+ {executed in 1 msec}
+2025-09-10 08:56:54.554[DEBUG] : <==      Total: 0
+2025-09-10 08:56:54.605[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 08:56:54.605[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-10 08:56:54.607[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 0 msec}
+2025-09-10 08:56:54.609[DEBUG] : <==      Total: 1
+2025-09-10 08:56:54.617[DEBUG] : Secure-Page_UserDetails: [ROLE_USER]
+2025-09-10 08:56:54.782[DEBUG] : ==>  Preparing: SELECT id, token, expires_at, blacklisted_at FROM blacklisted_tokens WHERE token = ? AND expires_at > NOW()
+2025-09-10 08:56:54.783[DEBUG] : ==> Parameters: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc(String)
+2025-09-10 08:56:54.784[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, token, expires_at, blacklisted_at
+        FROM blacklisted_tokens
+        WHERE token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc' AND expires_at > NOW()
+ {executed in 1 msec}
+2025-09-10 08:56:54.785[DEBUG] : <==      Total: 0
+2025-09-10 08:56:54.789[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 08:56:54.790[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-10 08:56:54.791[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-10 08:56:54.794[DEBUG] : <==      Total: 1
+2025-09-10 08:56:54.808[DEBUG] : ==>  Preparing: SELECT id, token, expires_at, blacklisted_at FROM blacklisted_tokens WHERE token = ? AND expires_at > NOW()
+2025-09-10 08:56:54.810[DEBUG] : ==> Parameters: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc(String)
+2025-09-10 08:56:54.812[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, token, expires_at, blacklisted_at
+        FROM blacklisted_tokens
+        WHERE token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc' AND expires_at > NOW()
+ {executed in 1 msec}
+2025-09-10 08:56:54.813[DEBUG] : <==      Total: 0
+2025-09-10 08:56:54.818[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 08:56:54.818[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-10 08:56:54.820[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-10 08:56:54.822[DEBUG] : <==      Total: 1
+2025-09-10 08:56:56.353[DEBUG] : ==>  Preparing: SELECT id, token, expires_at, blacklisted_at FROM blacklisted_tokens WHERE token = ? AND expires_at > NOW()
+2025-09-10 08:56:56.354[DEBUG] : ==> Parameters: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc(String)
+2025-09-10 08:56:56.355[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, token, expires_at, blacklisted_at
+        FROM blacklisted_tokens
+        WHERE token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc' AND expires_at > NOW()
+ {executed in 1 msec}
+2025-09-10 08:56:56.356[DEBUG] : <==      Total: 0
+2025-09-10 08:56:56.360[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 08:56:56.361[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-10 08:56:56.362[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-10 08:56:56.365[DEBUG] : <==      Total: 1
+2025-09-10 08:56:56.456[DEBUG] : ==>  Preparing: SELECT id, token, expires_at, blacklisted_at FROM blacklisted_tokens WHERE token = ? AND expires_at > NOW()
+2025-09-10 08:56:56.456[DEBUG] : ==> Parameters: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc(String)
+2025-09-10 08:56:56.457[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, token, expires_at, blacklisted_at
+        FROM blacklisted_tokens
+        WHERE token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc' AND expires_at > NOW()
+ {executed in 1 msec}
+2025-09-10 08:56:56.458[DEBUG] : <==      Total: 0
+2025-09-10 08:56:56.462[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 08:56:56.463[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-10 08:56:56.466[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 2 msec}
+2025-09-10 08:56:56.468[DEBUG] : <==      Total: 1
+2025-09-10 08:58:33.997[DEBUG] : ==>  Preparing: SELECT id, token, expires_at, blacklisted_at FROM blacklisted_tokens WHERE token = ? AND expires_at > NOW()
+2025-09-10 08:58:33.998[DEBUG] : ==> Parameters: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc(String)
+2025-09-10 08:58:33.999[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, token, expires_at, blacklisted_at
+        FROM blacklisted_tokens
+        WHERE token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc' AND expires_at > NOW()
+ {executed in 1 msec}
+2025-09-10 08:58:34.000[DEBUG] : <==      Total: 0
+2025-09-10 08:58:34.004[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 08:58:34.004[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-10 08:58:34.006[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-10 08:58:34.007[DEBUG] : <==      Total: 1
+2025-09-10 08:58:34.063[DEBUG] : ==>  Preparing: SELECT id, token, expires_at, blacklisted_at FROM blacklisted_tokens WHERE token = ? AND expires_at > NOW()
+2025-09-10 08:58:34.063[DEBUG] : ==> Parameters: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc(String)
+2025-09-10 08:58:34.064[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, token, expires_at, blacklisted_at
+        FROM blacklisted_tokens
+        WHERE token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc' AND expires_at > NOW()
+ {executed in 1 msec}
+2025-09-10 08:58:34.065[DEBUG] : <==      Total: 0
+2025-09-10 08:58:34.065[DEBUG] : ==>  Preparing: SELECT id, token, expires_at, blacklisted_at FROM blacklisted_tokens WHERE token = ? AND expires_at > NOW()
+2025-09-10 08:58:34.065[DEBUG] : ==>  Preparing: SELECT id, token, expires_at, blacklisted_at FROM blacklisted_tokens WHERE token = ? AND expires_at > NOW()
+2025-09-10 08:58:34.066[DEBUG] : ==> Parameters: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc(String)
+2025-09-10 08:58:34.066[DEBUG] : ==> Parameters: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc(String)
+2025-09-10 08:58:34.068[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+2. SELECT id, token, expires_at, blacklisted_at
+        FROM blacklisted_tokens
+        WHERE token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc' AND expires_at > NOW()
+ {executed in 2 msec}
+2025-09-10 08:58:34.068[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+3. SELECT id, token, expires_at, blacklisted_at
+        FROM blacklisted_tokens
+        WHERE token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc' AND expires_at > NOW()
+ {executed in 2 msec}
+2025-09-10 08:58:34.069[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 08:58:34.070[DEBUG] : <==      Total: 0
+2025-09-10 08:58:34.070[DEBUG] : <==      Total: 0
+2025-09-10 08:58:34.070[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-10 08:58:34.071[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-10 08:58:34.072[DEBUG] : <==      Total: 1
+2025-09-10 08:58:34.074[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 08:58:34.074[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 08:58:34.075[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-10 08:58:34.075[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-10 08:58:34.076[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+3. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-10 08:58:34.076[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+2. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-10 08:58:34.078[DEBUG] : <==      Total: 1
+2025-09-10 08:58:34.078[DEBUG] : <==      Total: 1
+2025-09-10 08:58:35.169[DEBUG] : ==>  Preparing: SELECT id, token, expires_at, blacklisted_at FROM blacklisted_tokens WHERE token = ? AND expires_at > NOW()
+2025-09-10 08:58:35.169[DEBUG] : ==> Parameters: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc(String)
+2025-09-10 08:58:35.171[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, token, expires_at, blacklisted_at
+        FROM blacklisted_tokens
+        WHERE token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc' AND expires_at > NOW()
+ {executed in 0 msec}
+2025-09-10 08:58:35.171[DEBUG] : <==      Total: 0
+2025-09-10 08:58:35.174[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 08:58:35.174[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-10 08:58:35.175[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 0 msec}
+2025-09-10 08:58:35.177[DEBUG] : <==      Total: 1
+2025-09-10 08:58:35.184[DEBUG] : Secure-Page_UserDetails: [ROLE_USER]
+2025-09-10 08:58:35.263[DEBUG] : ==>  Preparing: SELECT id, token, expires_at, blacklisted_at FROM blacklisted_tokens WHERE token = ? AND expires_at > NOW()
+2025-09-10 08:58:35.264[DEBUG] : ==> Parameters: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc(String)
+2025-09-10 08:58:35.265[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, token, expires_at, blacklisted_at
+        FROM blacklisted_tokens
+        WHERE token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc' AND expires_at > NOW()
+ {executed in 1 msec}
+2025-09-10 08:58:35.266[DEBUG] : <==      Total: 0
+2025-09-10 08:58:35.270[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 08:58:35.271[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-10 08:58:35.272[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-10 08:58:35.273[DEBUG] : <==      Total: 1
+2025-09-10 08:58:35.275[DEBUG] : ==>  Preparing: SELECT id, token, expires_at, blacklisted_at FROM blacklisted_tokens WHERE token = ? AND expires_at > NOW()
+2025-09-10 08:58:35.276[DEBUG] : ==> Parameters: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc(String)
+2025-09-10 08:58:35.278[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, token, expires_at, blacklisted_at
+        FROM blacklisted_tokens
+        WHERE token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc' AND expires_at > NOW()
+ {executed in 1 msec}
+2025-09-10 08:58:35.278[DEBUG] : <==      Total: 0
+2025-09-10 08:58:35.282[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 08:58:35.283[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-10 08:58:35.284[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-10 08:58:35.286[DEBUG] : <==      Total: 1
+2025-09-10 08:58:39.705[DEBUG] : ==>  Preparing: SELECT id, token, expires_at, blacklisted_at FROM blacklisted_tokens WHERE token = ? AND expires_at > NOW()
+2025-09-10 08:58:39.706[DEBUG] : ==> Parameters: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc(String)
+2025-09-10 08:58:39.707[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, token, expires_at, blacklisted_at
+        FROM blacklisted_tokens
+        WHERE token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc' AND expires_at > NOW()
+ {executed in 1 msec}
+2025-09-10 08:58:39.708[DEBUG] : <==      Total: 0
+2025-09-10 08:58:39.712[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 08:58:39.712[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-10 08:58:39.714[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-10 08:58:39.715[DEBUG] : <==      Total: 1
+2025-09-10 08:58:39.780[DEBUG] : ==>  Preparing: SELECT id, token, expires_at, blacklisted_at FROM blacklisted_tokens WHERE token = ? AND expires_at > NOW()
+2025-09-10 08:58:39.781[DEBUG] : ==> Parameters: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc(String)
+2025-09-10 08:58:39.782[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, token, expires_at, blacklisted_at
+        FROM blacklisted_tokens
+        WHERE token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc' AND expires_at > NOW()
+ {executed in 1 msec}
+2025-09-10 08:58:39.783[DEBUG] : <==      Total: 0
+2025-09-10 08:58:39.790[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 08:58:39.790[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-10 08:58:39.791[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-10 08:58:39.796[DEBUG] : <==      Total: 1
+2025-09-10 08:58:50.289[DEBUG] : ==>  Preparing: SELECT id, token, expires_at, blacklisted_at FROM blacklisted_tokens WHERE token = ? AND expires_at > NOW()
+2025-09-10 08:58:50.289[DEBUG] : ==> Parameters: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc(String)
+2025-09-10 08:58:50.290[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, token, expires_at, blacklisted_at
+        FROM blacklisted_tokens
+        WHERE token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc' AND expires_at > NOW()
+ {executed in 1 msec}
+2025-09-10 08:58:50.290[DEBUG] : <==      Total: 0
+2025-09-10 08:58:50.294[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 08:58:50.295[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-10 08:58:50.296[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-10 08:58:50.298[DEBUG] : <==      Total: 1
+2025-09-10 08:58:50.382[DEBUG] : ==>  Preparing: SELECT id, token, expires_at, blacklisted_at FROM blacklisted_tokens WHERE token = ? AND expires_at > NOW()
+2025-09-10 08:58:50.383[DEBUG] : ==> Parameters: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc(String)
+2025-09-10 08:58:50.384[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, token, expires_at, blacklisted_at
+        FROM blacklisted_tokens
+        WHERE token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc' AND expires_at > NOW()
+ {executed in 1 msec}
+2025-09-10 08:58:50.384[DEBUG] : <==      Total: 0
+2025-09-10 08:58:50.388[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 08:58:50.389[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-10 08:58:50.390[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 0 msec}
+2025-09-10 08:58:50.391[DEBUG] : <==      Total: 1
+2025-09-10 08:58:50.398[DEBUG] : ==>  Preparing: SELECT id, token, expires_at, blacklisted_at FROM blacklisted_tokens WHERE token = ? AND expires_at > NOW()
+2025-09-10 08:58:50.398[DEBUG] : ==> Parameters: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc(String)
+2025-09-10 08:58:50.399[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+3. SELECT id, token, expires_at, blacklisted_at
+        FROM blacklisted_tokens
+        WHERE token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc' AND expires_at > NOW()
+ {executed in 1 msec}
+2025-09-10 08:58:50.400[DEBUG] : <==      Total: 0
+2025-09-10 08:58:50.404[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 08:58:50.404[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-10 08:58:50.406[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+3. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 0 msec}
+2025-09-10 08:58:50.407[DEBUG] : <==      Total: 1
+2025-09-10 08:58:50.412[DEBUG] : ==>  Preparing: SELECT id, token, expires_at, blacklisted_at FROM blacklisted_tokens WHERE token = ? AND expires_at > NOW()
+2025-09-10 08:58:50.413[DEBUG] : ==> Parameters: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc(String)
+2025-09-10 08:58:50.414[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+2. SELECT id, token, expires_at, blacklisted_at
+        FROM blacklisted_tokens
+        WHERE token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc' AND expires_at > NOW()
+ {executed in 1 msec}
+2025-09-10 08:58:50.414[DEBUG] : <==      Total: 0
+2025-09-10 08:58:50.419[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 08:58:50.420[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-10 08:58:50.421[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+2. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-10 08:58:50.423[DEBUG] : <==      Total: 1
+2025-09-10 08:58:54.241[DEBUG] : ==>  Preparing: SELECT id, token, expires_at, blacklisted_at FROM blacklisted_tokens WHERE token = ? AND expires_at > NOW()
+2025-09-10 08:58:54.242[DEBUG] : ==> Parameters: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc(String)
+2025-09-10 08:58:54.243[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, token, expires_at, blacklisted_at
+        FROM blacklisted_tokens
+        WHERE token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc' AND expires_at > NOW()
+ {executed in 0 msec}
+2025-09-10 08:58:54.243[DEBUG] : <==      Total: 0
+2025-09-10 08:58:54.246[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 08:58:54.247[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-10 08:58:54.247[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 0 msec}
+2025-09-10 08:58:54.249[DEBUG] : <==      Total: 1
+2025-09-10 08:58:54.254[DEBUG] : Secure-Page_UserDetails: [ROLE_USER]
+2025-09-10 08:58:54.297[DEBUG] : ==>  Preparing: SELECT id, token, expires_at, blacklisted_at FROM blacklisted_tokens WHERE token = ? AND expires_at > NOW()
+2025-09-10 08:58:54.298[DEBUG] : ==> Parameters: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc(String)
+2025-09-10 08:58:54.299[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, token, expires_at, blacklisted_at
+        FROM blacklisted_tokens
+        WHERE token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc' AND expires_at > NOW()
+ {executed in 0 msec}
+2025-09-10 08:58:54.299[DEBUG] : <==      Total: 0
+2025-09-10 08:58:54.304[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 08:58:54.304[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-10 08:58:54.305[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-10 08:58:54.306[DEBUG] : <==      Total: 1
+2025-09-10 08:58:54.314[DEBUG] : ==>  Preparing: SELECT id, token, expires_at, blacklisted_at FROM blacklisted_tokens WHERE token = ? AND expires_at > NOW()
+2025-09-10 08:58:54.315[DEBUG] : ==> Parameters: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc(String)
+2025-09-10 08:58:54.316[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, token, expires_at, blacklisted_at
+        FROM blacklisted_tokens
+        WHERE token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc' AND expires_at > NOW()
+ {executed in 1 msec}
+2025-09-10 08:58:54.317[DEBUG] : <==      Total: 0
+2025-09-10 08:58:54.322[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 08:58:54.322[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-10 08:58:54.323[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-10 08:58:54.325[DEBUG] : <==      Total: 1
+2025-09-10 08:58:55.197[DEBUG] : ==>  Preparing: SELECT id, token, expires_at, blacklisted_at FROM blacklisted_tokens WHERE token = ? AND expires_at > NOW()
+2025-09-10 08:58:55.198[DEBUG] : ==> Parameters: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc(String)
+2025-09-10 08:58:55.199[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, token, expires_at, blacklisted_at
+        FROM blacklisted_tokens
+        WHERE token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc' AND expires_at > NOW()
+ {executed in 0 msec}
+2025-09-10 08:58:55.199[DEBUG] : <==      Total: 0
+2025-09-10 08:58:55.204[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 08:58:55.204[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-10 08:58:55.205[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-10 08:58:55.207[DEBUG] : <==      Total: 1
+2025-09-10 08:58:55.227[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. INSERT INTO blacklisted_tokens (token, expires_at)
+        VALUES ('eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMjE0LCJleHAiOjE3NTc0NjU4MTR9.ObOqbc_nFtfaOpAHDHish4TNPk8xBm2LfwzrpFd-fnc', 2025-09-10T09:56:54)
+ {executed in 7 msec}
+2025-09-10 08:58:59.368[INFO ] : HikariPool-1 - Shutdown initiated...
+2025-09-10 08:58:59.376[INFO ] : HikariPool-1 - Shutdown completed.
+2025-09-10 08:59:17.006[INFO ] : Starting SpringBootTemplateApplication using Java 17.0.12 with PID 16912 (D:\Web\Spring\Workspace\SpringBootTemplate\out\production\classes started by IDBS_Oculus in D:\Web\Spring\Workspace\SpringBootTemplate)
+2025-09-10 08:59:17.008[DEBUG] : Running with Spring Boot v3.3.12, Spring v6.1.20
+2025-09-10 08:59:17.009[INFO ] : No active profile set, falling back to 1 default profile: "default"
+2025-09-10 08:59:17.069[INFO ] : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-09-10 08:59:17.070[INFO ] : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-09-10 08:59:18.866[INFO ] : Tomcat initialized with port 8080 (http)
+2025-09-10 08:59:18.882[INFO ] : Starting service [Tomcat]
+2025-09-10 08:59:18.883[INFO ] : Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-09-10 08:59:19.142[INFO ] : At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2025-09-10 08:59:19.155[INFO ] : Initializing Spring embedded WebApplicationContext
+2025-09-10 08:59:19.156[INFO ] : Root WebApplicationContext: initialization completed in 2085 ms
+2025-09-10 08:59:19.674[DEBUG] : Filter 'jwtRequestFilter' configured for use
+2025-09-10 08:59:19.754[INFO ] : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2025-09-10 08:59:19.928[INFO ] : Adding welcome page template: index
+2025-09-10 08:59:20.304[INFO ] : LiveReload server is running on port 35729
+2025-09-10 08:59:20.353[INFO ] : Tomcat started on port 8080 (http) with context path '/'
+2025-09-10 08:59:20.367[INFO ] : Started SpringBootTemplateApplication in 4.125 seconds (process running for 5.303)
+2025-09-10 08:59:46.483[INFO ] : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-10 08:59:46.483[INFO ] : Initializing Servlet 'dispatcherServlet'
+2025-09-10 08:59:46.484[INFO ] : Completed initialization in 1 ms
+2025-09-10 08:59:46.726[INFO ] : HikariPool-1 - Starting...
+2025-09-10 08:59:46.916[INFO ] : HikariPool-1 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@727b2976
+2025-09-10 08:59:46.919[INFO ] : HikariPool-1 - Start completed.
+2025-09-10 08:59:46.959[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 08:59:47.003[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-10 08:59:47.017[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 13 msec}
+2025-09-10 08:59:47.051[DEBUG] : <==      Total: 1
+2025-09-10 08:59:47.179[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 08:59:47.179[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-10 08:59:47.181[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-10 08:59:47.183[DEBUG] : <==      Total: 1
+2025-09-10 09:00:13.602[DEBUG] : ==>  Preparing: SELECT id, token, expires_at, blacklisted_at FROM blacklisted_tokens WHERE token = ? AND expires_at > NOW()
+2025-09-10 09:00:13.602[DEBUG] : ==> Parameters: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMzg3LCJleHAiOjE3NTc0NjI5ODd9.JPhgDVKfHIaI2WiqeKM1cQfD-wqEv2mJw1w1VM1yJss(String)
+2025-09-10 09:00:13.604[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, token, expires_at, blacklisted_at
+        FROM blacklisted_tokens
+        WHERE token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMzg3LCJleHAiOjE3NTc0NjI5ODd9.JPhgDVKfHIaI2WiqeKM1cQfD-wqEv2mJw1w1VM1yJss' AND expires_at > NOW()
+ {executed in 1 msec}
+2025-09-10 09:00:13.604[DEBUG] : <==      Total: 0
+2025-09-10 09:00:13.634[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 09:00:13.634[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-10 09:00:13.635[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-10 09:00:13.637[DEBUG] : <==      Total: 1
+2025-09-10 09:00:30.557[DEBUG] : ==>  Preparing: SELECT id, token, expires_at, blacklisted_at FROM blacklisted_tokens WHERE token = ? AND expires_at > NOW()
+2025-09-10 09:00:30.558[DEBUG] : ==> Parameters: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMzg3LCJleHAiOjE3NTc0NjI5ODd9.JPhgDVKfHIaI2WiqeKM1cQfD-wqEv2mJw1w1VM1yJss(String)
+2025-09-10 09:00:30.559[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, token, expires_at, blacklisted_at
+        FROM blacklisted_tokens
+        WHERE token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMzg3LCJleHAiOjE3NTc0NjI5ODd9.JPhgDVKfHIaI2WiqeKM1cQfD-wqEv2mJw1w1VM1yJss' AND expires_at > NOW()
+ {executed in 0 msec}
+2025-09-10 09:00:30.559[DEBUG] : <==      Total: 0
+2025-09-10 09:00:30.563[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 09:00:30.563[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-10 09:00:30.564[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-10 09:00:30.566[DEBUG] : <==      Total: 1
+2025-09-10 09:00:49.185[DEBUG] : ==>  Preparing: SELECT id, token, expires_at, blacklisted_at FROM blacklisted_tokens WHERE token = ? AND expires_at > NOW()
+2025-09-10 09:00:49.185[DEBUG] : ==> Parameters: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMzg3LCJleHAiOjE3NTc0NjI5ODd9.JPhgDVKfHIaI2WiqeKM1cQfD-wqEv2mJw1w1VM1yJss(String)
+2025-09-10 09:00:49.187[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, token, expires_at, blacklisted_at
+        FROM blacklisted_tokens
+        WHERE token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMzg3LCJleHAiOjE3NTc0NjI5ODd9.JPhgDVKfHIaI2WiqeKM1cQfD-wqEv2mJw1w1VM1yJss' AND expires_at > NOW()
+ {executed in 1 msec}
+2025-09-10 09:00:49.189[DEBUG] : <==      Total: 0
+2025-09-10 09:00:49.197[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 09:00:49.198[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-10 09:00:49.200[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-10 09:00:49.203[DEBUG] : <==      Total: 1
+2025-09-10 09:01:36.783[DEBUG] : ==>  Preparing: SELECT id, token, expires_at, blacklisted_at FROM blacklisted_tokens WHERE token = ? AND expires_at > NOW()
+2025-09-10 09:01:36.783[DEBUG] : ==> Parameters: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMzg3LCJleHAiOjE3NTc0NjI5ODd9.JPhgDVKfHIaI2WiqeKM1cQfD-wqEv2mJw1w1VM1yJss(String)
+2025-09-10 09:01:36.784[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, token, expires_at, blacklisted_at
+        FROM blacklisted_tokens
+        WHERE token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMzg3LCJleHAiOjE3NTc0NjI5ODd9.JPhgDVKfHIaI2WiqeKM1cQfD-wqEv2mJw1w1VM1yJss' AND expires_at > NOW()
+ {executed in 1 msec}
+2025-09-10 09:01:36.784[DEBUG] : <==      Total: 0
+2025-09-10 09:01:36.787[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 09:01:36.788[DEBUG] : ==> Parameters: jaehoon(String)
+2025-09-10 09:01:36.789[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jaehoon'
+ {executed in 1 msec}
+2025-09-10 09:01:36.791[DEBUG] : <==      Total: 1
+2025-09-10 09:01:36.805[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. INSERT INTO blacklisted_tokens (token, expires_at)
+        VALUES ('eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMzg3LCJleHAiOjE3NTc0NjI5ODd9.JPhgDVKfHIaI2WiqeKM1cQfD-wqEv2mJw1w1VM1yJss', 2025-09-10T09:09:47)
+ {executed in 4 msec}
+2025-09-10 09:01:38.739[DEBUG] : ==>  Preparing: SELECT id, token, expires_at, blacklisted_at FROM blacklisted_tokens WHERE token = ? AND expires_at > NOW()
+2025-09-10 09:01:38.740[DEBUG] : ==> Parameters: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMzg3LCJleHAiOjE3NTc0NjI5ODd9.JPhgDVKfHIaI2WiqeKM1cQfD-wqEv2mJw1w1VM1yJss(String)
+2025-09-10 09:01:38.742[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, token, expires_at, blacklisted_at
+        FROM blacklisted_tokens
+        WHERE token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMzg3LCJleHAiOjE3NTc0NjI5ODd9.JPhgDVKfHIaI2WiqeKM1cQfD-wqEv2mJw1w1VM1yJss' AND expires_at > NOW()
+ {executed in 1 msec}
+2025-09-10 09:01:38.744[DEBUG] : <==      Total: 1
+2025-09-10 09:01:38.745[WARN ] : Attempted to use a blacklisted JWT token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVob29uIiwiaWF0IjoxNzU3NDYyMzg3LCJleHAiOjE3NTc0NjI5ODd9.JPhgDVKfHIaI2WiqeKM1cQfD-wqEv2mJw1w1VM1yJss
+2025-09-10 09:02:00.231[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 09:02:00.232[DEBUG] : ==> Parameters: jungjh0519(String)
+2025-09-10 09:02:00.236[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jungjh0519'
+ {executed in 4 msec}
+2025-09-10 09:02:00.239[DEBUG] : <==      Total: 1
+2025-09-10 09:02:00.350[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 09:02:00.351[DEBUG] : ==> Parameters: jungjh0519(String)
+2025-09-10 09:02:00.352[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jungjh0519'
+ {executed in 1 msec}
+2025-09-10 09:02:00.354[DEBUG] : <==      Total: 1
+2025-09-10 09:02:24.508[DEBUG] : ==>  Preparing: SELECT id, token, expires_at, blacklisted_at FROM blacklisted_tokens WHERE token = ? AND expires_at > NOW()
+2025-09-10 09:02:24.508[DEBUG] : ==> Parameters: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqdW5namgwNTE5IiwiaWF0IjoxNzU3NDYyNTIwLCJleHAiOjE3NTc0NjMxMjB9.NlnJzX5gOIAKva_efWlVxMRQLxsktKZaxhF5vOzeun0(String)
+2025-09-10 09:02:24.509[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, token, expires_at, blacklisted_at
+        FROM blacklisted_tokens
+        WHERE token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqdW5namgwNTE5IiwiaWF0IjoxNzU3NDYyNTIwLCJleHAiOjE3NTc0NjMxMjB9.NlnJzX5gOIAKva_efWlVxMRQLxsktKZaxhF5vOzeun0' AND expires_at > NOW()
+ {executed in 0 msec}
+2025-09-10 09:02:24.510[DEBUG] : <==      Total: 0
+2025-09-10 09:02:24.514[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 09:02:24.514[DEBUG] : ==> Parameters: jungjh0519(String)
+2025-09-10 09:02:24.515[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jungjh0519'
+ {executed in 1 msec}
+2025-09-10 09:02:24.516[DEBUG] : <==      Total: 1
+2025-09-10 09:03:01.067[DEBUG] : ==>  Preparing: SELECT id, token, expires_at, blacklisted_at FROM blacklisted_tokens WHERE token = ? AND expires_at > NOW()
+2025-09-10 09:03:01.068[DEBUG] : ==> Parameters: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqdW5namgwNTE5IiwiaWF0IjoxNzU3NDYyNTIwLCJleHAiOjE3NTc0NjMxMjB9.NlnJzX5gOIAKva_efWlVxMRQLxsktKZaxhF5vOzeun0(String)
+2025-09-10 09:03:01.069[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, token, expires_at, blacklisted_at
+        FROM blacklisted_tokens
+        WHERE token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqdW5namgwNTE5IiwiaWF0IjoxNzU3NDYyNTIwLCJleHAiOjE3NTc0NjMxMjB9.NlnJzX5gOIAKva_efWlVxMRQLxsktKZaxhF5vOzeun0' AND expires_at > NOW()
+ {executed in 1 msec}
+2025-09-10 09:03:01.070[DEBUG] : <==      Total: 0
+2025-09-10 09:03:01.074[DEBUG] : ==>  Preparing: SELECT id, username, password, displayname, role, created_at, updated_at FROM users WHERE username = ?
+2025-09-10 09:03:01.075[DEBUG] : ==> Parameters: jungjh0519(String)
+2025-09-10 09:03:01.076[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT id, username, password, displayname, role, created_at, updated_at
+        FROM users
+        WHERE username = 'jungjh0519'
+ {executed in 0 msec}
+2025-09-10 09:03:01.076[DEBUG] : <==      Total: 1
+2025-09-10 09:03:01.086[DEBUG] :  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. INSERT INTO blacklisted_tokens (token, expires_at)
+        VALUES ('eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqdW5namgwNTE5IiwiaWF0IjoxNzU3NDYyNTIwLCJleHAiOjE3NTc0NjMxMjB9.NlnJzX5gOIAKva_efWlVxMRQLxsktKZaxhF5vOzeun0', 2025-09-10T09:12)
+ {executed in 1 msec}
+2025-09-10 09:03:10.664[INFO ] : HikariPool-1 - Shutdown initiated...
+2025-09-10 09:03:10.674[INFO ] : HikariPool-1 - Shutdown completed.

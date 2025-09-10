@@ -227,21 +227,6 @@ public class UserRestController {
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(responseMap);
     }
 
-    // 에러 테스트용 API 예시 (500 Internal_Server_Error 유발)
-    @GetMapping("/test-error")
-    public ResponseEntity<String> testError() {
-        // 의도적으로 NullPointerException을 발생시켜 500 에러를 유발
-        String test = null;
-        test.length();
-        return ResponseEntity.ok("NullPointerException에 의한 500 Internal_Server_Error");
-    }
-
-    // ADMIN 권한만 접근 가능한 API 예시 (403 Forbidden 테스트용)
-    @GetMapping("/admin-only")
-    public ResponseEntity<String> adminOnlyEndpoint() {
-        return ResponseEntity.ok("관리자만 접근 가능한 정보입니다!");
-    }
-
     @Data
     static class AuthenticationRequest {  // 로그인 요청 DTO (웹/모바일 공용)
         private String username;
