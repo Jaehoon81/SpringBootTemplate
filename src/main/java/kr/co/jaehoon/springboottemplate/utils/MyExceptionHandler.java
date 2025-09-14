@@ -49,6 +49,7 @@ public class MyExceptionHandler {
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
+        log.error("MethodArgumentNotValidException: {}", errors.toString());
         return errors;
     }
 }

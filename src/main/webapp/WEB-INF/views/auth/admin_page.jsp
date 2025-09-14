@@ -11,6 +11,7 @@
     <title>관리자 페이지</title>
 
     <link rel="stylesheet" type="text/css" href="/static/css/login.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/admin.css">
     <style>
         p {
             margin: 8px 0px 8px 0px;
@@ -19,15 +20,45 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="auth-admin-container">
         <h2>관리자 페이지</h2>
-        <p>관리자 권한을 가진 사용자만 이 페이지를 볼 수 있습니다.</p>
+        <p><c:out value="${displayName}"/>님, 관리자 권한으로 접속하셨습니다.</p>
+        <p>(아래는 승인 대기 중인 일반 사용자 계정의 목록입니다.)</p>
+
+        <div id="user-list-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>아이디</th>
+                        <th>이름</th>
+                        <th>이메일</th>
+                        <th>요청 메시지</th>
+                        <th>담당 관리자</th>
+                        <th>가 &middot; 부</th>
+                    </tr>
+                </thead>
+                <tbody id="user-list-body">
+                    <!-- USER 계정의 목록이 JavaScript로 여기에 동적으로 로드됨 -->
+                </tbody>
+            </table>
+        </div><br>
 <%--        <button onclick="location.href='/secure-page'">보호된 페이지로 돌아가기</button>--%>
         <p><a href="/secure-page">보호된 페이지로 돌아가기</a></p>
-        <button id="logoutBtn" style="margin-bottom: 20px;">로그아웃</button>
+        <button id="logoutBtn" class="auth-button" style="margin-bottom: 20px;">로그아웃</button>
+    </div>
+
+    <!-- Full Text 팝업창 모달 구조 -->
+    <div id="fullTextMsgModal" class="popup-modal">
+        <div class="popup-content">
+            <span class="close-popup">&times;</span>
+            <h3>요청 메시지 상세</h3>
+            <p id="fullTextMsgContent"></p>
+        </div>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="/static/js/admin.js"></script>
     <script type="text/javascript">
         $('#logoutBtn').click(function () {
             $.ajax({

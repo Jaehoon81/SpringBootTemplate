@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -30,8 +31,8 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         boolean isAjaxRequest = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
         // JSON 응답을 보내야 하는 조건:
         // - 명백하게 API 요청인 경우 (경로 기준)
-        // - 또는 클라이언트가 명시적으로 JSON을 요청한 경우
-        // - 또는 일반적인 AJAX 요청인 경우 (일반적으로 JSON 응답을 기대)
+        // - or 클라이언트가 명시적으로 JSON을 요청한 경우
+        // - or 일반적인 AJAX 요청인 경우 (일반적으로 JSON 응답을 기대)
         boolean shouldSendJson = isApiRequest || expectsJsonExplicitly || isAjaxRequest;
 
         if (shouldSendJson == true) {
@@ -43,8 +44,20 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
             Map<String, Object> errorDetails = new HashMap<>();
             errorDetails.put("status", HttpServletResponse.SC_UNAUTHORIZED);
             errorDetails.put("error", "Unauthorized");
-            errorDetails.put("message", "인증 정보가 유효하지 않습니다. 다시 로그인해주세요.");  // 상세 메시지
-            errorDetails.put("exceptionMessage", authException.getMessage());  // 예외 메시지 (개발 및 디버그 용도로 사용)
+//            errorDetails.put("message", "인증 정보가 유효하지 않습니다.\n다시 로그인해주세요.");  // 상세 메시지
+//            errorDetails.put("exceptionMessage", authException.getMessage());  // 예외 메시지 (개발 및 디버그 용도로 사용)
+
+            String errorMessage;
+            String authExceptionMessage = authException.getMessage();
+            // 전달받은 예외가 BadCredentialsException이고 특정 메시지인 경우 해당 메시지를 사용
+            if (authException.getCause() instanceof BadCredentialsException && authExceptionMessage.contains("승인")) {
+                errorMessage = authExceptionMessage;  // 특정 메시지를 그대로 반환
+            } else {
+                // 그 외 모든 인증 예외는 일반적인 메시지로 처리 (아이디 or 비밀번호 불일치 등)
+                errorMessage = "인증 정보가 유효하지 않습니다.\n다시 로그인해주세요.";
+            }
+            errorDetails.put("message", errorMessage);  // 상세 메시지
+            errorDetails.put("exceptionMessage", authExceptionMessage);  // 예외 메시지 (개발 및 디버그 용도로 사용)
 
             objectMapper.writeValue(response.getWriter(), errorDetails);  // JSON 응답 작성
         } else {

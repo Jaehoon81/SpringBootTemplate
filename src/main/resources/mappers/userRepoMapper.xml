@@ -3,9 +3,23 @@
 
 <mapper namespace="User">
 
-    <insert id="save" parameterType="userDTO" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO users (username, password, displayname, role)
-        VALUES (#{username}, #{password}, #{displayname}, #{role})
+    <insert id="saveUser" parameterType="userDTO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO users (username, password, displayname, email, req_message, role, adminname, is_approved)
+        VALUES (#{username}, #{password}, #{displayname}, #{email}, #{reqMessage}, #{role}, #{adminname}, #{isApproved})
     </insert>
+
+    <!-- ADMIN, USER 계정의 승인 상태를 업데이트 -->
+    <update id="updateApprovalStatus" parameterType="map">
+        UPDATE users
+        SET is_approved = #{isApproved}
+        WHERE id = #{id}
+    </update>
+
+    <!-- USER 계정의 active_session_jti 컬럼을 업데이트 -->
+    <update id="updateActiveSessionJti" parameterType="map">
+        UPDATE users
+        SET active_session_jti = #{jti}
+        WHERE id = #{id}
+    </update>
 
 </mapper>

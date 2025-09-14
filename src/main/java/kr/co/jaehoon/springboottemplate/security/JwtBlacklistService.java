@@ -38,13 +38,13 @@ public class JwtBlacklistService {
     /**
      * 토큰을 블랙리스트에 추가 (간단한 인메모리 캐시를 사용)
      * @param token 블랙리스트에 추가할 JWT
-     * @param expiryTimeMillis Long 객체 형태의 토큰 만료 시간
+     * @param expiryTimeMillis Long 객체 형태의 토큰만료 시간
      */
     public void addTokenToBlacklist(String token, long expiryTimeMillis) {
         blacklistedTokens.add(token);
         long delay = expiryTimeMillis - Instant.now().toEpochMilli();
         if (delay > 0) {
-            // 토큰 만료 시간 이후에 블랙리스트에서 제거되도록 스케줄링
+            // 토큰만료 시간 이후에 블랙리스트에서 제거되도록 스케줄링
             scheduler.schedule(() -> removeTokenFromBlacklist(token), delay, TimeUnit.MILLISECONDS);
         } else {
             // 이미 만료된 토큰인 경우 즉시 제거
@@ -67,7 +67,7 @@ public class JwtBlacklistService {
     /**
      * 토큰을 블랙리스트에 추가 (MySQL DB 기반 영속적인 방식)
      * @param token 블랙리스트에 추가할 JWT
-     * @param expiration Date 객체 형태의 토큰 만료 시간
+     * @param expiration Date 객체 형태의 토큰만료 시간
      */
     @Transactional
     public void addTokenToBlacklist(String token, Date expiration)/* throws Exception*/ {

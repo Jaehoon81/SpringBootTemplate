@@ -28,7 +28,7 @@ public class MemberController {
     public String memberList(Model model) throws Exception {
         try {
             List<MemberDTO> memberDTOList = memberService.findAll();
-            log.debug("MemberDTO_List: {}", memberDTOList);
+            log.debug("MemberDTO_List: {}", memberDTOList.toString());
 
             model.addAttribute("memberList", memberDTOList);
         } catch (Exception e) {
@@ -42,7 +42,7 @@ public class MemberController {
     public String memberDetail(@RequestParam("id") Long id, Model model) throws Exception {
         try {
             MemberDTO memberDTO = memberService.selectMember(id);
-            log.debug("MemberDTO: {}", memberDTO);
+            log.debug("MemberDTO: {}", memberDTO.toString());
 
             model.addAttribute("member", memberDTO);
         } catch (Exception e) {

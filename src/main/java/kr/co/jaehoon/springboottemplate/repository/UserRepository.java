@@ -5,13 +5,34 @@ import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Repository
 @RequiredArgsConstructor
 public class UserRepository {
 
     private final SqlSessionTemplate sqlSession;
 
-    public void save(UserDTO user) throws Exception {
-        sqlSession.insert("User.save", user);
+    public void saveUser(UserDTO user) throws Exception {
+        sqlSession.insert("User.saveUser", user);
+    }
+
+    // ADMIN, USER 계정의 승인 상태를 업데이트
+    public void updateApprovalStatus(Long id, boolean isApproved) throws Exception {
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", id);
+        params.put("isApproved", isApproved);
+
+        sqlSession.update("User.updateApprovalStatus", params);
+    }
+
+    // USER 계정의 active_session_jti 컬럼을 업데이트
+    public void updateActiveSessionJti(Long id, String jti) throws Exception {
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", id);
+        params.put("jti", jti);
+
+        sqlSession.update("User.updateActiveSessionJti", params);
     }
 }

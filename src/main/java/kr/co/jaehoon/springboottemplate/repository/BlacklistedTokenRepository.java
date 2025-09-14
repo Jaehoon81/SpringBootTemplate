@@ -1,7 +1,6 @@
 package kr.co.jaehoon.springboottemplate.repository;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -20,7 +19,7 @@ public class BlacklistedTokenRepository {
      * @param token 블랙리스트에 추가할 JWT 토큰 String
      * @param expiresAt 해당 토큰의 원래 만료 시간 (LocalDateTime)
      */
-    public void addToken(@Param("token") String token, @Param("expiresAt") LocalDateTime expiresAt) throws Exception {
+    public void addToken(String token, LocalDateTime expiresAt) throws Exception {
         Map<String, Object> params = new HashMap<>();
         params.put("token", token);
         params.put("expiresAt", expiresAt);

@@ -13,6 +13,7 @@ import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 
 @Component
@@ -43,6 +44,10 @@ public class JwtUtil {
         return extractClaim(token, Claims::getExpiration);
     }
 
+    public String extractJti(String token) {
+        return extractClaim(token, claims -> claims.get("jti", String.class));
+    }
+
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
@@ -53,12 +58,21 @@ public class JwtUtil {
         return Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token).getBody();
     }
 
-    private Boolean isTokenExpired(String token) {  // JwtUtil 외부에서 처리하므로 더이상 사용하지 않음
+    // JwtUtil 외부에서 처리하므로 더이상 사용하지 않음
+    private Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
+    }
+
+    public String generateToken(String username, boolean isMobile) {
+        long expirationTime = (isMobile) ? MOBILE_EXPIRATION_TIME : WEB_EXPIRATION_TIME;
+        return generateToken(username, expirationTime);
     }
 
     public String generateToken(String username, long expirationTime) {
         Map<String, Object> claims = new HashMap<>();
+        String jti = UUID.randomUUID().toString();  // 고유한 JTI 생성
+        claims.put("jti", jti);  // JTI 클레임 추가
+
         return createToken(claims, username, expirationTime);
     }
 
@@ -77,8 +91,8 @@ public class JwtUtil {
         final Date expiration = extractExpiration(token);  // 만료 시간을 추출
 
         // 토큰의 유저네임과 CustomUserDetails의 유저네임이 일치하는지 확인
-        // 만료 여부는 isTokenExpired()에서 한번 더 확인 가능
-        // (isTokenExpired() 로직은 JwtRequestFilter에서 호출되는 validateToken에서 처리될 수 있음)
+        // (만료여부 검증(isTokenExpired())은 JwtRequestFilter에서 호출되는 validateToken에서 처리)
+        // (JTI 검증은 JwtRequestFilter에서 수행)
         return (username.equals(userDetails.getUsername()) && !expiration.before(new Date()));
     }
 

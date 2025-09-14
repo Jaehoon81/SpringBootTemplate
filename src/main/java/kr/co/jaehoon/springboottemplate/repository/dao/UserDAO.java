@@ -1,14 +1,33 @@
 package kr.co.jaehoon.springboottemplate.repository.dao;
 
+import kr.co.jaehoon.springboottemplate.dto.LoginApprovalDTO;
 import kr.co.jaehoon.springboottemplate.dto.UserDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Map;
+
 @Repository
 @Mapper
 public interface UserDAO {
 
     public UserDTO findByUsername(@Param("username") String username) throws UsernameNotFoundException;
+
+    public UserDTO findByDisplayname(@Param("displayname") String displayname) throws Exception;
+
+    // ADMIN 권한을 가진 사용자들의 displayname 목록을 조회
+    public List<String> findAdminNames() throws Exception;
+
+    // 특정 이름(displayname)의 ADMIN 권한 사용자가 존재하는지 확인
+    public Integer countAdminByDisplayname(@Param("adminname") String adminname) throws Exception;
+
+    // 승인 대기 중인 ADMIN 계정의 목록을 조회 (SYSTEM 페이지용)
+//    public List<Map<String, Object>> findPendingAdmins() throws Exception;
+    public List<LoginApprovalDTO> findPendingAdmins() throws Exception;
+
+    // 특정 관리자가 담당하는 승인 대기 중인 USER 계정의 목록을 조회 (ADMIN 페이지용)
+    public List<LoginApprovalDTO> findPendingUsersByAdminname(@Param("adminname") String adminname) throws Exception;
 }

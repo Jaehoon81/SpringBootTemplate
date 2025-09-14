@@ -28,7 +28,7 @@
             padding: 40px;
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            width: 500px;
+            width: 600px;
             max-width: 90%;
             text-align: center;
             box-sizing: border-box;
@@ -77,11 +77,11 @@
     <div class="error-container">
         <h1>오류가 발생했습니다!</h1>
         <p>요청하신 페이지를 처리하는 도중 문제가 발생했습니다.</p>
-        <p>잠시 후 다시 시도하거나, 관리자에게 문의해주세요.</p>
-        <br>
+        <p>잠시 후 다시 시도하거나, 관리자에게 문의해주세요.</p><br>
+
         <p><a href="/">로그인 페이지로 돌아가기</a></p>
 
-        <c:if test="${not empty status}"><%-- 오류 상세 정보 표시 --%>
+        <c:if test="${not empty status}"><!-- 오류 상세 정보 표시 -->
             <div class="error-details">
                 <strong>HTTP 상태: </strong><c:out value="${status}"/><br>
                 <strong>오류 메시지: </strong><c:out value="${error}"/><br>

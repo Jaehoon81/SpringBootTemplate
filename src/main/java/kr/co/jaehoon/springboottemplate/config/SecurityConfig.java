@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -27,6 +28,7 @@ import java.util.Map;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -58,8 +60,8 @@ public class SecurityConfig {
             boolean isAjaxRequest = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
             // JSON 응답을 보내야 하는 조건:
             // - 명백하게 API 요청인 경우 (경로 기준)
-            // - 또는 클라이언트가 명시적으로 JSON을 요청한 경우
-            // - 또는 일반적인 AJAX 요청인 경우 (일반적으로 JSON 응답을 기대)
+            // - or 클라이언트가 명시적으로 JSON을 요청한 경우
+            // - or 일반적인 AJAX 요청인 경우 (일반적으로 JSON 응답을 기대)
             boolean shouldSendJson = isApiRequest || expectsJsonExplicitly || isAjaxRequest;
 
             if (shouldSendJson == true) {
@@ -98,7 +100,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         // 인증 없이 접근 허용할 경로
                         .requestMatchers(
-                                "/api/auth/register", "/api/auth/web-login", "/api/auth/mobile-login", "/", "/error",
+                                "/api/auth/register", "/api/auth/admins", "/api/auth/web-login", "/api/auth/mobile-login",
+                                "/", "/error",
 
                                 // Spring Boot는 src/main/resources/static 경로를 / 로컬 루트로 매핑
 //                                "/js/**", "/css/**", "/WEB-INF/views/**"
@@ -110,13 +113,19 @@ public class SecurityConfig {
                         // /api/auth/check-token과 /api/app/version은 여전히 authenticated() 대상임 (기본 적용)
                         .requestMatchers("/api/auth/check-token", "/api/app/version").authenticated()
 
-                        // 에러 테스트용 경로는 permitAll()
-                        .requestMatchers("/api/auth/test-error", "/trigger-error-page").permitAll()
-                        // ADMIN 권한 테스트용 경로
-                        .requestMatchers("/api/auth/admin-only", "/admin-page").hasRole("ADMIN")
+                        // SYSTEM, ADMIN 권한 전용 페이지 설정
+                        .requestMatchers("/system-page").hasRole("SYSTEM")
+                        .requestMatchers("/admin-page").hasRole("ADMIN")
+                        // SYSTEM, ADMIN 권한 전용 API 엔드포인트 보호
+                        .requestMatchers("/api/system/**").hasRole("SYSTEM")
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/auth/admin-only").hasRole("ADMIN")
 
                         // 만약 특정 API는 권한 없이 접근하게 하려면 여기에 .permitAll() 추가
 //                        .requestMatchers("/api/public/**").permitAll()
+                        // 에러 테스트용 경로는 permitAll()
+                        .requestMatchers("/api/auth/test-error", "/trigger-error-page").permitAll()
+                        
                         // 그 외 모든 요청은 인증 필요 (/api/auth/web-logout, /api/auth/mobile-logout도 포함)
                         .anyRequest().authenticated()
                 )

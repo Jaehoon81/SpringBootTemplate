@@ -12,6 +12,22 @@
 
     <link rel="stylesheet" type="text/css" href="/static/css/login.css">
     <style>
+        .auth-secure-container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            width: 600px;
+            max-width: 90%;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        /* 페이지 하단 버튼 그룹 스타일 */
+        /*.auth-secure-container > button {*/
+        /*    margin: 15px 8px; !* 하단 버튼 마진 조정 *!*/
+        /*}*/
+
         p {
             margin: 8px 0px 8px 0px;
             line-height: 120%;
@@ -19,13 +35,16 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="auth-secure-container">
         <h2><c:out value="${displayName}"/>님, 환영합니다!</h2>
         <p>이 페이지는 로그인한 사용자만 볼 수 있습니다.</p>
-        <p><%-- 권한에 따른 메시지 표시 --%>
+        <p><!-- 권한에 따른 메시지 표시 -->
             <c:choose>
+                <c:when test="${userRole eq 'SYSTEM'}">
+                    (시스템 관리자 권한으로 로그인하셨습니다. 시스템의 모든 기능을 총괄합니다.)
+                </c:when>
                 <c:when test="${userRole eq 'ADMIN'}">
-                    (관리자 권한으로 로그인하셨습니다.)
+                    (관리자 권한으로 로그인하셨습니다. 모든 기능을 사용할 수 있습니다.)
                 </c:when>
                 <c:when test="${userRole eq 'USER'}">
                     (일반 사용자 권한으로 로그인하셨습니다.)
@@ -34,8 +53,17 @@
                     (알 수 없는 권한입니다.)
                 </c:otherwise>
             </c:choose>
-        </p>
-        <p><a href="/admin-page">관리자 페이지로 이동</a></p>
+        </p><br>
+        <c:choose>
+            <c:when test="${userRole eq 'SYSTEM'}">
+                <!-- SYSTEM 권한일 경우 SYSTEM 페이지 링크 추가 -->
+                <p><a href="/system-page">시스템 관리자 페이지로 이동</a></p>
+            </c:when>
+            <c:otherwise>
+                <!-- 나머지 권한일 경우 ADMIN 페이지 링크 추가 -->
+                <p><a href="/admin-page">관리자 페이지로 이동</a></p>
+            </c:otherwise>
+        </c:choose>
         <button id="logoutBtn" style="margin-bottom: 20px;">로그아웃</button>
     </div>
 
@@ -62,7 +90,6 @@
                 }
             });
         });
-
         // 페이지 로드 시 토큰 유무 확인 (선택 사항)
         // -> 사용하지 않음: 401 Unauthorized 오류는 Spring Security가 처리하고 로그인 페이지(index.jsp)로 리다이렉트
         // $(document).ready(function () {

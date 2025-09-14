@@ -31,7 +31,8 @@ SpringBoot Template for Web
 </div>
 
 <div align=left>
-  <p>1. Release 0.000.001: Spring-Security + JWT 기반 회원가입 및 로그인 기능 구현</p>
-  <p>2. Release 0.000.002: 모바일용 로그인/로그아웃, 정보요청, 세션만료 REST API 구현</p>
+  <p>1. Release 0.000.001: Spring-Security + JWT 기반의 회원가입 및 로그인/로그아웃 기능 구현</p>
+  <p>2. Release 0.000.002: 모바일 앱용 로그인/로그아웃, 중복 로그인 방지, 애플리케이션 정보요청, 세션만료 기능의 REST API 구현</p>
+  <p>3. Release 0.000.003: 웹 브라우저용 아이디 기억하기, SYSTEM/ADMIN/USER 권한에 따른 승인 및 로그인 기능 구현</p>
   <br>
 </div>

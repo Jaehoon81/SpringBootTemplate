@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +41,6 @@ public class MyErrorController implements ErrorController {
 //        }
 //        return "error/error";
 //    }
-
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request, Model model) {
         Object error = request.getAttribute(RequestDispatcher.ERROR_MESSAGE);      // error.jsp의 ${error}
@@ -75,5 +75,26 @@ public class MyErrorController implements ErrorController {
         // timestamp는 BasicErrorController에 의해 자동으로 추가
         model.addAttribute("timestamp", Objects.requireNonNullElseGet(timestamp, Date::new));
         return "error/error";
+    }
+
+    // 의도적으로 에러를 발생시키는 페이지 (500 Internal_Server_Error 유발)
+    @GetMapping("/trigger-error-page")
+    public String triggerErrorPage() {
+        throw new RuntimeException("의도적으로 발생시킨 에러입니다!");
+    }
+
+    // 에러 테스트용 API 예시 (500 Internal_Server_Error 유발)
+    @GetMapping("/api/auth/test-error")
+    public ResponseEntity<String> testError() {
+        // 의도적으로 NullPointerException을 발생시켜 500 에러를 유발
+        String test = null;
+        test.length();
+        return ResponseEntity.ok("NullPointerException에 의한 500 Internal_Server_Error");
+    }
+
+    // ADMIN 권한만 접근 가능한 API 예시 (403 Forbidden 테스트용)
+    @GetMapping("/api/auth/admin-only")
+    public ResponseEntity<String> adminOnlyEndpoint() {
+        return ResponseEntity.ok("관리자만 접근 가능한 정보입니다!");
     }
 }

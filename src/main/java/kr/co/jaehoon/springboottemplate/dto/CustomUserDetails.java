@@ -21,13 +21,9 @@ public class CustomUserDetails implements UserDetails {
         return user;
     }
 
-    public String getDisplayname() {
-        return user.getDisplayname();
-    }
-
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
+    public String getUsername() {
+        return user.getUsername();
     }
 
     @Override
@@ -35,9 +31,13 @@ public class CustomUserDetails implements UserDetails {
         return user.getPassword();
     }
 
+    public String getDisplayname() {
+        return user.getDisplayname();
+    }
+
     @Override
-    public String getUsername() {
-        return user.getUsername();
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
     }
 
     @Override

@@ -5,6 +5,7 @@ import kr.co.jaehoon.springboottemplate.repository.UserRepository;
 import kr.co.jaehoon.springboottemplate.repository.dao.UserDAO;
 import kr.co.jaehoon.springboottemplate.dto.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -27,10 +28,23 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Transactional
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, BadCredentialsException {
         UserDTO user = userDAO.findByUsername(username);
         if (user == null) {
-            throw new UsernameNotFoundException("User not found with username: " + username);
+            throw new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + username);
+        }
+        // ADMIN 또는 USER 권한의 사용자에 대한 승인 상태를 확인
+        // (권한이 ADMIN or USER이면서 아직 승인되지 않았다면 로그인 거부)
+        if (!user.isApproved()) {
+            if ("ADMIN".equalsIgnoreCase(user.getRole())) {
+                throw new BadCredentialsException(
+                        "'"+user.getUsername()+"'" + " 계정은 아직 승인되지 않았습니다.\n시스템 관리자에게 문의해주세요."
+                );
+            } else if ("USER".equalsIgnoreCase(user.getRole())) {
+                throw new BadCredentialsException(
+                        "'"+user.getUsername()+"'" + " 계정은 아직 승인되지 않았습니다.\n" + "'"+user.getAdminname()+"'" + "에게 문의해주세요."
+                );
+            }
         }
         // 방법 1) GrantedAuthority 없이 org.springframework.security.core.userdetails.User 객체를 생성하여 반환
 //        return new User(user.getUsername(), user.getPassword(), Collections.emptyList());

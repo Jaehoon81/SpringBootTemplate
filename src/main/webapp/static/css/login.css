@@ -10,16 +10,21 @@ body {
     margin: 0;
 }
 
-.container {
+.login-container {
     background-color: #ffffff;
     padding: 40px;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    width: 500px;
+    width: 600px;
     max-width: 90%;
     text-align: center;
     box-sizing: border-box;
 }
+
+/* 페이지 하단 버튼 그룹 스타일 */
+/*.login-container > button {*/
+/*    margin: 15px 8px; !* 하단 버튼 마진 조정 *!*/
+/*}*/
 
 h2 {
     color: #2c3e50;
@@ -42,10 +47,12 @@ h2 {
     font-size: 0.95em;
 }
 
-/* Input and Select Styling */
+/* Input, Select, and Textarea Styling */
 .form-group input[type="text"],
 .form-group input[type="password"],
-.form-group select {
+.form-group input[type="email"],
+.form-group select,
+.form-group textarea { /* textarea 추가 */
     width: 100%;
     padding: 12px 15px;
     border: 1px solid #cdd4da;
@@ -56,16 +63,18 @@ h2 {
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Focus effect for inputs and select */
+/* Focus Effect for Inputs, Select, and Textarea */
 .form-group input[type="text"]:focus,
 .form-group input[type="password"]:focus,
-.form-group select:focus {
+.form-group input[type="email"]:focus,
+.form-group select:focus,
+.form-group textarea:focus { /* textarea 추가 */
     border-color: #007bff;
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
     outline: none;
 }
 
-/* Dropdown specific styling (Custom Arrow) */
+/* Dropdown Specific Styling (Custom Arrow) */
 .form-group select {
     appearance: none;
     -webkit-appearance: none;
@@ -116,6 +125,7 @@ hr {
     font-weight: 600;
     font-size: 0.9em;
     padding: 8px 0;
+    white-space: pre-wrap; /* \n 문자를 줄바꿈으로 해석 */
 }
 
 .message[style*="color: green"] {
@@ -126,7 +136,7 @@ hr {
     color: #dc3545 !important;
 }
 
-/* Link in p tag */
+/* Link in p Tag */
 p a {
     color: #007bff;
     text-decoration: none;
@@ -180,7 +190,7 @@ p a:hover {
     padding: 30px 40px; /* 내부 여백 조정 */
     border-radius: 12px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); /* 더 강한 그림자 */
-    width: 500px;
+    width: 600px;
     max-width: 90%;
     position: relative;
 
@@ -208,4 +218,30 @@ p a:hover {
 .close-button:focus {
     color: #333;
     text-decoration: none;
+}
+
+/* Checkbox Group Styling */
+.checkbox-group {
+    display: flex; /* Flexbox 사용하여 내부 요소 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    margin-bottom: 20px;
+    text-align: left; /* 전체 컨테이너가 중앙 정렬이어도 체크박스 그룹은 왼쪽 정렬 */
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: auto; /* 기본 입력 필드의 100% 너비 재정의 */
+    margin-right: 10px; /* 체크박스와 라벨 사이 간격 */
+    flex-shrink: 0; /* 공간이 부족해도 줄어들지 않도록 */
+
+    transform: scale(1.3); /* 체크박스 크기를 1.3배 확대 */
+    /* 필요에 따라 transform-origin을 설정하여 기준점 조정 가능 */
+    /* transform-origin: center; */
+}
+
+.checkbox-group label {
+    color: #333;
+    display: inline; /* 라벨을 인라인으로 변경 */
+    margin-bottom: 0; /* 라벨 하단 여백 제거 */
+    font-weight: normal; /* 기본 글자 굵기 */
+    cursor: pointer; /* 클릭 가능한 요소임을 나타냄 */
 }

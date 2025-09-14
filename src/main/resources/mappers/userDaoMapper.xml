@@ -4,9 +4,47 @@
 <mapper namespace="kr.co.jaehoon.springboottemplate.repository.dao.UserDAO">
 
     <select id="findByUsername" parameterType="String" resultType="kr.co.jaehoon.springboottemplate.dto.UserDTO">
-        SELECT id, username, password, displayname, role, created_at, updated_at
+        SELECT id, username, password, displayname, email, req_message, role, adminname, is_approved, active_session_jti, created_at, updated_at
         FROM users
         WHERE username = #{username}
+    </select>
+
+    <select id="findByDisplayname" parameterType="String" resultType="kr.co.jaehoon.springboottemplate.dto.UserDTO">
+        SELECT id, username, password, displayname, email, req_message, role, adminname, is_approved, active_session_jti, created_at, updated_at
+        FROM users
+        WHERE displayname = #{displayname}
+    </select>
+
+    <!-- ADMIN 권한을 가진 사용자들의 displayname 목록을 조회 -->
+    <select id="findAdminNames" resultType="String">
+        SELECT displayname
+        FROM users
+        WHERE role = 'ADMIN' AND is_approved = 1
+        ORDER BY displayname
+    </select>
+
+    <!-- 특정 이름(displayname)의 ADMIN 권한 사용자가 존재하는지 확인 -->
+    <select id="countAdminByDisplayname" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM users
+        WHERE role = 'ADMIN' AND displayname = #{adminname} AND is_approved = 1
+    </select>
+
+    <!-- 승인 대기 중인 ADMIN 계정의 목록을 조회 (SYSTEM 페이지용) -->
+<!--    <select id="findPendingAdmins" resultType="map">-->
+    <select id="findPendingAdmins" resultType="kr.co.jaehoon.springboottemplate.dto.LoginApprovalDTO">
+        SELECT id, username, displayname, email, req_message
+        FROM users
+        WHERE role = 'ADMIN' AND is_approved = 0
+        ORDER BY id ASC
+    </select>
+
+    <!-- 특정 관리자가 담당하는 승인 대기 중인 USER 계정의 목록을 조회 (ADMIN 페이지용) -->
+    <select id="findPendingUsersByAdminname" parameterType="String" resultType="kr.co.jaehoon.springboottemplate.dto.LoginApprovalDTO">
+        SELECT id, username, displayname, email, req_message, adminname
+        FROM users
+        WHERE role = 'USER' AND adminname = #{adminname} AND is_approved = 0
+        ORDER BY id ASC
     </select>
 
 </mapper>

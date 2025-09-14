@@ -9,12 +9,15 @@ CREATE TABLE `users` (
 );
 
 ALTER TABLE `users`
-ADD COLUMN `displayname` VARCHAR(50) NOT NULL DEFAULT '미입력' AFTER `password`;
+ADD COLUMN `displayname` VARCHAR(50) NOT NULL UNIQUE AFTER `password`;
 
--- springframeworkdemo DB의 blacklisted_tokens Table Definition
-CREATE TABLE `blacklisted_tokens` (
-    `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
-    `token` VARCHAR(512) NOT NULL UNIQUE, -- 블랙리스트에 추가할 JWT 토큰 (길이 부족 시 TEXT 타입 고려)
-    `expires_at` DATETIME NOT NULL,       -- 해당 JWT의 원래 만료 시간
-    `blacklisted_at` DATETIME DEFAULT CURRENT_TIMESTAMP -- 블랙리스트에 추가된 시간
-);
+ALTER TABLE `users`
+ADD COLUMN `email` VARCHAR(100) NOT NULL DEFAULT '' AFTER `displayname`, -- 이메일 주소 필수 항목으로 추가
+ADD COLUMN `req_message` TEXT AFTER `email`,     -- 요청 메시지 추가 (NULL 허용)
+ADD COLUMN `adminname` VARCHAR(50) AFTER `role`; -- 담당 관리자 이름 추가 (NULL 허용)
+
+ALTER TABLE `users`
+ADD COLUMN `is_approved` TINYINT(1) NOT NULL DEFAULT 0 AFTER `adminname`; -- 0: 미승인, 1: 승인
+
+ALTER TABLE `users`
+ADD COLUMN `active_session_jti` VARCHAR(255) NULL AFTER `is_approved`; -- 가장 최근에 발급된 모바일 JWT의 Jti(JWT ID)를 저장

@@ -28,6 +28,30 @@ public class HomeController {
             model.addAttribute("displayName", customUserDetails.getDisplayname());
             model.addAttribute("userRole", customUserDetails.getUser().getRole());
         }
-        return "secure_page";
+        return "auth/secure_page";
+    }
+
+    @GetMapping("/system-page")  // SYSTEM 권한만 접근 가능한 페이지
+    public String systemPage(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
+        if (customUserDetails != null) {
+            log.debug("System-Page_UserDetails: {}", customUserDetails.getAuthorities().toString());
+
+            model.addAttribute("displayName", customUserDetails.getDisplayname());
+            model.addAttribute("userRole", customUserDetails.getUser().getRole());
+            // 추가 데이터 로드는 JavaScript에서 AJAX로 처리
+        }
+        return "auth/system_page";
+    }
+
+    @GetMapping("/admin-page")  // ADMIN 권한만 접근 가능한 페이지
+    public String adminPage(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
+        if (customUserDetails != null) {
+            log.debug("Admin-Page_UserDetails: {}", customUserDetails.getAuthorities().toString());
+
+            model.addAttribute("displayName", customUserDetails.getDisplayname());
+            model.addAttribute("userRole", customUserDetails.getUser().getRole());
+            // 추가 데이터 로드는 JavaScript에서 AJAX로 처리
+        }
+        return "auth/admin_page";
     }
 }
