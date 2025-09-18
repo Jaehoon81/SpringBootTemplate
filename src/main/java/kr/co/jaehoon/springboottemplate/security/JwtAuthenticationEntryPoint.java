@@ -49,11 +49,22 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
             String errorMessage;
             String authExceptionMessage = authException.getMessage();
-            // 전달받은 예외가 BadCredentialsException이고 특정 메시지인 경우 해당 메시지를 사용
-            if (authException.getCause() instanceof BadCredentialsException && authExceptionMessage.contains("승인")) {
-                errorMessage = authExceptionMessage;  // 특정 메시지를 그대로 반환
-            } else {
+            if (authExceptionMessage != null
+                    // 전달받은 예외가 AuthenticationException(BadCredentialsException 포함)이고
+                    && authException.getCause() instanceof AuthenticationException) {
+                // 특정 메시지인 경우 해당 메시지를 사용
+                if (authExceptionMessage.contains("승인")) {
+                    errorMessage = authExceptionMessage;  // 특정 메시지를 그대로 반환
+                }
+                // 특정 메시지를 사용해야 한다면 계속해서 추가
+//                else if (authExceptionMessage.startsWith("<UNK>")) {
+//                    errorMessage = authExceptionMessage;
+//                }
                 // 그 외 모든 인증 예외는 일반적인 메시지로 처리 (아이디 or 비밀번호 불일치 등)
+                else {
+                    errorMessage = "인증 정보가 유효하지 않습니다.\n다시 로그인해주세요.";
+                }
+            } else {
                 errorMessage = "인증 정보가 유효하지 않습니다.\n다시 로그인해주세요.";
             }
             errorDetails.put("message", errorMessage);  // 상세 메시지

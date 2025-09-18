@@ -34,7 +34,7 @@
                         <th>이름</th>
                         <th>이메일</th>
                         <th>요청 메시지</th>
-                        <th>담당 관리자</th>
+<%--                        <th>담당 관리자</th>--%>
                         <th>가 &middot; 부</th>
                     </tr>
                 </thead>

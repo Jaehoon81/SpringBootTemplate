@@ -35,14 +35,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         // ADMIN 또는 USER 권한의 사용자에 대한 승인 상태를 확인
         // (권한이 ADMIN or USER이면서 아직 승인되지 않았다면 로그인 거부)
-        if (!user.isApproved()) {
+        if (user.getApprovalRequest() != null && !user.isApproved()) {  // user.getApprovalRequest() == null: 승인 요청 자체가 없는 경우
             if ("ADMIN".equalsIgnoreCase(user.getRole())) {
                 throw new BadCredentialsException(
-                        "'"+user.getUsername()+"'" + " 계정은 아직 승인되지 않았습니다.\n시스템 관리자에게 문의해주세요."
+                        "'"+user.getUsername()+"'" + " 계정은 아직 승인되지 않았습니다.\n" +
+                        "시스템 관리자에게 문의해주세요."
                 );
             } else if ("USER".equalsIgnoreCase(user.getRole())) {
                 throw new BadCredentialsException(
-                        "'"+user.getUsername()+"'" + " 계정은 아직 승인되지 않았습니다.\n" + "'"+user.getAdminname()+"'" + "에게 문의해주세요."
+                        "'"+user.getUsername()+"'" + " 계정은 아직 승인되지 않았습니다.\n" +
+                        "'"+user.getApprovalRequest().getAssignedAdminName()+"'" + "에게 문의해주세요."
                 );
             }
         }
@@ -54,7 +56,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 //        return new User(user.getUsername(), user.getPassword(), authorities);
 
         // 방법 3) CustomUserDetails 객체를 생성하여 반환
-        // (CustomUserDetails 내부의 getAuthorities() 메서드에서 user.getRole()을 사용하여 Spring Security의 GrantedAuthority를 적절히 생성함)
+        // (CustomUserDetails 내부의 getAuthorities() 메서드에서 user.getRole()을 사용하여
+        // Spring Security의 GrantedAuthority를 적절히 생성함)
         return new CustomUserDetails(user);
     }
 }

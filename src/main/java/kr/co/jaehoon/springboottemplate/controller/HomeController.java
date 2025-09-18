@@ -26,7 +26,7 @@ public class HomeController {
             log.debug("Secure-Page_UserDetails: {}", customUserDetails.getAuthorities().toString());
 
             model.addAttribute("displayName", customUserDetails.getDisplayname());
-            model.addAttribute("userRole", customUserDetails.getUser().getRole());
+            model.addAttribute("userRole", customUserDetails.getUser().getRolename());
         }
         return "auth/secure_page";
     }
@@ -37,7 +37,7 @@ public class HomeController {
             log.debug("System-Page_UserDetails: {}", customUserDetails.getAuthorities().toString());
 
             model.addAttribute("displayName", customUserDetails.getDisplayname());
-            model.addAttribute("userRole", customUserDetails.getUser().getRole());
+            model.addAttribute("userRole", customUserDetails.getUser().getRolename());
             // 추가 데이터 로드는 JavaScript에서 AJAX로 처리
         }
         return "auth/system_page";
@@ -49,7 +49,7 @@ public class HomeController {
             log.debug("Admin-Page_UserDetails: {}", customUserDetails.getAuthorities().toString());
 
             model.addAttribute("displayName", customUserDetails.getDisplayname());
-            model.addAttribute("userRole", customUserDetails.getUser().getRole());
+            model.addAttribute("userRole", customUserDetails.getUser().getRolename());
             // 추가 데이터 로드는 JavaScript에서 AJAX로 처리
         }
         return "auth/admin_page";

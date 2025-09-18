@@ -40,11 +40,12 @@ public class AdminRestController {
     @PreAuthorize("hasRole('ADMIN')")  // ADMIN 권한 필요
     public ResponseEntity<List<LoginApprovalDTO>> getPendingUsers(@AuthenticationPrincipal CustomUserDetails adminUserDetails) throws Exception {
         if (adminUserDetails == null || adminUserDetails.getUser() == null
-                || !"ADMIN".equalsIgnoreCase(adminUserDetails.getUser().getRole())) {
+                || !"ADMIN".equalsIgnoreCase(adminUserDetails.getUser().getRolename())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);  // ADMIN 권한이 아닌 경우 403 Forbidden 반환
         }
-        String adminname = adminUserDetails.getUser().getDisplayname();  // 로그인한 ADMIN 계정의 이름을 가져옴
-        List<LoginApprovalDTO> pendingUsers = userService.findPendingUsersByAdminname(adminname);
+        // 로그인한 ADMIN 계정의 id를 사용하여 담당하는 승인 대기 중인 USER 계정의 목록을 조회
+        Long adminId = adminUserDetails.getUser().getId();
+        List<LoginApprovalDTO> pendingUsers = userService.findPendingUsersByAdminName(adminId);
         log.debug("Pending-Users_PendingUserList: {}", pendingUsers.toString());
 
         return ResponseEntity.ok(pendingUsers);
@@ -59,7 +60,7 @@ public class AdminRestController {
     @PreAuthorize("hasRole('ADMIN')")  // ADMIN 권한 필요
     public ResponseEntity<String> approveUser(@RequestBody UserApprovalRequest request, @AuthenticationPrincipal CustomUserDetails adminUserDetails) throws Exception {
         if (adminUserDetails == null || adminUserDetails.getUser() == null
-                || !"ADMIN".equalsIgnoreCase(adminUserDetails.getUser().getRole())) {
+                || !"ADMIN".equalsIgnoreCase(adminUserDetails.getUser().getRolename())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("접근 권한이 없습니다.");  // ADMIN 권한이 아닌 경우 403 Forbidden 반환
         }
         if (request.getUserId() == null) {

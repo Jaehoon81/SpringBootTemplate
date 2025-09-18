@@ -1,6 +1,7 @@
 package kr.co.jaehoon.springboottemplate.service.impl;
 
 import jakarta.validation.Valid;
+import kr.co.jaehoon.springboottemplate.dto.ApprovalRequestDTO;
 import kr.co.jaehoon.springboottemplate.dto.LoginApprovalDTO;
 import kr.co.jaehoon.springboottemplate.dto.RegistrationRequest;
 import kr.co.jaehoon.springboottemplate.dto.UserDTO;
@@ -39,6 +40,18 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
+    public Long findRoleIdByRolename(String rolename) throws Exception {
+        return userDAO.findRoleIdByRolename(rolename);
+    }
+
+    @Transactional
+    @Override
+    public Long findAdminIdByDisplayname(String adminname) throws Exception {
+        return userDAO.findAdminIdByDisplayname(adminname);
+    }
+
+    @Transactional
+    @Override
     public List<String> findAdminNames() throws Exception {
         return userDAO.findAdminNames();
     }
@@ -62,29 +75,32 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public List<LoginApprovalDTO> findPendingUsersByAdminname(String adminname) throws Exception {
-        return userDAO.findPendingUsersByAdminname(adminname);
+    public List<LoginApprovalDTO> findPendingUsersByAdminName(Long adminId) throws Exception {
+        return userDAO.findPendingUsersByAdminName(adminId);
     }
 
     @Transactional
     @Override
-    public void saveUser(@Valid RegistrationRequest validUser) throws Exception {
-        UserDTO newUser = new UserDTO();
-        newUser.setUsername(validUser.getUsername());
-        newUser.setPassword(passwordEncoder.encode(validUser.getPassword()));
-        newUser.setDisplayname((validUser.getDisplayname() != null) ? validUser.getDisplayname() : "");
-        newUser.setEmail(validUser.getEmail());
-        newUser.setReqMessage(validUser.getReqMessage());
-        newUser.setRole(validUser.getRole());
-        newUser.setAdminname(validUser.getAdminname());
-
-        userRepository.saveUser(newUser);
+    public void saveUser(UserDTO user) throws Exception {
+        userRepository.saveUser(user);
     }
 
     @Transactional
     @Override
-    public void updateApprovalStatus(Long id, boolean isApproved) throws Exception {
-        userRepository.updateApprovalStatus(id, isApproved);
+    public Integer deleteUser(Long id) throws Exception {
+        return userRepository.deleteUser(id);
+    }
+
+    @Transactional
+    @Override
+    public void saveApprovalRequest(ApprovalRequestDTO request) throws Exception {
+        userRepository.saveApprovalRequest(request);
+    }
+
+    @Transactional
+    @Override
+    public void updateApprovalStatus(Long userId, boolean isApproved) throws Exception {
+        userRepository.updateApprovalStatus(userId, isApproved);
     }
 
     @Transactional

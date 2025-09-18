@@ -47,14 +47,15 @@ $(document).ready(function () {
                             '<td>' + user.email + '</td>' +
                             // 클릭 이벤트를 추가하고, 전체 텍스트는 data-full-text 속성에 저장
                             '<td><span class="truncated-message" data-full-text="' + fullMessage.replace(/"/g, '&quot;') + '">' + truncatedMessage + '</span></td>' +
-                            '<td>' + (user.adminname || '-') + '</td>' +  // 담당 관리자 이름 표시
+                            // '<td>' + (user.assignedAdminName || '-') + '</td>' +  // 담당 관리자 이름 표시
                             '<td><button class="approve-btn" data-id="' + user.id + '">승인</button></td>' +
                             '</tr>';
                         tbody.append(row);
                     });
                 } else {
                     // 목록이 없을 경우 메시지 표시
-                    tbody.append('<tr><td colspan="7" style="text-align: center;">승인 대기 중인 일반 사용자 계정이 없습니다.</td></tr>');
+                    // tbody.append('<tr><td colspan="7" style="text-align: center;">승인 대기 중인 일반 사용자 계정이 없습니다.</td></tr>');
+                    tbody.append('<tr><td colspan="6" style="text-align: center;">승인 대기 중인 일반 사용자 계정이 없습니다.</td></tr>');
                 }
                 // 데이터 로드 후 스크롤바 확인
                 checkScrollbarAndAdjustWidth();

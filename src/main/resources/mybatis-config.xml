@@ -13,6 +13,7 @@
         <typeAlias type="kr.co.jaehoon.springboottemplate.dto.MemberDTO" alias="memberDTO"/>
         <typeAlias type="kr.co.jaehoon.springboottemplate.dto.UserDTO" alias="userDTO"/>
         <typeAlias type="kr.co.jaehoon.springboottemplate.dto.LoginApprovalDTO" alias="loginApprovalDTO"/>
+        <typeAlias type="kr.co.jaehoon.springboottemplate.dto.ApprovalRequestDTO" alias="approvalRequestDTO"/>
         <typeAlias type="kr.co.jaehoon.springboottemplate.dto.BlacklistedTokenDTO" alias="blacklistedTokenDTO"/>
     </typeAliases>
 

@@ -42,10 +42,11 @@ public class RegistrationRequest {
 
     @NotBlank(message = "권한은 필수 입력 값입니다.")
     @Pattern(regexp = "^(USER|ADMIN)$", message = "권한은 'USER' 또는 'ADMIN'만 선택 가능합니다.")
-    private String role;
+    private String role;  // UI에서 오는 값 (USER or ADMIN)
+    private Long roleId;  // rolename으로 role_id를 조회한 후 저장
 
     // USER 권한일 때만 필수, 백엔드 컨트롤러에서 role에 따른 유효성 검사 추가 필요
     @Pattern(regexp = "^(?!USER$).*|(.+)", message = "일반 사용자 선택 시 담당 관리자를 선택해야 합니다.")
     // 선택된 관리자 이름은 조건부 NotBlank 적용
-    private String adminname;
+    private String adminname;  // 담당 관리자(ADMIN)의 displayname
 }

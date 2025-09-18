@@ -18,6 +18,12 @@ public interface UserDAO {
 
     public UserDTO findByDisplayname(@Param("displayname") String displayname) throws Exception;
 
+    // 권한(역할) 이름(rolename)을 통해 role_id를 조회
+    public Long findRoleIdByRolename(@Param("rolename") String rolename) throws Exception;
+
+    // displayname을 기준으로 담당 관리자(ADMIN)의 user_id를 조회
+    public Long findAdminIdByDisplayname(@Param("adminname") String adminname) throws Exception;
+
     // ADMIN 권한을 가진 사용자들의 displayname 목록을 조회
     public List<String> findAdminNames() throws Exception;
 
@@ -29,5 +35,5 @@ public interface UserDAO {
     public List<LoginApprovalDTO> findPendingAdmins() throws Exception;
 
     // 특정 관리자가 담당하는 승인 대기 중인 USER 계정의 목록을 조회 (ADMIN 페이지용)
-    public List<LoginApprovalDTO> findPendingUsersByAdminname(@Param("adminname") String adminname) throws Exception;
+    public List<LoginApprovalDTO> findPendingUsersByAdminName(@Param("adminId") Long adminId) throws Exception;
 }

@@ -144,11 +144,15 @@ $(document).ready(function () {
         $.ajax({
             url: '/api/auth/admins',
             type: 'GET',
-            success: function (displaynames) {
+            success: function (data) {
                 regAdminnameSelect.empty();  // 기존 옵션 비우기
                 regAdminnameSelect.append($('<option></option>').val('').text('-- 관리자 선택 --'));  // 기본 옵션 추가
-                $.each(displaynames, function (i, displayname) {
-                    regAdminnameSelect.append($('<option></option>').val(displayname).text(displayname));
+
+                $.each(data, function (i, displayname) {
+                    regAdminnameSelect.append($('<option>', {
+                        value: displayname,
+                        text: displayname
+                    }));
                 });
             },
             error: function (xhr) {

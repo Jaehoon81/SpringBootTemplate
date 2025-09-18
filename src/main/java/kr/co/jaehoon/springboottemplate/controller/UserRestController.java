@@ -4,6 +4,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import kr.co.jaehoon.springboottemplate.dto.ApprovalRequestDTO;
 import kr.co.jaehoon.springboottemplate.dto.CustomUserDetails;
 import kr.co.jaehoon.springboottemplate.dto.RegistrationRequest;
 import kr.co.jaehoon.springboottemplate.dto.UserDTO;
@@ -60,56 +61,91 @@ public class UserRestController {
 
     /**
      * 회원가입 API (웹/모바일 공용)
+     * ADMIN 또는 USER 권한의 경우에만 /api/auth/register 엔드포인트로 회원가입이 가능
      */
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegistrationRequest registrationRequest) throws Exception {
         // 1. 아이디 중복 확인
         UserDTO user1 = userService.findByUsername(registrationRequest.getUsername());
         if (user1 != null) {
-            log.debug("Register_UserDTO_Username: {}", user1.getUsername());
-            return ResponseEntity.badRequest().body("이미 사용중인 아이디입니다.");
+            log.warn("Register_UserDTO_Username: {}", user1.getUsername());
+            return ResponseEntity.badRequest().body("이미 사용 중인 아이디입니다.");
         }
         // 2. 이름 중복 확인
         UserDTO user2 = userService.findByDisplayname(registrationRequest.getDisplayname());
         if (user2 != null) {
-            log.debug("Register_UserDTO_Displayname: {}", user2.getDisplayname());
-            return ResponseEntity.badRequest().body("이미 사용중인 이름입니다.");
+            log.warn("Register_UserDTO_Displayname: {}", user2.getDisplayname());
+            return ResponseEntity.badRequest().body("이미 사용 중인 이름입니다.");
         }
-        // 3. USER 권한일 경우 adminname 필수 및 유효성 검사
-        if ("USER".equals(registrationRequest.getRole())) {
-            if (registrationRequest.getAdminname() == null || registrationRequest.getAdminname().trim().isEmpty()) {
-                // 이 유효성 검사는 RegistrationRequest DTO의 @Pattern으로 대체될 수도 있지만,
-                // 여기서는 명시적인 비즈니스 로직으로 분리하여 관리자가 선택되었는지 확인
+        // 3-1. 권한에 대한 유효성 검사 (USER, ADMIN만 허용)
+        if (!registrationRequest.getRole().equals("USER") && !registrationRequest.getRole().equals("ADMIN")
+//                && !registrationRequest.getRole().equals("SYSTEM")
+        ) {
+            return ResponseEntity.badRequest().body("잘못된 권한이 지정되었습니다.");
+        }
+        // 3-2. 권한 유무 확인
+        Long roleId = userService.findRoleIdByRolename(registrationRequest.getRole().toUpperCase());
+        if (roleId == null) {
+            log.warn("Register_Long_RoleID: {}", (Object) null);
+            return ResponseEntity.badRequest().body("유효하지 않은 권한입니다.");
+        } else {
+            registrationRequest.setRoleId(roleId);
+        }
+        // 4. UserDTO 객체 생성 및 데이터 매핑, DB의 users 테이블에 저장
+        UserDTO newUser = new UserDTO();
+        newUser.setUsername(registrationRequest.getUsername());
+        newUser.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+        newUser.setDisplayname((registrationRequest.getDisplayname() != null) ? registrationRequest.getDisplayname() : "");
+        newUser.setEmail(registrationRequest.getEmail());
+//        newUser.setRole(registrationRequest.getRole());
+        newUser.setRoleId(registrationRequest.getRoleId());
+        newUser.setActiveSessionJti(null);  // 초기에는 active_session_jti 값 없음
+        userService.saveUser(newUser);
+
+        // 5. ApprovalRequestDTO 객체 생성 및 데이터 매핑
+        ApprovalRequestDTO approvalRequest = new ApprovalRequestDTO();
+        approvalRequest.setUserId(newUser.getId());  // 새로 생성된 UserDTO의 id 사용
+        approvalRequest.setReqMessage(registrationRequest.getReqMessage());
+        approvalRequest.setApproved(false);  // 가입 시 기본 값은 미승인
+
+        // 6. USER 권한일 경우 adminname 필수 및 유효성 검사
+        if ("USER".equalsIgnoreCase(registrationRequest.getRole())) {
+            // 이 유효성 검사는 RegistrationRequest DTO의 @Pattern으로 대체될 수도 있지만,
+            // 여기서는 명시적인 비즈니스 로직으로 분리하여 관리자가 선택되었는지 확인
+            if (registrationRequest.getAdminname() != null && !registrationRequest.getAdminname().trim().isEmpty()) {
+                Long adminId = userService.findAdminIdByDisplayname(registrationRequest.getAdminname());
+                if (adminId == null) {
+                    log.warn("Register_Long_AdminID: {}", (Object) null);
+                    if (userService.deleteUser(newUser.getId()) == 1) {
+                        log.debug("The 'users' table has been rolled back(1).");
+                    }
+                    return ResponseEntity.badRequest().body("존재하지 않거나 승인되지 않은 관리자입니다.");
+                } else {
+                    approvalRequest.setAssignedAdminId(adminId);
+                }
+            } else {  // registrationRequest.getAdminname() == null || registrationRequest.getAdminname().trim().isEmpty()
+                approvalRequest.setAssignedAdminId(null);  // USER 권한의 담당 관리자 미지정 시 null
+                if (userService.deleteUser(newUser.getId()) == 1) {
+                    log.debug("The 'users' table has been rolled back(2).");
+                }
                 return ResponseEntity.badRequest().body("일반 사용자 선택 시 담당 관리자를 선택해야 합니다.");
             }
             // 선택된 adminname이 실제 ADMIN 권한의 displayname으로 존재하는지 확인
             // (displayname은 중복될 수 있으므로 추후에는 ID 기반으로 선택하는 것을 고려)
-            if (userService.countAdminByDisplayname(registrationRequest.getAdminname()) == 0) {
+            Integer adminCount = userService.countAdminByDisplayname(registrationRequest.getAdminname());
+            if (adminCount == 0) {
+                log.warn("Register_Integer_AdminCount: {}", adminCount.toString());
+                if (userService.deleteUser(newUser.getId()) == 1) {
+                    log.debug("The 'users' table has been rolled back(3).");
+                }
                 return ResponseEntity.badRequest().body("선택된 담당 관리자가 존재하지 않습니다.");
             }
-        } else {
-            // ADMIN 권한일 경우 adminname은 null 또는 비어있는 상태로 저장
-            registrationRequest.setAdminname(null);
+        } else {  // ADMIN 권한일 경우
+            registrationRequest.setAdminname(null);  // adminname은 null 또는 비어있는 상태로 저장
+            approvalRequest.setAssignedAdminId(null);  // ADMIN 권한으로 요청 시 null
         }
-        // 4. UserDTO 객체 생성 및 데이터 매핑
-//        UserDTO newUser = new UserDTO();
-//        newUser.setUsername(registrationRequest.getUsername());
-//        newUser.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
-//        newUser.setDisplayname((registrationRequest.getDisplayname() != null) ? registrationRequest.getDisplayname() : "");
-//        newUser.setEmail(registrationRequest.getEmail());
-//        newUser.setReqMessage(registrationRequest.getReqMessage());
-//        newUser.setRole(registrationRequest.getRole());
-//        newUser.setAdminname(registrationRequest.getAdminname());
-
-        // 권한에 대한 유효성 검사(SYSTEM, ADMIN, USER만 허용) 추가
-        if (!registrationRequest.getRole().equals("USER")
-                && !registrationRequest.getRole().equals("ADMIN")
-                && !registrationRequest.getRole().equals("SYSTEM")) {
-            return ResponseEntity.badRequest().body("Invalid role specified.");
-        }
-        // 5. DB의 users 테이블에 저장
-//        userService.saveUser(newUser);
-        userService.saveUser(registrationRequest);
+        // 7. DB의 approval_requests 테이블에 저장
+        userService.saveApprovalRequest(approvalRequest);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("회원가입이 성공적으로 완료되었습니다!");
     }
@@ -132,19 +168,34 @@ public class UserRestController {
     @PostMapping("/web-login")
     public ResponseEntity<?> webLogin(@RequestBody AuthenticationRequest authenticationRequest, HttpServletResponse response) throws Exception {
         try {
+            // 1. Spring Security의 AuthenticationManager를 통해 사용자가 유효한지 검증
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     authenticationRequest.getUsername(), authenticationRequest.getPassword()
             ));
-            SecurityContextHolder.getContext().setAuthentication(authentication);  // 인증 정보를 SecurityContext에 저장
+            // 인증 정보를 SecurityContext에 저장
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (BadCredentialsException e) {
             // 인증 실패 시 (아이디 or 비밀번호 불일치)
             log.error(e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("아이디 또는 비밀번호가 일치하지 않습니다.");
         }
+        // 2. 인증 성공 후 UserDetails를 로드하여 사용자 정보 확인
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+        // 3. 권한 확인: 웹 로그인은 SYSTEM 또는 ADMIN 권한만 허용
+        if (userDetails != null && userDetails instanceof CustomUserDetails) {
+            CustomUserDetails customUserDetails = (CustomUserDetails) userDetails;
+            if ("USER".equalsIgnoreCase(customUserDetails.getUser().getRole())) {
+                // USER 권한일 경우 403 Forbidden 응답 반환
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("일반 사용자는 웹 브라우저로 로그인할 수 없습니다.\n모바일 앱을 이용해주세요.");
+            }
+        } else {
+            // CustomUserDetails가 아닌 경우 500 Internal_Server_Error 응답 반환
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("사용자 권한 정보를 확인할 수 없습니다.");
+        }
+        // 4. SYSTEM or ADMIN 권한 확인 완료 시 JWT 생성 및 반환
         final String jwt = jwtUtil.generateToken(userDetails.getUsername(), false);
 
-        // JWT를 HttpOnly 쿠키로 추가
+        // 5. JWT를 HttpOnly 쿠키로 추가
         Cookie jwtCookie = new Cookie("jwtToken", jwt);  // 쿠키 이름은 'jwtToken'
         jwtCookie.setHttpOnly(true);  // JavaScript에서 접근 불가
         jwtCookie.setPath("/");  // 모든 경로에서 유효하도록 설정
@@ -173,17 +224,20 @@ public class UserRestController {
 //        UserDetails userDetails = null;
 //        try {
 //            // Spring Security의 AuthenticationManager를 통해 사용자 인증을 수행
-//            // 인증 성공 시 Spring Security는 Authentication 객체를 생성하고,
-//            // 내부적으로 SecurityContextHolder에 이를 저장하여 @PreAuthorize와 같은 AOP 기반 보안이 동작하도록 함
+//            // (인증 성공 시 Spring Security는 Authentication 객체를 생성하고,
+//            // 내부적으로 SecurityContextHolder에 이를 저장하여 @PreAuthorize와 같은 AOP 기반 보안이 동작하도록 함)
 //            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
 //                    authenticationRequest.getUsername(), authenticationRequest.getPassword()
 //            ));
+////            SecurityContextHolder.getContext().setAuthentication(authentication);
 //            // 인증된 Principal(UserDetails)을 가져옴
 //            userDetails = (UserDetails) authentication.getPrincipal();
 //        } catch (AuthenticationException e) {  // AuthenticationException을 Catch하여 BadCredentialsException 포함
 //            // 인증 실패 시 (아이디 or 비밀번호 불일치)
-//            log.error(e.getMessage(), e);
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("아이디 또는 비밀번호가 일치하지 않습니다.");
+//            String errorMessage = e.getMessage();
+//            log.error(errorMessage, e);
+////            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("아이디 또는 비밀번호가 일치하지 않습니다.");
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMessage);
 //        }
 //        // @PreAuthorize가 이미 권한 검사를 수행했으므로 별도의 권한 확인을 위한 로직이 필요 없음
 //        // JWT 생성 및 반환 (이미 USER 권한임을 보장)
@@ -204,20 +258,20 @@ public class UserRestController {
      */
     @PostMapping("/mobile-login")
     public ResponseEntity<?> mobileLogin(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
-        UserDetails userDetails = null;
         try {
             // 1. Spring Security의 AuthenticationManager를 통해 사용자가 유효한지 검증
             // (stateless이므로 SecurityContextHolder에 저장하지 않음)
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     authenticationRequest.getUsername(), authenticationRequest.getPassword()
             ));
-            // 2. 인증 성공 후 UserDetails를 로드하여 사용자 정보 확인
-            userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-        } catch (AuthenticationException e) {  // AuthenticationException을 Catch하여 BadCredentialsException 포함
+//            SecurityContextHolder.getContext().setAuthentication(authentication);
+        } catch (BadCredentialsException e) {
             // 인증 실패 시 (아이디 or 비밀번호 불일치)
             log.error(e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("아이디 또는 비밀번호가 일치하지 않습니다.");
         }
+        // 2. 인증 성공 후 UserDetails를 로드하여 사용자 정보 확인
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         // 3. 권한 확인: 모바일 로그인은 USER 권한만 허용
         if (userDetails != null && userDetails instanceof CustomUserDetails) {
             CustomUserDetails customUserDetails = (CustomUserDetails) userDetails;

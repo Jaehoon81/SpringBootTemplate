@@ -77,7 +77,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 //            try {
 //                username = jwtUtil.extractUsername(jwt);
 //            } catch (Exception e) {
-//                log.error("JWT token extraction failed: {}", e.getMessage());
+//                log.warn("JWT token extraction failed: {}", e.getMessage());
 //                // 토큰 추출 실패 시 다음 필터로 진행하지 않거나 401 응답 처리
 ////                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid JWT Token");
 ////                return;

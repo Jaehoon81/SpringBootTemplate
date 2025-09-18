@@ -164,20 +164,32 @@
 /* (admin_page.jsp의 th/td 순서와 동일하게 맞춰야 함) */
 /* (전체 너비 100%를 기준으로 비율을 맞추거나, 픽셀로 지정할 수 있음) */
 /* (스크롤바의 너비(대략 8px)를 고려하여 thead tr과 tbody tr의 너비를 맞출 수도 있음) */
+/*#user-list-container th:nth-child(1),*/
+/*#user-list-container td:nth-child(1) { width: 5%; } !* 번호 *!*/
+/*#user-list-container th:nth-child(2),*/
+/*#user-list-container td:nth-child(2) { width: 10%; } !* 아이디 *!*/
+/*#user-list-container th:nth-child(3),*/
+/*#user-list-container td:nth-child(3) { width: 10%; } !* 이름 *!*/
+/*#user-list-container th:nth-child(4),*/
+/*#user-list-container td:nth-child(4) { width: 20%; } !* 이메일 *!*/
+/*#user-list-container th:nth-child(5),*/
+/*#user-list-container td:nth-child(5) { width: 35%; } !* 요청 메시지 *!*/
+/*#user-list-container th:nth-child(6),*/
+/*#user-list-container td:nth-child(6) { width: 10%; } !* 담당 관리자 *!*/
+/*#user-list-container th:nth-child(7),*/
+/*#user-list-container td:nth-child(7) { width: 10%; } !* 가.부 *!*/
 #user-list-container th:nth-child(1),
 #user-list-container td:nth-child(1) { width: 5%; } /* 번호 */
 #user-list-container th:nth-child(2),
-#user-list-container td:nth-child(2) { width: 10%; } /* 아이디 */
+#user-list-container td:nth-child(2) { width: 12.5%; } /* 아이디 */
 #user-list-container th:nth-child(3),
-#user-list-container td:nth-child(3) { width: 10%; } /* 이름 */
+#user-list-container td:nth-child(3) { width: 12.5%; } /* 이름 */
 #user-list-container th:nth-child(4),
 #user-list-container td:nth-child(4) { width: 20%; } /* 이메일 */
 #user-list-container th:nth-child(5),
-#user-list-container td:nth-child(5) { width: 35%; } /* 요청 메시지 */
+#user-list-container td:nth-child(5) { width: 40%; } /* 요청 메시지 */
 #user-list-container th:nth-child(6),
-#user-list-container td:nth-child(6) { width: 10%; } /* 담당 관리자 */
-#user-list-container th:nth-child(7),
-#user-list-container td:nth-child(7) { width: 10%; } /* 가.부 */
+#user-list-container td:nth-child(6) { width: 10%; } /* 가.부 */
 
 /* 홀수 행 배경색 교차 */
 #user-list-container tbody tr:nth-child(odd) {

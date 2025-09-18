@@ -4,15 +4,26 @@
 <mapper namespace="User">
 
     <insert id="saveUser" parameterType="userDTO" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO users (username, password, displayname, email, req_message, role, adminname, is_approved)
-        VALUES (#{username}, #{password}, #{displayname}, #{email}, #{reqMessage}, #{role}, #{adminname}, #{isApproved})
+        INSERT INTO users (username, password, displayname, email, role_id, active_session_jti)
+        VALUES (#{username}, #{password}, #{displayname}, #{email}, #{roleId}, #{activeSessionJti})
+    </insert>
+
+    <delete id="deleteUser" parameterType="long">
+        DELETE FROM users
+        WHERE id = #{id}
+    </delete>
+
+    <!-- ADMIN, USER 계정의 승인 요청 정보를 저장 -->
+    <insert id="saveApprovalRequest" parameterType="approvalRequestDTO" useGeneratedKeys="true" keyProperty="requestId">
+        INSERT INTO approval_requests (user_id, req_message, assigned_admin_id, is_approved)
+        VALUES (#{userId}, #{reqMessage}, #{assignedAdminId}, #{isApproved})
     </insert>
 
     <!-- ADMIN, USER 계정의 승인 상태를 업데이트 -->
     <update id="updateApprovalStatus" parameterType="map">
-        UPDATE users
-        SET is_approved = #{isApproved}
-        WHERE id = #{id}
+        UPDATE approval_requests
+        SET is_approved = #{isApproved}, approved_at = CASE WHEN #{isApproved} = TRUE THEN NOW() ELSE NULL END
+        WHERE user_id = #{userId}
     </update>
 
     <!-- USER 계정의 active_session_jti 컬럼을 업데이트 -->
