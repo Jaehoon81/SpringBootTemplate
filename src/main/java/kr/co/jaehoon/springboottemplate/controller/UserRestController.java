@@ -186,7 +186,9 @@ public class UserRestController {
             CustomUserDetails customUserDetails = (CustomUserDetails) userDetails;
             if ("USER".equalsIgnoreCase(customUserDetails.getUser().getRole())) {
                 // USER 권한일 경우 403 Forbidden 응답 반환
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("일반 사용자는 웹 브라우저로 로그인할 수 없습니다.\n모바일 앱을 이용해주세요.");
+                // (USER 권한의 계정이 웹 브라우저에서도 로그인이 가능하도록 주석처리)
+//                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+//                        .body("일반 사용자는 웹 브라우저로 로그인할 수 없습니다.\n모바일 앱을 이용해주세요.");
             }
         } else {
             // CustomUserDetails가 아닌 경우 500 Internal_Server_Error 응답 반환

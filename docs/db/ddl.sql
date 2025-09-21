@@ -2,7 +2,7 @@
 CREATE TABLE `roles` (
     `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
     `rolename` VARCHAR(20) NOT NULL UNIQUE,
-    `description` VARCHAR(255) NULL, -- 역할에 대한 설명 추가
+    `description` VARCHAR(255) NULL, -- 권한(역할)에 대한 설명 추가
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
     `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );

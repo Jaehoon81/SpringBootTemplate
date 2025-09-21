@@ -101,21 +101,31 @@ public class SecurityConfig {
                         // 인증 없이 접근 허용할 경로
                         .requestMatchers(
                                 "/api/auth/register", "/api/auth/admins", "/api/auth/web-login", "/api/auth/mobile-login",
-                                "/", "/error",
+                                "/", "/error", "/favicon.ico",
+                                // favicon.ico 파일: 16x16 또는 32x32 픽셀의 .ico 형식
+                                // - 경로: 'src/main/webapp/favicon.ico' or 'src/main/resources/static/favicon.ico'
 
                                 // Spring Boot는 src/main/resources/static 경로를 / 로컬 루트로 매핑
-//                                "/js/**", "/css/**", "/WEB-INF/views/**"
+//                                "/js/**", "/css/**", "/include/**", "/WEB-INF/views/**"
                                 // JSP 설정을 통해 src/main/webapp 경로를 / 로컬 루트로 매핑
-                                "/static/js/**", "/static/css/**", "/WEB-INF/views/**"
+                                "/static/js/**", "/static/css/**", "/static/include/**", "/WEB-INF/views/**"
                         ).permitAll()
                         // /secure-page는 authenticated()로 유지하여 인증된 사용자만 접근하도록 함 (기본 적용)
-                        .requestMatchers("/secure-page").authenticated()
+//                        .requestMatchers("/secure-page").authenticated()
+                        .requestMatchers("/dashboard", "/contents/**").authenticated()
                         // /api/auth/check-token과 /api/app/version은 여전히 authenticated() 대상임 (기본 적용)
                         .requestMatchers("/api/auth/check-token", "/api/app/version").authenticated()
 
+                        // 역할별 접근 권한 설정 (콘텐츠 URL 기준)
+                        .requestMatchers("/contents/system-approval").hasRole("SYSTEM")
+                        .requestMatchers("/contents/admin-approval").hasRole("ADMIN")
+                        .requestMatchers("/contents/secure").hasRole("USER")
+                        // 모든 인증된 사용자는 접근 가능
+                        .requestMatchers("/contents/statistics", "/contents/profile").hasAnyRole("USER", "ADMIN", "SYSTEM")
+
                         // SYSTEM, ADMIN 권한 전용 페이지 설정
-                        .requestMatchers("/system-page").hasRole("SYSTEM")
-                        .requestMatchers("/admin-page").hasRole("ADMIN")
+//                        .requestMatchers("/system-page").hasRole("SYSTEM")
+//                        .requestMatchers("/admin-page").hasRole("ADMIN")
                         // SYSTEM, ADMIN 권한 전용 API 엔드포인트 보호
                         .requestMatchers("/api/system/**").hasRole("SYSTEM")
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")

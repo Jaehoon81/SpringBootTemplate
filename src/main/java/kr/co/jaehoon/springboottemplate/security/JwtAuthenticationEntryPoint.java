@@ -73,7 +73,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
             objectMapper.writeValue(response.getWriter(), errorDetails);  // JSON 응답 작성
         } else {
             // 웹 브라우저에서 직접 접근(페이지 요청)인 경우:
-            // 401 HTML 응답(response.sendError()) 대신, 로그인 페이지(index.jsp)로 리다이렉트
+            // 401 HTML 응답(response.sendError()) 대신, 로그인 페이지(login.jsp)로 리다이렉트
 //            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized: " + authException.getMessage());
             response.sendRedirect("/");
         }

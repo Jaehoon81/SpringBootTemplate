@@ -79,7 +79,8 @@ $(document).ready(function () {
                 $('#login-username').val('');
                 $('#login-password').val('');
                 // 보호된 페이지로 리디렉션
-                window.location.href = '/secure-page';
+                // window.location.href = '/secure-page';
+                window.location.href = '/dashboard';
             },
             error: function (xhr) {
                 var errorMsg = '로그인 실패: ' + (xhr.responseText || '알 수 없는 오류');
