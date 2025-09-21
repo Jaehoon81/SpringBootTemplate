@@ -21,6 +21,13 @@
             margin: 8px 0px 8px 0px;
             line-height: 120%;
         }
+
+        p.loading-contents {
+            width: 1160px;
+            max-width: 90%;
+            text-align: center;
+            padding: 20px;
+        }
     </style>
 </head>
 <body data-display-name="${displayName}" data-user-role="${userRole}">
@@ -33,7 +40,7 @@
 <%--            </header>--%>
 <%--            <main id="main-content-area" class="content-area">--%>
 <%--                <!-- 여기에 메뉴에 따라 동적으로 콘텐츠가 로드됨 -->--%>
-<%--                <p style="width: 1200px; max-width: 90%; text-align: center; padding: 20px;">콘텐츠 로딩 중...</p>--%>
+<%--                <p class="loading-contents">콘텐츠 로딩 중...</p>--%>
 <%--            </main>--%>
 <%--        </div>--%>
 <%--    </div>--%>
@@ -50,7 +57,7 @@
                     </header>
                     <main id="main-content-area" class="content-area">
                         <!-- 여기에 메뉴에 따라 동적으로 콘텐츠가 로드됨 -->
-                        <p style="width: 1200px; max-width: 90%; text-align: center; padding: 20px;">콘텐츠 로딩 중...</p>
+                        <p class="loading-contents">콘텐츠 로딩 중...</p>
                     </main>
                 </div>
                 <!-- 푸터 포함 -->

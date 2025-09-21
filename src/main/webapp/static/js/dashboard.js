@@ -55,7 +55,7 @@ $(document).ready(function () {
     function loadContent(url, title) {
         $('#main-content-area').html(
             // 로딩 스피너/메시지
-            '<p style="width: 1200px; max-width: 90%; text-align: center; padding: 20px;">콘텐츠 로딩 중...</p>'
+            '<p class="loading-contents">콘텐츠 로딩 중...</p>'
         );
         $.ajax({
             url: url,
@@ -79,8 +79,8 @@ $(document).ready(function () {
             },
             error: function (xhr) {
                 $('#main-content-area').html(
-                    '<p style="color: red; width: 1200px; max-width: 90%; text-align: center;">콘텐츠를 불러오는데 실패했습니다: ' +
-                    xhr.status + ' ' + xhr.statusText + '</p>'
+                    '<p class="loading-contents" style="color: red;">' +
+                    '콘텐츠를 불러오는데 실패했습니다: ' + xhr.status + ' ' + xhr.statusText + '</p>'
                 );
                 $('#contentTitle').text('오류 발생');
                 console.error("Failed to load content from " + url, xhr);

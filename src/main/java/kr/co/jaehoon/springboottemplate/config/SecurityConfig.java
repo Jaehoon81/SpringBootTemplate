@@ -100,7 +100,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         // 인증 없이 접근 허용할 경로
                         .requestMatchers(
-                                "/api/auth/register", "/api/auth/admins", "/api/auth/web-login", "/api/auth/mobile-login",
+                                "/api/auth/register", "/api/auth/admins",
+                                "/api/auth/web-login", "/api/auth/mobile-login", "/api/auth/web-logout", "/api/auth/mobile-logout",
                                 "/", "/error", "/favicon.ico",
                                 // favicon.ico 파일: 16x16 또는 32x32 픽셀의 .ico 형식
                                 // - 경로: 'src/main/webapp/favicon.ico' or 'src/main/resources/static/favicon.ico'
@@ -136,7 +137,9 @@ public class SecurityConfig {
                         // 에러 테스트용 경로는 permitAll()
                         .requestMatchers("/api/auth/test-error", "/trigger-error-page").permitAll()
                         
-                        // 그 외 모든 요청은 인증 필요 (/api/auth/web-logout, /api/auth/mobile-logout도 포함)
+                        // 그 외 모든 요청은 인증 필요
+                        // (/api/auth/web-logout, /api/auth/mobile-logout도 포함
+                        // -> 포함 X: 토큰 만료 시 로그아웃 버튼을 누르면 401 에러가 발생하므로 permitAll()로 수정)
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exceptions -> exceptions
