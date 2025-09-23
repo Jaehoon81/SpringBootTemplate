@@ -37,5 +37,7 @@ public interface UserService {
 
     public void updateApprovalStatus(Long userId, boolean isApproved) throws Exception;
 
+    public void updateProfilePicturePath(Long userId, String path) throws Exception;
+
     public void updateActiveSessionJti(Long id, String jti) throws Exception;
 }

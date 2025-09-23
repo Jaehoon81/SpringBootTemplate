@@ -29,6 +29,7 @@ public class HomeController {
 
             model.addAttribute("displayName", customUserDetails.getDisplayname());
             model.addAttribute("userRole", customUserDetails.getUser().getRolename());
+            model.addAttribute("profilePicturePath", customUserDetails.getUser().getProfilePicturePath());
         }
         return "dashboard";
     }

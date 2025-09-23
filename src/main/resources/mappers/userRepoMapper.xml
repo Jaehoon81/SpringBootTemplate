@@ -4,8 +4,8 @@
 <mapper namespace="User">
 
     <insert id="saveUser" parameterType="userDTO" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO users (username, password, displayname, email, role_id, active_session_jti)
-        VALUES (#{username}, #{password}, #{displayname}, #{email}, #{roleId}, #{activeSessionJti})
+        INSERT INTO users (username, password, displayname, profile_picture_path, email, role_id, active_session_jti)
+        VALUES (#{username}, #{password}, #{displayname}, #{profilePicturePath}, #{email}, #{roleId}, #{activeSessionJti})
     </insert>
 
     <delete id="deleteUser" parameterType="long">
@@ -24,6 +24,13 @@
         UPDATE approval_requests
         SET is_approved = #{isApproved}, approved_at = CASE WHEN #{isApproved} = TRUE THEN NOW() ELSE NULL END
         WHERE user_id = #{userId}
+    </update>
+
+    <!-- 해당 계정의 프로필 사진(이미지) 경로를 업데이트 -->
+    <update id="updateProfilePicturePath" parameterType="map">
+        UPDATE users
+        SET profile_picture_path = #{path}
+        WHERE id = #{id}
     </update>
 
     <!-- USER 계정의 active_session_jti 컬럼을 업데이트 -->

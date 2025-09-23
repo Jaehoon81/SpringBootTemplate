@@ -16,6 +16,7 @@ CREATE TABLE `users` (
     `username` VARCHAR(50) NOT NULL UNIQUE,
     `password` VARCHAR(255) NOT NULL,
     `displayname` VARCHAR(50) NOT NULL UNIQUE,
+    `profile_picture_path` VARCHAR(255) NULL,
     `email` VARCHAR(100) NOT NULL DEFAULT '', -- 이메일 주소 필수 항목으로 추가
     `role_id` BIGINT NOT NULL,
     `active_session_jti` VARCHAR(255) NULL, -- 가장 최근에 발급된 모바일 JWT의 Jti(JWT ID)를 저장

@@ -9,10 +9,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <title>대시보드</title>
+    <link rel="icon" type="image/x-icon" href="/favicon_02.ico"/>
 
     <link rel="stylesheet" type="text/css" href="/static/css/main.css">
     <link rel="stylesheet" type="text/css" href="/static/css/contents/system.css">
     <link rel="stylesheet" type="text/css" href="/static/css/contents/admin.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/contents/statistics.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/contents/profile.css">
     <link rel="stylesheet" type="text/css" href="/static/css/_layout.css">
     <!-- Font Awesome 아이콘 사용을 위해 추가 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -30,7 +33,7 @@
         }
     </style>
 </head>
-<body data-display-name="${displayName}" data-user-role="${userRole}">
+<body data-display-name="${displayName}" data-user-role="${userRole}" data-profile-picture-path="${profilePicturePath}">
 <%--    <div class="main-wrapper">--%>
 <%--        <!-- 사이드바 포함 -->--%>
 <%--        <jsp:include page="/static/include/layout/_sidebar.jsp"/>--%>
@@ -49,7 +52,11 @@
         <jsp:include page="/static/include/layout/_header.jsp"/>
         <div class="dashboard-body-wrapper"><!-- 사이드바 + 메인 콘텐츠 및 푸터 영역 -->
             <!-- 사이드바 포함 -->
-            <jsp:include page="/static/include/layout/_sidebar.jsp"/>
+            <!-- _sidebar.jsp에 profilePicturePath 파라미터를 전달 -->
+            <!-- (아래의 jsp:include 태그 사이에는 절대 불필요한 공백, 탭, 줄바꿈 등을 넣으면 안됨!!) -->
+            <jsp:include page="/static/include/layout/_sidebar.jsp">
+                <jsp:param name="profilePicturePath" value="${profilePicturePath}"/>
+            </jsp:include>
             <div class="main-content-and-footer-area"><!-- 메인 콘텐츠 및 푸터 영역 -->
                 <div class="content-wrapper"><!-- 주요 콘텐츠 파트 -->
                     <header class="content-header">
@@ -85,6 +92,8 @@
     <c:if test="${userRole eq 'ADMIN'}">
         <script src="/static/js/contents/admin.js"></script>
     </c:if>
+    <script src="/static/js/contents/statistics.js"></script>
+    <script src="/static/js/contents/profile.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             // 로그아웃 버튼 클릭 이벤트 (헤더에 추가)

@@ -5,6 +5,14 @@
     <div class="sidebar-header">
         <h3><i class="fas fa-bars"></i> 메뉴</h3>
     </div>
+    <div class="profile-picture-container">
+        <!-- param.profilePicturePath를 사용하여 전달받은 파라미터 값 사용 -->
+        <img id="profilePicture"
+             src="${(param.profilePicturePath != null && not empty param.profilePicturePath) ? param.profilePicturePath : '/static/images/default_profile_02.png'}"
+             alt="프로필 사진">
+        <input type="file" id="profilePictureInput" accept="image/*" style="display: none;">
+        <span class="upload-overlay" title="프로필 사진 변경"><i class="fas fa-folder-open"></i></span>
+    </div>
     <ul class="sidebar-menu">
         <li data-menu-id="account-approval" class="active">
             <a href="#" data-content-url="/contents/approval"><i class="fas fa-user-check"></i>&nbsp;사용자 관리</a>

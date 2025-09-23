@@ -21,6 +21,7 @@
         <result property="username" column="username"/>
         <result property="password" column="password"/>
         <result property="displayname" column="displayname"/>
+        <result property="profilePicturePath" column="profile_picture_path"/>
         <result property="email" column="email"/>
         <result property="roleId" column="role_id"/>
         <result property="activeSessionJti" column="active_session_jti"/>
@@ -33,7 +34,7 @@
 
     <select id="findByUsername" parameterType="String" resultMap="userResultMap">
         SELECT
-            u.id, u.username, u.password, u.displayname, u.email, u.role_id, u.active_session_jti, u.created_at, u.updated_at,
+            u.id, u.username, u.password, u.displayname, u.profile_picture_path, u.email, u.role_id, u.active_session_jti, u.created_at, u.updated_at,
             r.rolename,
             ar.request_id AS ar_request_id, ar.user_id AS ar_user_id, ar.req_message AS ar_req_message, ar.assigned_admin_id AS ar_assigned_admin_id, uu.displayname AS ar_assigned_admin_name, ar.is_approved AS ar_is_approved,
             ar.requested_at AS ar_requested_at, ar.approved_at AS ar_approved_at
@@ -46,7 +47,7 @@
 
     <select id="findByDisplayname" parameterType="String" resultMap="userResultMap">
         SELECT
-            u.id, u.username, u.password, u.displayname, u.email, u.role_id, u.active_session_jti, u.created_at, u.updated_at,
+            u.id, u.username, u.password, u.displayname, u.profile_picture_path, u.email, u.role_id, u.active_session_jti, u.created_at, u.updated_at,
             r.rolename,
             ar.request_id AS ar_request_id, ar.user_id AS ar_user_id, ar.req_message AS ar_req_message, ar.assigned_admin_id AS ar_assigned_admin_id, uu.displayname AS ar_assigned_admin_name, ar.is_approved AS ar_is_approved,
             ar.requested_at AS ar_requested_at, ar.approved_at AS ar_approved_at

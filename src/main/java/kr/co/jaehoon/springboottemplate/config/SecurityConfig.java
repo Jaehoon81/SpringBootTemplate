@@ -102,8 +102,12 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/api/auth/register", "/api/auth/admins",
                                 "/api/auth/web-login", "/api/auth/mobile-login", "/api/auth/web-logout", "/api/auth/mobile-logout",
-                                "/", "/error", "/favicon.ico",
-                                // favicon.ico 파일: 16x16 또는 32x32 픽셀의 .ico 형식
+                                "/api/user/profile-picture/**",  // 프로필 사진(이미지) 조회
+//                                "/profiles/**",  // UserRestController에 이미 파일 서빙 로직이 있기 때문에 WebConfig 설정과 중복되므로 주석처리
+
+                                "/", "/error",
+                                "/favicon_01.ico", "/favicon_02.ico", "/favicon_03.ico", "/favicon_04.ico",
+                                // favicon.ico 파일: 최소 48x48 픽셀 이상의 .ico 형식
                                 // - 경로: 'src/main/webapp/favicon.ico' or 'src/main/resources/static/favicon.ico'
 
                                 // Spring Boot는 src/main/resources/static 경로를 / 로컬 루트로 매핑
@@ -114,8 +118,10 @@ public class SecurityConfig {
                         // /secure-page는 authenticated()로 유지하여 인증된 사용자만 접근하도록 함 (기본 적용)
 //                        .requestMatchers("/secure-page").authenticated()
                         .requestMatchers("/dashboard", "/contents/**").authenticated()
-                        // /api/auth/check-token과 /api/app/version은 여전히 authenticated() 대상임 (기본 적용)
-                        .requestMatchers("/api/auth/check-token", "/api/app/version").authenticated()
+                        // 모바일 앱에서 세션만료 여부 확인 및 애플리케이션 버전 정보 요청은 인증된 사용자만 허용
+                        .requestMatchers("/api/auth/check-token", "/api/app-info/version").authenticated()
+                        // 프로필 사진(이미지) 업로드는 인증된 사용자만 허용
+                        .requestMatchers("/api/user/profile-picture").authenticated()
 
                         // 역할별 접근 권한 설정 (콘텐츠 URL 기준)
                         .requestMatchers("/contents/system-approval").hasRole("SYSTEM")
@@ -132,7 +138,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/auth/admin-only").hasRole("ADMIN")
 
-                        // 만약 특정 API는 권한 없이 접근하게 하려면 여기에 .permitAll() 추가
+                        // 만약 특정 API는 권한 없이 접근하게 하려면 여기에 permitAll() 추가
 //                        .requestMatchers("/api/public/**").permitAll()
                         // 에러 테스트용 경로는 permitAll()
                         .requestMatchers("/api/auth/test-error", "/trigger-error-page").permitAll()

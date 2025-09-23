@@ -37,6 +37,15 @@ public class UserRepository {
         sqlSession.update("User.updateApprovalStatus", params);
     }
 
+    // 해당 계정의 프로필 사진(이미지) 경로를 업데이트
+    public void updateProfilePicturePath(Long userId, String path) throws Exception {
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", userId);
+        params.put("path", path);
+
+        sqlSession.update("User.updateProfilePicturePath", params);
+    }
+
     // USER 계정의 active_session_jti 컬럼을 업데이트
     public void updateActiveSessionJti(Long id, String jti) throws Exception {
         Map<String, Object> params = new HashMap<>();

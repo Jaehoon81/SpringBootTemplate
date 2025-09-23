@@ -105,6 +105,12 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
+    public void updateProfilePicturePath(Long userId, String path) throws Exception {
+        userRepository.updateProfilePicturePath(userId, path);
+    }
+
+    @Transactional
+    @Override
     public void updateActiveSessionJti(Long id, String jti) throws Exception {
         userRepository.updateActiveSessionJti(id, jti);
     }

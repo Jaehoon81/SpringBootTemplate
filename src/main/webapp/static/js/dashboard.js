@@ -1,7 +1,105 @@
 $(document).ready(function () {
-    // 초기 로직: 페이지 로드 시 첫 콘텐츠를 로드
     var displayName = $('body').data('display-name');
     var userRole = $('body').data('user-role');  // var userRole = '${userRole}';
+    var profilePicturePath = $('body').data('profile-picture-path');
+
+    // 프로필 사진(이미지) 관련 로직 ---------------------------------------------------------------------------------------
+    var $profilePicture = $('#profilePicture');
+    var $profilePictureInput = $('#profilePictureInput');
+    var $profilePictureContainer = $('.profile-picture-container');
+
+    // 초기 프로필 사진(이미지) 설정 (기본값)
+    if (profilePicturePath) {
+        // '/profiles/{userId}/{filename}' 형태로 DB users 테이블의 profile_picture_path 컬럼에 저장되어야
+        // GET 방식의 /api/user/profile-picture/{userId}/{filename} API와 연결 (-> 사용 X)
+        // (/api/user/profile-picture로 시작하는 URL이 컨트롤러에서 정적으로 서빙되는 경로라고 가정)
+
+        // '/api/user/profile-picture/{username}/{filename}' 형태로 DB users 테이블의 profile_picture_path 컬럼에 저장되어야
+        // GET 방식의 /api/user/profile-picture/{username}/{filename} API와 연결 (-> 사용 O)
+        // (/api/user/profile-picture로 시작하는 URL이 컨트롤러에서 정적으로 서빙되는 경로라고 가정)
+        $profilePicture.attr('src', profilePicturePath);
+    } else {
+        $profilePicture.attr('src', '/static/images/default_profile_02.png');
+    }
+    // 프로필 사진(이미지) 클릭 시 파일 탐색기 열기
+    $profilePictureContainer.on('click', function (event) {
+        $profilePictureInput.click();  // 파일 입력 필드인 <input type="file"...> 태그를 클릭
+        // 상위 컨테이너로 클릭 이벤트가 다시 전달되지 않도록 이벤트 버블링을 중단
+        event.stopPropagation();
+    });
+    // 파일 입력 필드인 <input type="file"...> 태그 자체에 대한 클릭 이벤트 (이중 방지책)
+    $profilePictureInput.on('click', function (event) {
+        event.stopPropagation();
+    });
+    // 파일 선택 시 처리
+    $profilePictureInput.on('change', function (event) {
+        var file = event.target.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $profilePicture.attr('src', e.target.result);  // 미리보기 이미지 업데이트
+                uploadProfilePicture(file);  // 서버에 이미지 업로드
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    function uploadProfilePicture(file) {
+        var formData = new FormData();
+        formData.append('file', file);
+
+        $.ajax({
+            url: '/api/user/profile-picture',
+            type: 'POST',
+            data: formData,
+            processData: false,  // FormData 사용 시 필수
+            contentType: false,  // FormData 사용 시 필수
+            headers: {
+                'Authorization': 'Bearer ' + getJwtTokenFromCookie()  // 인증 토큰 포함 (웹 브라우저용)
+            },
+            success: function (responsePath) {  // 응답으로 저장된 파일 경로를 받음
+                alert('프로필 사진이 성공적으로 업데이트되었습니다.');
+                // DB users 테이블의 profile_picture_path 컬럼에 저장된 경로로 이미지 업데이트
+                $profilePicture.attr('src', responsePath);
+                // 필요하다면 페이지 전체 새로고침 (선택 사항)
+                window.location.reload();
+            },
+            error: function (xhr) {
+                var errorMsg = '프로필 사진 업로드 실패: ' + (xhr.responseText || '알 수 없는 오류');
+                try {
+                    var jsonError = JSON.parse(xhr.responseText);
+                    if (jsonError.message) {
+                        errorMsg = '프로필 사진 업로드 실패: ' + jsonError.message;
+                    }
+                } catch (e) {
+                    // JSON 파싱 실패 시 기본 메시지 사용
+                }
+                alert(errorMsg);
+                console.error("프로필 사진 업로드 실패: ", xhr.responseText);
+                // 업로드 실패 시 기본 이미지로 되돌리기 (선택 사항)
+                $profilePicture.attr('src', profilePicturePath || '/static/images/default_profile_02.png');
+            }
+        });
+    }
+    // 쿠키에서 JWT 토큰을 가져오는 함수 (웹 브라우저 인증용)
+    function getJwtTokenFromCookie() {
+        var name = "jwt=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) === ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) === 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+    // 프로필 사진(이미지) 관련 로직 ---------------------------------------------------------------------------------------
+
+    // 초기 로직: 페이지 로드 시 첫 콘텐츠를 로드 ----------------------------------------------------------------------------
     var defaultContentUrl = '';
     var defaultTitle = '';
 
@@ -24,7 +122,7 @@ $(document).ready(function () {
         loadContent(defaultContentUrl, defaultTitle);
     }
 
-    // 사이드바 메뉴 클릭 이벤트 처리
+    // 사이드바 메뉴 클릭 이벤트
     $('.sidebar-menu li a').on('click', function (e) {
         e.preventDefault();  // 기본 링크 동작 방지
         // 모든 메뉴 항목의 active 클래스 제거
@@ -54,8 +152,7 @@ $(document).ready(function () {
 
     function loadContent(url, title) {
         $('#main-content-area').html(
-            // 로딩 스피너/메시지
-            '<p class="loading-contents">콘텐츠 로딩 중...</p>'
+            '<p class="loading-contents">콘텐츠 로딩 중...</p>'  // 로딩 스피너(메시지)
         );
         $.ajax({
             url: url,
@@ -87,22 +184,14 @@ $(document).ready(function () {
             }
         });
     }
-
     // 페이지 로드 시 처음 활성화되어야 할 메뉴 항목 (기본은 '사용자 관리')
     $('[data-menu-id="account-approval"]').addClass('active');
+    // 초기 로직: 페이지 로드 시 첫 콘텐츠를 로드 ----------------------------------------------------------------------------
 
     // Full Text 팝업창 모달 관련 로직 ------------------------------------------------------------------------------------
     var fullTextMsgModal = $('#fullTextMsgModal');
     var fullTextMsgContent = $('#fullTextMsgContent');
     var closePopupBtn = $('.close-popup');
-
-    // 텍스트를 줄이고 '...'을 붙이는 함수
-    window.truncateMessage = function (text, maxLength) {
-        if (text && text.length > maxLength) {
-            return text.substring(0, maxLength) + '...';
-        }
-        return text;
-    };
 
     // 스크롤바 유무에 따라 CSS 변수 '--scrollbar-width'를 동적으로 설정하는 함수
     window.checkScrollbarAndAdjustWidth = function () {
@@ -127,6 +216,13 @@ $(document).ready(function () {
             }
         }
     };
+    // 텍스트를 줄이고 '...'을 붙이는 함수
+    window.truncateMessage = function (text, maxLength) {
+        if (text && text.length > maxLength) {
+            return text.substring(0, maxLength) + '...';
+        }
+        return text;
+    };
 
     // 동적으로 생성되는 .truncated-message 요소에 이벤트 위임
     // (main-content-area 내부에서 발생하는 클릭 이벤트에 반응)
@@ -136,13 +232,11 @@ $(document).ready(function () {
         fullTextMsgContent.text(fullText);  // 팝업창 내용 설정 (XSS 방지를 위해 text() 사용)
         fullTextMsgModal.addClass('show');  // 팝업창 표시
     });
-
-    // 팝업창 닫기 버튼 클릭
+    // 팝업창 닫기 버튼 클릭 이벤트
     closePopupBtn.click(function () {
         fullTextMsgModal.removeClass('show');
     });
-
-    // 팝업창 외부 영역 클릭
+    // 팝업창 외부 영역 클릭 이벤트
     $(window).click(function (event) {
         if ($(event.target).is(fullTextMsgModal)) {
             fullTextMsgModal.removeClass('show');

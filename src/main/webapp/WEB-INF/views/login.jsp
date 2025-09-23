@@ -9,6 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <title>회원가입 및 로그인</title>
+    <link rel="icon" type="image/x-icon" href="/favicon_01.ico"/>
 
     <link rel="stylesheet" type="text/css" href="/static/css/main.css">
     <!-- Font Awesome 아이콘 사용을 위해 추가 -->

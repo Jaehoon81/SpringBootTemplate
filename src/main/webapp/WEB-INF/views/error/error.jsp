@@ -9,6 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <title>오류 발생</title>
+    <link rel="icon" type="image/x-icon" href="/favicon_03.ico"/>
 
     <style>
         body {

@@ -14,13 +14,14 @@ import java.time.LocalDateTime;
 public class UserDTO {
 
     private Long id;
-    private String username;          // 아이디
-    private String password;          // 암호화된 비밀번호
-    private String displayname;       // 화면에 표시할 이름
-    private String email;             // 이메일 주소
-//    private String role;              // SYSTEM, ADMIN, USER 등의 권한
-    private Long roleId;              // role 대신 roleId로 변경
-    private String activeSessionJti;  // 현재 활성화된 JWT의 Jti(JWT ID)를 저장
+    private String username;            // 아이디
+    private String password;            // 암호화된 비밀번호
+    private String displayname;         // 화면에 표시할 이름
+    private String profilePicturePath;  // 프로필 사진(이미지) 경로
+    private String email;               // 이메일 주소
+//    private String role;                // SYSTEM, ADMIN, USER 등의 권한
+    private Long roleId;                // role 대신 roleId로 변경
+    private String activeSessionJti;    // 현재 활성화된 JWT의 Jti(JWT ID)를 저장
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

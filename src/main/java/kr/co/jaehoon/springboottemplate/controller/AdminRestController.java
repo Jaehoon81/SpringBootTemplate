@@ -70,6 +70,7 @@ public class AdminRestController {
             userService.updateApprovalStatus(request.getUserId(), true);  // true로 승인
             return ResponseEntity.ok("계정이 성공적으로 승인되었습니다.");
         } catch (Exception e) {
+            log.error(e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("계정 승인 중 오류 발생: " + e.getMessage());
         }
     }

@@ -40,6 +40,14 @@ mybatis:
 #  configuration:  # config-location과 설정 충돌로 에러남 -> mybatis-config.xml 파일의 <settings>에 별도 지정
 #    map-underscore-to-camel-case: true  # DB 테이블의 컬럼명 자동매핑
 
+# 파일 업로드 디렉토리 설정 (프로젝트 루트 경로 하위에 uploads 디렉토리 생성)
+# (절대 경로로 지정해야 하며, 애플리케이션을 실행하기 전에 수동으로 미리 생성)
+file:
+  upload-dir: D:/Web/Spring/Workspace/SpringBootTemplate/uploads  # (=./uploads)
+# Linux/MacOS 환경 예시 (사용자 홈 디렉토리에 spring-uploads 폴더 생성)
+# file.upload-dir=/home/user/spring-uploads
+# file.upload-dir=${user.home}/spring-uploads
+
 # Spring Security (JWT 관련 설정)
 jwt:
   secret: A/AUmT4wivf/DY1fhYsbNu1Xocnzw6qfNCRd9I+/z5iIrY5SMHSg8C4iZT8Yi8gP7NPUz+CUNUoSi7Fd9HG2Kw==
@@ -65,9 +73,9 @@ server:
     whitelabel:
       enabled: false
 
-springboot-template:
-  release:
-    version: 0.000.002  # SpringBootTemplate 프로젝트의 Release 버전을 기록
-
 app:
   version: 1.0.0  # 애플리케이션 버전 정보 (모바일 앱 요청 테스트용)
+
+springboot-template:
+  release:
+    version: 0.000.004  # SpringBootTemplate 프로젝트의 Release 버전을 기록

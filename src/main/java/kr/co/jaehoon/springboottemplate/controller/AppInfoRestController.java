@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/app")
+@RequestMapping("/api/app-info")
 @RequiredArgsConstructor
 @Slf4j
 public class AppInfoRestController {

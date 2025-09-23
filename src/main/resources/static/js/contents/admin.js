@@ -140,11 +140,11 @@ $(document).ready(function () {
         fullTextMsgContent.text(fullText);  // 팝업창 내용 설정 (XSS 방지를 위해 text() 사용)
         fullTextMsgModal.addClass('show');  // 팝업창 표시
     });
-    // 팝업창 닫기 버튼 클릭
+    // 팝업창 닫기 버튼 클릭 이벤트
     closePopupBtn.click(function () {
         fullTextMsgModal.removeClass('show');
     });
-    // 팝업창 외부 영역 클릭
+    // 팝업창 외부 영역 클릭 이벤트
     $(window).click(function (event) {
         if ($(event.target).is(fullTextMsgModal)) {
             fullTextMsgModal.removeClass('show');

@@ -159,6 +159,54 @@
     margin-right: 10px; /* 메뉴 아이콘과 텍스트 사이 간격 */
 }
 
+/* 프로필 사진(이미지) 컨테이너 */
+.profile-picture-container {
+    width: 120px; /* 프로필 사진(이미지) 영역 너비 */
+    height: 120px; /* 프로필 사진(이미지) 영역 높이 */
+    border-radius: 50%; /* 원형 */
+    overflow: hidden; /* 원형으로 크롭 */
+    margin: 20px auto 40px auto; /* 중앙 정렬 및 상하 여백 (상-우-하-좌 순서) */
+    background-color: #e0e0e0; /* 기본 배경색 */
+    border: 3px solid #17a2b8; /* 테두리 두께 및 색상 */
+    box-shadow: 0 0 10px rgba(23, 162, 184, 0.3); /* 평소 그림자 색상 */
+    cursor: pointer; /* 클릭 가능한 요소임을 나타냄 */
+    position: relative; /* 오버레이를 위해 */
+    transition: all 0.3s ease;
+}
+
+.profile-picture-container:hover {
+    box-shadow: 0 0 15px rgba(23, 162, 184, 0.6); /* 마우스 오버 시 그림자 색상 */
+    transform: scale(1.02); /* 조금만 확대 */
+}
+
+.profile-picture-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지를 컨테이너에 맞게 채우고, 넘치는 부분은 잘라냄 */
+    display: block;
+}
+
+/* 프로필 사진(이미지) 오버레이 (마우스 오버 시 폴더 아이콘) */
+.profile-picture-container .upload-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 검은색 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 2em;
+    opacity: 0; /* 평소에는 숨김 */
+    transition: opacity 0.3s ease;
+}
+
+.profile-picture-container:hover .upload-overlay {
+    opacity: 1; /* 마우스 오버 시 표시 */
+}
+
 /* 메인 콘텐츠 래퍼 스타일 (main-content-and-footer-area 안에 있음) */
 .content-wrapper {
     flex-grow: 1; /* content-header를 제외한 main-content-area가 남은 공간을 차지하도록 */
