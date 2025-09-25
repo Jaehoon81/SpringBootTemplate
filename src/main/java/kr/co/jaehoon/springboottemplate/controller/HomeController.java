@@ -57,9 +57,9 @@ public class HomeController {
                 }
                 // USER 계정 또는 기타 권한 시
                 return "contents/secure_content";
-            case "system-approval":  // SYSTEM 권한 전용의 계정 승인 콘텐츠
+            case "system-approval":  // SYSTEM 권한 전용의 계정승인 콘텐츠
                 return "contents/system_content";
-            case "admin-approval":   // ADMIN 권한 전용의 계정 승인 콘텐츠
+            case "admin-approval":   // ADMIN 권한 전용의 계정승인 콘텐츠
                 return "contents/admin_content";
             case "secure":           // 일반 사용자 보안 페이지 콘텐츠
                 return "contents/secure_content";

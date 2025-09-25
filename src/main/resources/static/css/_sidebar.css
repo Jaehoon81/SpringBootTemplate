@@ -147,8 +147,3 @@
     padding: 20px 0; /* .content-area의 패딩이 적용되므로 .container에는 상하 패딩만 적용 */
     text-align: center; /* 텍스트 내용도 가로로 중앙 정렬 */
 }
-
-/* 팝업 모달 z-index 조정 */
-.popup-modal {
-    z-index: 2000; /* 사이드바나 다른 요소보다 위에 표시되도록 */
-}

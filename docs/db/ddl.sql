@@ -17,9 +17,10 @@ CREATE TABLE `users` (
     `password` VARCHAR(255) NOT NULL,
     `displayname` VARCHAR(50) NOT NULL UNIQUE,
     `profile_picture_path` VARCHAR(255) NULL,
-    `email` VARCHAR(100) NOT NULL DEFAULT '', -- 이메일 주소 필수 항목으로 추가
+    `email` VARCHAR(100) NOT NULL DEFAULT '',
     `role_id` BIGINT NOT NULL,
     `active_session_jti` VARCHAR(255) NULL, -- 가장 최근에 발급된 모바일 JWT의 Jti(JWT ID)를 저장
+    `is_deleted` TINYINT(1) NOT NULL DEFAULT '0', -- 회원탈퇴 여부 0: 유지, 1: 탈퇴 (요청이 있을 경우에만 해당)
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
     `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -33,7 +34,7 @@ CREATE TABLE `approval_requests` (
     `user_id` BIGINT NOT NULL UNIQUE, -- 한 사용자는 하나의 활성 요청만
     `req_message` TEXT NULL,
     `assigned_admin_id` BIGINT NULL, -- ADMIN의 users.id 참조
-    `is_approved` TINYINT(1) NOT NULL DEFAULT 0, -- 0: 미승인, 1: 승인 (요청이 있을 경우에만 해당)
+    `is_approved` TINYINT(1) NOT NULL DEFAULT 0, -- 계정승인 여부 0: 대기, 1: 승인 (요청이 있을 경우에만 해당)
     `requested_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
     `approved_at` DATETIME NULL, -- 승인 완료 시 업데이트
     FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE, -- 사용자 삭제 시 요청도 삭제

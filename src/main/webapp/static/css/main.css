@@ -48,6 +48,19 @@ h2 {
     font-weight: 600;
 }
 
+/* Link in p Tag */
+p a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 0.9em;
+    margin-top: 10px;
+    display: block;
+}
+
+p a:hover {
+    text-decoration: underline;
+}
+
 /* Form Group Styling */
 .form-group {
     margin-bottom: 15px;
@@ -151,90 +164,6 @@ hr {
     color: #dc3545 !important;
 }
 
-/* Link in p Tag */
-p a {
-    color: #007bff;
-    text-decoration: none;
-    font-size: 0.9em;
-    margin-top: 10px;
-    display: block;
-}
-
-p a:hover {
-    text-decoration: underline;
-}
-
-/* Modal Specific Styles */
-.modal {
-    position: fixed; /* 고정 위치 */
-    z-index: 1000; /* 다른 요소 위에 표시 */
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto; /* 내용이 넘칠 경우 스크롤 허용 */
-    background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
-    display: flex; /* Flexbox로 내부 콘텐츠 정렬 */
-    justify-content: center; /* 수평 가운데 정렬 */
-    align-items: center; /* 수직 가운데 정렬 */
-
-    /* 애니메이션을 위한 초기 상태 (숨김) */
-    visibility: hidden; /* 요소는 존재하지만 보이지 않음 */
-    opacity: 0; /* 완전히 투명 */
-    pointer-events: none; /* 클릭 이벤트 비활성화 (숨김 상태에서 클릭 방지) */
-
-    /**
-     * 트랜지션 정의:
-     * - 나타날 때: opacity는 0.3초간 트랜지션, visibility는 즉시 visible (delay 0s)
-     * - 사라질 때: opacity는 0.3초간 트랜지션, visibility는 opacity 트랜지션 후 hidden (delay 0.0s)
-     */
-    transition: opacity 0.3s ease-in-out, visibility 0s linear 0.0s;
-}
-
-.modal.show {
-    visibility: visible; /* 모달이 보일 때 */
-    opacity: 1; /* 불투명하게 */
-    pointer-events: auto; /* 클릭 이벤트 활성화 */
-
-    /* 나타날 때는 visibility 전환에 delay를 주지 않음 */
-    transition: opacity 0.3s ease-in-out, visibility 0s linear;
-}
-
-.modal-content {
-    background-color: #ffffff;
-    padding: 30px 40px; /* 내부 여백 조정 */
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); /* 더 강한 그림자 */
-    width: 600px;
-    max-width: 90%;
-    position: relative;
-
-    /* 모달 콘텐츠 등장 및 사라지는 애니메이션 */
-    transform: scale(0.9); /* 시작 스케일 (조금 작게) */
-    transition: transform 0.3s ease-in-out; /* 스케일 트랜지션 */
-}
-
-.modal.show .modal-content {
-    transform: scale(1); /* 최종 스케일 (원래 크기) */
-}
-
-.close-button {
-    color: #aaa;
-    position: absolute;
-    top: 15px;
-    right: 25px;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
-
-.close-button:hover,
-.close-button:focus {
-    color: #333;
-    text-decoration: none;
-}
-
 /* Checkbox Group Styling */
 .checkbox-group {
     display: flex; /* Flexbox 사용하여 내부 요소 정렬 */
@@ -259,4 +188,179 @@ p a:hover {
     margin-bottom: 0; /* 라벨 하단 여백 제거 */
     font-weight: normal; /* 기본 글자 굵기 */
     cursor: pointer; /* 클릭 가능한 요소임을 나타냄 */
+}
+
+/* 회원가입 팝업창 모달 스타일 */
+.register-modal {
+    position: fixed; /* 고정 위치 */
+    z-index: 1000; /* 다른 요소 위에 표시 */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* 내용이 넘칠 경우 스크롤 허용 */
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+    display: flex; /* Flexbox로 내부 콘텐츠 정렬 */
+    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+    /* 애니메이션을 위한 초기 상태 (숨김) */
+    visibility: hidden; /* 요소는 존재하지만 보이지 않음 */
+    opacity: 0; /* 완전히 투명 */
+    pointer-events: none; /* 클릭 이벤트 비활성화 (숨김 상태에서 클릭 방지) */
+
+    /**
+     * 트랜지션 정의:
+     * - 나타날 때: opacity는 0.3초간 트랜지션, visibility는 즉시 visible (delay 0s)
+     * - 사라질 때: opacity는 0.3초간 트랜지션, visibility는 opacity 트랜지션 후 hidden (delay 0.0s)
+     */
+    transition: opacity 0.3s ease-in-out, visibility 0s linear 0.0s;
+}
+
+.register-modal.show {
+    visibility: visible; /* 모달이 보일 때 */
+    opacity: 1; /* 불투명하게 */
+    pointer-events: auto; /* 클릭 이벤트 활성화 */
+
+    /* 나타날 때는 visibility 전환에 delay를 주지 않음 */
+    transition: opacity 0.3s ease-in-out, visibility 0s linear;
+}
+
+/* 회원탈퇴 팝업창 모달 스타일 */
+.unregister-modal {
+    display: none; /* 기본 숨김 */
+    position: fixed;
+    z-index: 1001; /* 다른 모달 위에 표시되도록 높게 설정 */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    justify-content: center;
+    align-items: center;
+}
+
+/* 회원탈퇴 팝업창 모달의 z-index 조정 */
+.unregister-modal {
+    z-index: 2000; /* 사이드바나 다른 요소보다 위에 표시되도록 */
+}
+
+.unregister-modal.show {
+    display: flex; /* 'show' 클래스가 있으면 표시 */
+}
+
+.modal-content {
+    background-color: #ffffff;
+    padding: 30px 40px; /* 내부 여백 조정 */
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); /* 더 강한 그림자 */
+    width: 600px;
+    max-width: 90%;
+    position: relative;
+
+    /* 모달 콘텐츠 등장 및 사라지는 애니메이션 */
+    transform: scale(0.9); /* 시작 스케일 (조금 작게) */
+    transition: transform 0.3s ease-in-out; /* 스케일 트랜지션 */
+}
+
+.register-modal.show .modal-content {
+    transform: scale(1); /* 최종 스케일 (원래 크기) */
+}
+
+.unregister-modal.show .modal-content {
+    transform: scale(1);
+}
+
+.close-modal {
+    color: #aaa;
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-modal:hover,
+.close-modal:focus {
+    color: #333;
+    text-decoration: none;
+}
+
+/* Full Text 팝업창 모달 스타일 */
+.fulltext-popup {
+    display: none; /* 기본 숨김 */
+    position: fixed;
+    z-index: 1001; /* 다른 모달 위에 표시되도록 높게 설정 */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    justify-content: center;
+    align-items: center;
+}
+
+/* Full Text 팝업창 모달의 z-index 조정 */
+.fulltext-popup {
+    z-index: 2000; /* 사이드바나 다른 요소보다 위에 표시되도록 */
+}
+
+.fulltext-popup.show {
+    display: flex; /* 'show' 클래스가 있으면 표시 */
+}
+
+.popup-content {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    position: relative;
+    width: 90%;
+    max-width: 500px; /* 상세 팝업창의 최대 너비 설정 */
+    text-align: left; /* 텍스트 정렬은 왼쪽으로 */
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* 팝업창 헤더 */
+.popup-content h3 {
+    margin-top: 0;
+    color: #333;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+/* 팝업창 내용 */
+.popup-content p#fullTextMsgContent {
+    white-space: pre-wrap; /* 개행 문자(\n)와 긴 텍스트가 줄 바꿈되도록 처리 */
+    word-wrap: break-word; /* 긴 단어도 줄 바꿈 처리 */
+    max-height: 400px; /* 최대 높이 설정 */
+    overflow-y: auto; /* 내용이 길면 스크롤 바 생성 */
+    font-size: 1.05em;
+    line-height: 1.8;
+    color: #555;
+    background-color: #f8f8f8;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.close-popup {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+}
+
+.close-popup:hover,
+.close-popup:focus {
+    color: #333;
+    text-decoration: none;
+    cursor: pointer;
 }

@@ -200,7 +200,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         chain.doFilter(request, response);
     }
 
-    private void create401JsonResponse(HttpServletRequest request, HttpServletResponse response, String unauthorizedMsg, boolean shouldSendJson) throws ServletException, IOException {
+    private void create401JsonResponse(
+            HttpServletRequest request, HttpServletResponse response, String unauthorizedMsg, boolean shouldSendJson
+    ) throws ServletException, IOException {
         if (shouldSendJson == true) {
             // JSON 응답을 기대하는 클라이언트 (모바일 앱, API 클라이언트 등)
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);    // 401 Unauthorized

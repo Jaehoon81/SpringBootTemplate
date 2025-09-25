@@ -1,4 +1,4 @@
-package kr.co.jaehoon.springboottemplate.dto;
+package kr.co.jaehoon.springboottemplate.dto.validation;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -41,7 +41,7 @@ public class RegistrationRequest {
     private String reqMessage;
 
     @NotBlank(message = "권한은 필수 입력 값입니다.")
-    @Pattern(regexp = "^(USER|ADMIN)$", message = "권한은 'USER' 또는 'ADMIN'만 선택 가능합니다.")
+    @Pattern(regexp = "^(USER|ADMIN)$", message = "권한은 '일반 사용자' 또는 '관리자'만 선택 가능합니다.")
     private String role;  // UI에서 오는 값 (USER or ADMIN)
     private Long roleId;  // rolename으로 role_id를 조회한 후 저장
 

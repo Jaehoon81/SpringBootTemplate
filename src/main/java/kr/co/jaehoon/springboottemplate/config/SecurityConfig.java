@@ -106,7 +106,7 @@ public class SecurityConfig {
 //                                "/profiles/**",  // UserRestController에 이미 파일 서빙 로직이 있기 때문에 WebConfig 설정과 중복되므로 주석처리
 
                                 "/", "/error",
-                                "/favicon_01.ico", "/favicon_02.ico", "/favicon_03.ico", "/favicon_04.ico",
+                                "/favicon_01.ico", "/favicon_02.ico", "/favicon_03.ico", "/favicon_04.ico", "/favicon_05.ico",
                                 // favicon.ico 파일: 최소 48x48 픽셀 이상의 .ico 형식
                                 // - 경로: 'src/main/webapp/favicon.ico' or 'src/main/resources/static/favicon.ico'
 
@@ -120,8 +120,8 @@ public class SecurityConfig {
                         .requestMatchers("/dashboard", "/contents/**").authenticated()
                         // 모바일 앱에서 세션만료 여부 확인 및 애플리케이션 버전 정보 요청은 인증된 사용자만 허용
                         .requestMatchers("/api/auth/check-token", "/api/app-info/version").authenticated()
-                        // 프로필 사진(이미지) 업로드는 인증된 사용자만 허용
-                        .requestMatchers("/api/user/profile-picture").authenticated()
+                        // 프로필 정보 조회 및 업데이트, 사진(이미지) 업로드, 회원 탈퇴는 인증된 사용자만 허용
+                        .requestMatchers("/api/user/profile-picture", "/api/user/profile", "/api/user/deactivate").authenticated()
 
                         // 역할별 접근 권한 설정 (콘텐츠 URL 기준)
                         .requestMatchers("/contents/system-approval").hasRole("SYSTEM")

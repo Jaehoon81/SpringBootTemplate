@@ -9,14 +9,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <title>대시보드</title>
-    <link rel="icon" type="image/x-icon" href="/favicon_02.ico"/>
+    <link rel="icon" type="image/x-icon" href="/favicon_03.ico"/>
 
     <link rel="stylesheet" type="text/css" href="/static/css/main.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/contents/system.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/contents/admin.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/_layout.css">
     <link rel="stylesheet" type="text/css" href="/static/css/contents/statistics.css">
     <link rel="stylesheet" type="text/css" href="/static/css/contents/profile.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/_layout.css">
     <!-- Font Awesome 아이콘 사용을 위해 추가 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
@@ -24,7 +22,6 @@
             margin: 8px 0px 8px 0px;
             line-height: 120%;
         }
-
         p.loading-contents {
             width: 1160px;
             max-width: 90%;
@@ -74,7 +71,7 @@
     </div>
 
     <!-- Full Text 팝업창 모달 구조 (모든 콘텐츠에서 재활용) -->
-    <div id="fullTextMsgModal" class="popup-modal">
+    <div id="fullTextMsgModal" class="fulltext-popup">
         <div class="popup-content">
             <span class="close-popup">&times;</span>
             <h3>요청 메시지 상세</h3>
@@ -87,9 +84,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="/static/js/dashboard.js"></script>
     <c:if test="${userRole eq 'SYSTEM'}">
+        <link rel="stylesheet" type="text/css" href="/static/css/contents/system.css">
         <script src="/static/js/contents/system.js"></script>
     </c:if>
     <c:if test="${userRole eq 'ADMIN'}">
+        <link rel="stylesheet" type="text/css" href="/static/css/contents/admin.css">
         <script src="/static/js/contents/admin.js"></script>
     </c:if>
     <script src="/static/js/contents/statistics.js"></script>

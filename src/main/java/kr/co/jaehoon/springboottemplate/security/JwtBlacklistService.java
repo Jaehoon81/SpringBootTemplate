@@ -31,7 +31,7 @@ public class JwtBlacklistService {
     private final BlacklistedTokenDAO blacklistedTokenDAO;
     private final BlacklistedTokenRepository blacklistedTokenRepository;
 
-    // 만료 시간을 기록하여 해당 시간 이후에는 블랙리스트에서 제거 (실제 운영 환경에서는 Redis 등 영속적인 저장소를 고려)
+    // 토큰만료 시간을 기록하여 해당 시간 이후에는 블랙리스트에서 삭제 (실제 운영 환경에서는 Redis 등 영속적인 저장소를 고려)
     private final Set<String> blacklistedTokens = Collections.synchronizedSet(new HashSet<>());
     private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
@@ -44,10 +44,10 @@ public class JwtBlacklistService {
         blacklistedTokens.add(token);
         long delay = expiryTimeMillis - Instant.now().toEpochMilli();
         if (delay > 0) {
-            // 토큰만료 시간 이후에 블랙리스트에서 제거되도록 스케줄링
+            // 토큰만료 시간 이후에 블랙리스트에서 삭제되도록 스케줄링
             scheduler.schedule(() -> removeTokenFromBlacklist(token), delay, TimeUnit.MILLISECONDS);
         } else {
-            // 이미 만료된 토큰인 경우 즉시 제거
+            // 이미 만료된 토큰인 경우 즉시 삭제
             removeTokenFromBlacklist(token);
         }
     }
@@ -57,7 +57,7 @@ public class JwtBlacklistService {
 //    }
 
     /**
-     * 토큰을 블랙리스트에서 제거
+     * 토큰을 블랙리스트에서 삭제
      * @param token 삭제할 JWT
      */
     public void removeTokenFromBlacklist(String token) {

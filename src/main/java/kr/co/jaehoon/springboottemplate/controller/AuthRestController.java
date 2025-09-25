@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import kr.co.jaehoon.springboottemplate.dto.ApprovalRequestDTO;
 import kr.co.jaehoon.springboottemplate.dto.CustomUserDetails;
-import kr.co.jaehoon.springboottemplate.dto.RegistrationRequest;
+import kr.co.jaehoon.springboottemplate.dto.validation.RegistrationRequest;
 import kr.co.jaehoon.springboottemplate.dto.UserDTO;
 import kr.co.jaehoon.springboottemplate.repository.UserRepository;
 import kr.co.jaehoon.springboottemplate.repository.dao.UserDAO;
@@ -61,7 +61,7 @@ public class AuthRestController {
 
     /**
      * 회원가입 API (웹/모바일 공용)
-     * ADMIN 또는 USER 권한의 경우에만 /api/auth/register 엔드포인트로 회원가입이 가능
+     * ADMIN 또는 USER 권한의 경우에만 /api/auth/register 엔드포인트로 회원 가입이 가능
      */
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegistrationRequest registrationRequest) throws Exception {
@@ -147,7 +147,7 @@ public class AuthRestController {
         // 7. DB의 approval_requests 테이블에 저장
         userService.saveApprovalRequest(approvalRequest);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("회원가입이 성공적으로 완료되었습니다!");
+        return ResponseEntity.status(HttpStatus.CREATED).body("회원 가입이 성공적으로 완료되었습니다!");
     }
 
     /**
@@ -299,7 +299,7 @@ public class AuthRestController {
 
     /**
      * 웹 로그아웃 API (쿠키 기반 요청 및 문자열 응답)
-     * 웹에서 쿠키 기반의 요청에 대해 문자열 응답을 보내고, 쿠키를 제거
+     * 웹에서 쿠키 기반의 요청에 대해 문자열 응답을 보내고, 쿠키를 삭제
      * 클라이언트는 요청 시 Access Token을 쿠키에 담아 전송
      */
     @PostMapping("/web-logout")
@@ -352,7 +352,7 @@ public class AuthRestController {
     }
 
     /**
-     * 로그아웃 시 JWT 쿠키 제거 및 블랙리스트 처리 공통 로직
+     * 로그아웃 시 JWT 쿠키 삭제 및 블랙리스트 처리 공통 로직
      */
     private void performLogout(String jwt, HttpServletResponse response) throws Exception {
         // JWT가 존재하면 검증 시작
@@ -368,7 +368,7 @@ public class AuthRestController {
                 log.warn("JWT token error during logout processing: {}", e.getMessage());
             }
         }
-        // 웹 클라이언트를 위해 JWT 쿠키 제거 (브라우저에서 해당 쿠키를 더 이상 전송하지 않음)
+        // 웹 클라이언트를 위해 JWT 쿠키 삭제 (브라우저에서 해당 쿠키를 더 이상 전송하지 않음)
         Cookie jwtCookie = new Cookie("jwtToken", "");  // 빈 값으로 설정
         jwtCookie.setHttpOnly(true);
         jwtCookie.setPath("/");

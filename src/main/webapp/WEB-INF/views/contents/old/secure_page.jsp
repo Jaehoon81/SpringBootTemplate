@@ -22,7 +22,6 @@
             text-align: center;
             box-sizing: border-box;
         }
-
         /* 페이지 하단 버튼 그룹 스타일 */
         /*.auth-secure-container > button {*/
         /*    margin: 15px 8px; !* 하단 버튼 마진 조정 *!*/
@@ -49,7 +48,7 @@
                     (관리자 권한으로 로그인하셨습니다. 모든 기능을 사용할 수 있습니다.)
                 </c:when>
                 <c:when test="${userRole eq 'USER'}">
-                    (일반 사용자 권한으로 로그인하셨습니다. 계정 승인 작업은 시스템 관리자 또는 관리자 계정에서 진행됩니다.)
+                    (일반 사용자 권한으로 로그인하셨습니다. 계정 승인 작업은 시스템 관리자 또는 관리자만 가능합니다.)
                 </c:when>
                 <c:otherwise>
                     (알 수 없는 권한입니다.)

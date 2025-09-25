@@ -18,6 +18,9 @@ public interface UserDAO {
 
     public UserDTO findByDisplayname(@Param("displayname") String displayname) throws Exception;
 
+    // 사용자 정보를 조회 (업데이트 시 현재 정보를 불러오기 위한 용도)
+    public UserDTO findUserById(@Param("id") Long id) throws Exception;
+
     // 권한(역할) 이름(rolename)을 통해 role_id를 조회
     public Long findRoleIdByRolename(@Param("rolename") String rolename) throws Exception;
 

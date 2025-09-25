@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <title>오류 발생</title>
-    <link rel="icon" type="image/x-icon" href="/favicon_03.ico"/>
+    <link rel="icon" type="image/x-icon" href="/favicon_05.ico"/>
 
     <style>
         body {
@@ -35,6 +35,19 @@
             box-sizing: border-box;
         }
 
+        .error-details {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-top: 20px;
+            text-align: left;
+            border-top: 1px solid #e9ecef;
+            padding-top: 15px;
+        }
+        .error-details strong {
+            display: inline-block;
+            width: 120px;
+        }
+
         h1 {
             color: #dc3545; /* Bootstrap danger color */
             font-size: 1.8em;
@@ -54,23 +67,8 @@
             text-decoration: none;
             font-weight: 500;
         }
-
         a:hover {
             text-decoration: underline;
-        }
-
-        .error-details {
-            font-size: 0.9em;
-            color: #6c757d;
-            margin-top: 20px;
-            text-align: left;
-            border-top: 1px solid #e9ecef;
-            padding-top: 15px;
-        }
-
-        .error-details strong {
-            display: inline-block;
-            width: 120px;
         }
     </style>
 </head>

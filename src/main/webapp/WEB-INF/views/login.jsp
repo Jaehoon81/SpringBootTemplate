@@ -8,7 +8,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title>회원가입 및 로그인</title>
+    <title>회원 가입 및 로그인</title>
     <link rel="icon" type="image/x-icon" href="/favicon_01.ico"/>
 
     <link rel="stylesheet" type="text/css" href="/static/css/main.css">
@@ -37,17 +37,18 @@
         <p id="login-message" class="message"></p>
 
         <!-- 회원가입 팝업창 모달의 텍스트 링크 -->
-        <p><a href="#" id="openRegisterModal">회원가입</a></p>
+        <p><a href="#" id="openRegisterModal">회원 가입</a></p>
         <hr>
 <%--        <p><a href="/secure-page">보호된 페이지로 이동</a> (로그인 후 접근 가능)</p>--%>
         <p><a href="/dashboard">대시보드로 이동</a> (로그인 후 접근 가능)</p>
     </div>
 
     <!-- 회원가입 팝업창 모달 구조 -->
-    <div id="registerModal" class="modal">
+    <div id="registerModal" class="register-modal">
         <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <h2>회원가입</h2>
+            <span class="close-modal">&times;</span>
+
+            <h2>회원 가입</h2>
             <div class="form-group">
                 <label for="reg-username">* 아이디:</label>
                 <input type="text" id="reg-username" name="username" placeholder="4자 이상의 영문 대소문자, 숫자만 가능" required>
@@ -58,11 +59,11 @@
             </div>
             <div class="form-group">
                 <label for="reg-displayname">* 이름:</label>
-                <input type="text" id="reg-displayname" name="displayname" placeholder="이름을 입력해주세요." required>
+                <input type="text" id="reg-displayname" name="displayname" maxlength="10" placeholder="한글, 영문 대소문자, 숫자만 가능" required>
             </div>
             <div class="form-group">
                 <label for="reg-email">* 이메일:</label>
-                <input type="email" id="reg-email" name="email" placeholder="이메일을 입력해주세요." required>
+                <input type="email" id="reg-email" name="email" placeholder="예: yourname@domain.com" required>
             </div>
             <div class="form-group">
                 <label for="reg-req-message">요청 메시지(선택):</label>
@@ -82,7 +83,7 @@
                     <!-- ADMIN 권한의 displayname 목록이 JavaScript로 여기에 채워짐 -->
                 </select>
             </div>
-            <button id="registerBtn">회원가입</button>
+            <button id="registerBtn">회원 가입</button>
             <p id="reg-message" class="message"></p>
         </div>
     </div>

@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    // --------------------------------------------- 아이디 기억하기 기능 관련 ---------------------------------------------
+    // 아이디 기억하기 기능 관련 -------------------------------------------------------------------------------------------
     // 쿠키 설정: 이름, 값, 유효 기간(일)
     function setCookie(name, value, days) {
         var expires = "";
@@ -35,9 +35,9 @@ $(document).ready(function () {
         $('#login-username').val(savedUsername);  // 쿠키에서 아이디를 읽어와 입력란에 채우기
         $('#remember-id').prop('checked', true);  // 체크 박스는 자동으로 체크
     }
-    // --------------------------------------------- 아이디 기억하기 기능 관련 ---------------------------------------------
+    // 아이디 기억하기 기능 관련 -------------------------------------------------------------------------------------------
 
-    // ---------------------------------------- 로그인 입력 필드의 키업 이벤트 리스너 ----------------------------------------
+    // 로그인 입력 필드의 키업 이벤트 리스너 ---------------------------------------------------------------------------------
     // 로그인 폼 구조의 아이디, 비밀번호 입력 필드에 키업 이벤트 리스너 추가
     $('#login-username, #login-password').on('keyup', function (e) {
         if (e.key === 'Enter' || e.keyCode === 13) {
@@ -45,7 +45,7 @@ $(document).ready(function () {
             $('#loginBtn').trigger('click');
         }
     });
-    // ---------------------------------------- 로그인 입력 필드의 키업 이벤트 리스너 ----------------------------------------
+    // 로그인 입력 필드의 키업 이벤트 리스너 ---------------------------------------------------------------------------------
 
     // 로그인 버튼 클릭 이벤트 ---------------------------------------------------------------------------------------------
     $('#loginBtn').click(function () {
@@ -71,6 +71,8 @@ $(document).ready(function () {
                 }
                 // 로그인 성공 시 JWT는 HttpOnly 쿠키로 서버가 설정하므로 여기서는 별도로 localStorage에 저장할 필요 없음
                 // localStorage.setItem('jwtToken', response.jwt);
+                // 로그인 성공 시 localStorage의 메뉴 ID를 삭제
+                localStorage.removeItem('lastActiveMenuId');
 
                 // 웹 로그인 성공 시, 백엔드에서 쿠키를 설정하므로 별도의 응답 데이터 파싱이 필요 없음
                 // $('#login-message').text('로그인 성공!').css('color', 'green');
@@ -95,11 +97,11 @@ $(document).ready(function () {
         });
     });
 
-    // ------------------------------------------- 회원가입 팝업창 모달 기능 관련 -------------------------------------------
+    // 회원가입 팝업창 모달 기능 관련 ---------------------------------------------------------------------------------------
     // 모달 관련 DOM 요소 가져오기
     var registerModal = $('#registerModal');
     var openRegisterModalBtn = $('#openRegisterModal');
-    var closeButton = $('.close-button');
+    var closeButton = $('.close-modal');
     var regDisplaynameInput = $('#reg-displayname');
     var regEmailInput = $('#reg-email');
     var regReqMessage = $('#reg-req-message');
@@ -108,11 +110,11 @@ $(document).ready(function () {
     var regAdminnameSelect = $('#reg-adminname');
     var regMessage = $('#reg-message');
 
-    // 회원가입 링크 클릭 시 모달 열기
+    // 회원가입 링크 클릭 시 팝업창 열기
     openRegisterModalBtn.click(function (e) {
         e.preventDefault();  // 기본 링크 동작 방지
         registerModal.addClass('show');
-        regMessage.text('');  // 모달을 열 때 메시지 초기화
+        regMessage.text('');  // 팝업창을 열 때 메시지 초기화
 
         // 모달 내부 Input/Select 등의 필드들도 초기화 (선택 사항)
         $('#reg-username').val('');
@@ -123,16 +125,16 @@ $(document).ready(function () {
         regRoleSelect.val('USER');  // 기본값: USER
         regAdminnameSelect.val('');
 
-        // 모달이 열릴 때 ADMIN 권한의 displayname 목록을 로드
+        // 팝업창이 열릴 때 ADMIN 권한의 displayname 목록을 로드
         loadAdminNames();
         // 권한에 따라 필드(드롭다운) 상태 초기화 (USER가 선택되어 있으므로 활성화)
         toggleAdminnameField();
     });
-    // 닫기 버튼 클릭 시 모달 닫기
+    // 닫기 버튼 클릭 시 팝업창 닫기
     closeButton.click(function () {
         registerModal.removeClass('show');
     });
-    // 모달 외부 클릭 시 모달 닫기 (이벤트 버블링 방지 포함)
+    // 모달 외부 클릭 시 팝업창 닫기 (이벤트 버블링 방지 포함)
     $(window).click(function (event) {
         if ($(event.target).is(registerModal)) {
             // registerModal.removeClass('show');  // 모달 배경 클릭 시 안닫히도록 주석처리
@@ -174,9 +176,9 @@ $(document).ready(function () {
     }
     // 권한 드롭다운 변경 시 이벤트 리스너 추가
     regRoleSelect.change(toggleAdminnameField);
-    // ------------------------------------------- 회원가입 팝업창 모달 기능 관련 -------------------------------------------
+    // 회원가입 팝업창 모달 기능 관련 ---------------------------------------------------------------------------------------
 
-    // 회원가입 버튼 클릭 이벤트 (모달 내 필드 사용) --------------------------------------------------------------------------
+    // 회원가입 버튼 클릭 이벤트 (모달 내부의 필드 사용) -----------------------------------------------------------------------
     $('#registerBtn').click(function () {
         var username = $('#reg-username').val();
         var password = $('#reg-password').val();
@@ -186,7 +188,7 @@ $(document).ready(function () {
         var role = regRoleSelect.val();               // SYSTEM, ADMIN, USER 등의 권한
         var adminname = regAdminnameSelect.val();     // 담당 관리자 이름
 
-        // --------------------------------------- 클라이언트 사이드 유효성 검사 시작 ---------------------------------------
+        // 클라이언트 측 유효성 검사 시작 -----------------------------------------------------------------------------------
         var message = '';
 
         // 아이디 유효성 검사
@@ -243,7 +245,7 @@ $(document).ready(function () {
             regMessage.text(message).css('color', 'red');
             return;
         }
-        // --------------------------------------- 클라이언트 사이드 유효성 검사 종료 ---------------------------------------
+        // 클라이언트 측 유효성 검사 종료 -----------------------------------------------------------------------------------
 
         $.ajax({
             url: '/api/auth/register',
@@ -268,7 +270,7 @@ $(document).ready(function () {
                 regReqMessage.val('');
                 regRoleSelect.val('USER');  // 기본값: USER
                 regAdminnameSelect.val('');
-                // 회원가입 성공 시 모달 닫기
+                // 회원가입 성공 시 팝업창 닫기
                 registerModal.removeClass('show');
 
                 // 성공 시 필드 초기화 후 드롭다운 상태 다시 조정

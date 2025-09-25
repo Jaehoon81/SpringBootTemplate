@@ -52,9 +52,11 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
             if (authExceptionMessage != null
                     // 전달받은 예외가 AuthenticationException(BadCredentialsException 포함)이고
                     && authException.getCause() instanceof AuthenticationException) {
-                // 특정 메시지인 경우 해당 메시지를 사용
+                // 특정 메시지인 경우 해당 메시지를 사용 (특정 메시지를 그대로 반환)
                 if (authExceptionMessage.contains("승인")) {
-                    errorMessage = authExceptionMessage;  // 특정 메시지를 그대로 반환
+                    errorMessage = authExceptionMessage;
+                } else if (authExceptionMessage.contains("탈퇴")) {
+                    errorMessage = authExceptionMessage;
                 }
                 // 특정 메시지를 사용해야 한다면 계속해서 추가
 //                else if (authExceptionMessage.startsWith("<UNK>")) {

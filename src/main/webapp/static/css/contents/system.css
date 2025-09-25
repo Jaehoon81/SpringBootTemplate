@@ -82,7 +82,7 @@
     /* thead 자체는 스크롤바가 필요 없으므로 overflow-y 관련 속성 제거 */
     /* thead::-webkit-scrollbar 관련 속성도 제거 */
     /*overflow-y: scroll; !* 스크롤바 너비를 확보하기 위해 항상 스크롤바를 보여줌 *!*/
-    /*visibility: hidden; !* 스크롤바 자체를 숨기고 싶다면 주석제거 *!*/
+    /*visibility: hidden; !* 스크롤바 자체를 숨기고 싶다면 주석해제 *!*/
 
     /* 스크롤바를 시각적으로 숨기기 */
     /*scrollbar-width: none; !* Firefox에서 스크롤바 숨기기 *!*/
@@ -229,76 +229,4 @@
 
 .truncated-message:hover {
     color: #0056b3;
-}
-
-/* Full Text 팝업창 모달 스타일 */
-.popup-modal {
-    display: none; /* 기본 숨김 */
-    position: fixed;
-    z-index: 1001; /* 다른 모달 위에 표시되도록 높게 설정 */
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-    justify-content: center;
-    align-items: center;
-}
-
-.popup-modal.show {
-    display: flex; /* 'show' 클래스가 있으면 표시 */
-}
-
-.popup-content {
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    position: relative;
-    width: 90%;
-    max-width: 500px; /* 상세 팝업창의 최대 너비 설정 */
-    text-align: left; /* 텍스트 정렬은 왼쪽으로 */
-    animation: fadeIn 0.3s ease-out;
-}
-
-/* 팝업창 헤더 */
-.popup-content h3 {
-    margin-top: 0;
-    color: #333;
-    font-size: 1.5em;
-    margin-bottom: 20px;
-}
-
-/* 팝업창 내용 */
-.popup-content p#fullTextMsgContent {
-    white-space: pre-wrap; /* 개행 문자(\n)와 긴 텍스트가 줄 바꿈되도록 처리 */
-    word-wrap: break-word; /* 긴 단어도 줄 바꿈 처리 */
-    max-height: 400px; /* 최대 높이 설정 */
-    overflow-y: auto; /* 내용이 길면 스크롤 바 생성 */
-    font-size: 1.05em;
-    line-height: 1.8;
-    color: #555;
-    background-color: #f8f8f8;
-    padding: 15px;
-    border-radius: 8px;
-    border: 1px solid #eee;
-}
-
-.close-popup {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    cursor: pointer;
-}
-
-.close-popup:hover,
-.close-popup:focus {
-    color: #333;
-    text-decoration: none;
-    cursor: pointer;
 }

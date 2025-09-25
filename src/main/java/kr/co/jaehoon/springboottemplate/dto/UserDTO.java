@@ -22,6 +22,7 @@ public class UserDTO {
 //    private String role;                // SYSTEM, ADMIN, USER 등의 권한
     private Long roleId;                // role 대신 roleId로 변경
     private String activeSessionJti;    // 현재 활성화된 JWT의 Jti(JWT ID)를 저장
+    private boolean isDeleted;          // 회원탈퇴 여부
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -34,6 +35,6 @@ public class UserDTO {
     // 로그인하는 사용자의 승인 요청 정보를 가져오기 위한 필드 (DB 컬럼은 아니지만 조인해서 매핑)
     private ApprovalRequestDTO approvalRequest;
     public boolean isApproved() {
-        return approvalRequest != null && approvalRequest.isApproved();
+        return (approvalRequest != null && approvalRequest.isApproved());
     }
 }

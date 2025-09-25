@@ -4,9 +4,28 @@
 <mapper namespace="User">
 
     <insert id="saveUser" parameterType="userDTO" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO users (username, password, displayname, profile_picture_path, email, role_id, active_session_jti)
-        VALUES (#{username}, #{password}, #{displayname}, #{profilePicturePath}, #{email}, #{roleId}, #{activeSessionJti})
+        INSERT INTO users (username, password, displayname, profile_picture_path, email, role_id, active_session_jti, is_deleted)
+        VALUES (#{username}, #{password}, #{displayname}, #{profilePicturePath}, #{email}, #{roleId}, #{activeSessionJti}, #{isDeleted})
     </insert>
+
+    <!-- 마이 페이지 메뉴 화면에서 사용자 정보를 업데이트 (내 정보 수정 기능) -->
+    <update id="updateUser" parameterType="userUpdateRequest">
+        UPDATE users
+        SET
+            displayname = #{displayname},
+            email = #{email}
+            <if test="newPassword != null and newPassword != ''">
+                , password = #{newPassword}
+            </if>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 마이 페이지 메뉴 화면에서 사용자 탈퇴 상태를 업데이트 (USER 계정만 가능) -->
+    <update id="updateUserDeleteStatus" parameterType="map">
+        UPDATE users
+        SET is_deleted = #{isDeleted}
+        WHERE id = #{id}
+    </update>
 
     <delete id="deleteUser" parameterType="long">
         DELETE FROM users

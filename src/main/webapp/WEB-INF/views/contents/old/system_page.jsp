@@ -52,7 +52,7 @@
     </div>
 
     <!-- Full Text 팝업창 모달 구조 -->
-    <div id="fullTextMsgModal" class="popup-modal">
+    <div id="fullTextMsgModal" class="fulltext-popup">
         <div class="popup-content">
             <span class="close-popup">&times;</span>
             <h3>요청 메시지 상세</h3>

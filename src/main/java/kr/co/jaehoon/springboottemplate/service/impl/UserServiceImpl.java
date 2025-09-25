@@ -1,10 +1,8 @@
 package kr.co.jaehoon.springboottemplate.service.impl;
 
 import jakarta.validation.Valid;
-import kr.co.jaehoon.springboottemplate.dto.ApprovalRequestDTO;
-import kr.co.jaehoon.springboottemplate.dto.LoginApprovalDTO;
-import kr.co.jaehoon.springboottemplate.dto.RegistrationRequest;
-import kr.co.jaehoon.springboottemplate.dto.UserDTO;
+import kr.co.jaehoon.springboottemplate.dto.*;
+import kr.co.jaehoon.springboottemplate.dto.validation.*;
 import kr.co.jaehoon.springboottemplate.repository.UserRepository;
 import kr.co.jaehoon.springboottemplate.repository.dao.UserDAO;
 import kr.co.jaehoon.springboottemplate.service.UserService;
@@ -36,6 +34,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO findByDisplayname(String displayname) throws Exception {
         return userDAO.findByDisplayname(displayname);
+    }
+
+    @Transactional
+    @Override
+    public UserDTO findUserById(Long id) throws Exception {
+        return userDAO.findUserById(id);
     }
 
     @Transactional
@@ -87,6 +91,18 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
+    public void updateUser(UserUpdateRequest request) throws Exception {
+        userRepository.updateUser(request);
+    }
+
+    @Transactional
+    @Override
+    public void updateUserDeleteStatus(Long id, boolean isDeleted) throws Exception {
+        userRepository.updateUserDeleteStatus(id, isDeleted);
+    }
+
+    @Transactional
+    @Override
     public Integer deleteUser(Long id) throws Exception {
         return userRepository.deleteUser(id);
     }
@@ -105,8 +121,8 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void updateProfilePicturePath(Long userId, String path) throws Exception {
-        userRepository.updateProfilePicturePath(userId, path);
+    public void updateProfilePicturePath(Long id, String path) throws Exception {
+        userRepository.updateProfilePicturePath(id, path);
     }
 
     @Transactional

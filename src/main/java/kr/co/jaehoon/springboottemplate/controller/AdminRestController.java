@@ -71,7 +71,7 @@ public class AdminRestController {
             return ResponseEntity.ok("계정이 성공적으로 승인되었습니다.");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("계정 승인 중 오류 발생: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("계정승인 중 오류 발생: " + e.getMessage());
         }
     }
 

@@ -1,6 +1,7 @@
 .data-statistics-container {
     background-color: #ffffff;
     padding: 40px;
+    margin: 0 auto;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     width: 1200px;
@@ -13,3 +14,10 @@
 /*.data-statistics-container > button {*/
 /*    margin: 15px 8px; !* 하단 버튼 마진 조정 *!*/
 /*}*/
+
+.data-statistics-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 1.8em;
+}

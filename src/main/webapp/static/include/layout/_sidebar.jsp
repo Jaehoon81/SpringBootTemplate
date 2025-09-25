@@ -14,7 +14,7 @@
         <span class="upload-overlay" title="프로필 사진 변경"><i class="fas fa-folder-open"></i></span>
     </div>
     <ul class="sidebar-menu">
-        <li data-menu-id="account-approval" class="active">
+        <li data-menu-id="account-approval"><!-- class="active" 제거 -->
             <a href="#" data-content-url="/contents/approval"><i class="fas fa-user-check"></i>&nbsp;사용자 관리</a>
         </li>
         <li data-menu-id="data-statistics">

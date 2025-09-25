@@ -28,7 +28,7 @@ public class BlacklistedTokenRepository {
     }
 
     /**
-     * 만료된 블랙리스트 토큰을 데이터베이스에서 삭제
+     * 만료된 블랙리스트 토큰을 DB에서 삭제
      */
     public void deleteExpiredTokens() throws Exception {
         sqlSession.delete("BlacklistedToken.deleteExpiredTokens");

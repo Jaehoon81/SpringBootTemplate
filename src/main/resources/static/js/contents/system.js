@@ -70,8 +70,9 @@ $(document).ready(function () {
                 } catch (e) {
                     // JSON 파싱 실패 시 기본 메시지 사용
                 }
-                $('#admin-list-body').html('<tr><td colspan="6" style="color: red; text-align: center;">' + errorMsg + '</td></tr>');
-
+                $('#admin-list-body').html(
+                    '<tr><td colspan="6" style="color: red; text-align: center;">' + errorMsg + '</td></tr>'
+                );
                 alert(errorMsg);
                 console.error("ADMIN 계정의 목록 로드 실패: ", xhr.responseText);
                 // 정렬이 깨지는 것을 방지하기 위해 에러 발생 시에도 스크롤바 확인
@@ -129,7 +130,7 @@ $(document).ready(function () {
         });
     });
 
-    // ---------------------------------------- 요청 메시지 팝업창 관련 이벤트 리스너 ----------------------------------------
+    // 요청 메시지 팝업창 관련 이벤트 리스너 ---------------------------------------------------------------------------------
     // 동적으로 생성되는 .truncated-message 요소에 이벤트 위임
     $(document).on('click', '.truncated-message', function () {
         var fullText = $(this).data('full-text');
@@ -146,7 +147,7 @@ $(document).ready(function () {
             fullTextMsgModal.removeClass('show');
         }
     });
-    // ---------------------------------------- 요청 메시지 팝업창 관련 이벤트 리스너 ----------------------------------------
+    // 요청 메시지 팝업창 관련 이벤트 리스너 ---------------------------------------------------------------------------------
 
     // 페이지 진입 시(DOM 로드 완료 후) 승인 대기 중인 ADMIN 계정의 목록을 로드
     loadPendingAdmins();

@@ -82,7 +82,7 @@
     /* thead 자체는 스크롤바가 필요 없으므로 overflow-y 관련 속성 제거 */
     /* thead::-webkit-scrollbar 관련 속성도 제거 */
     /*overflow-y: scroll; !* 스크롤바 너비를 확보하기 위해 항상 스크롤바를 보여줌 *!*/
-    /*visibility: hidden; !* 스크롤바 자체를 숨기고 싶다면 주석제거 *!*/
+    /*visibility: hidden; !* 스크롤바 자체를 숨기고 싶다면 주석해제 *!*/
 
     /* 스크롤바를 시각적으로 숨기기 */
     /*scrollbar-width: none; !* Firefox에서 스크롤바 숨기기 *!*/
@@ -232,7 +232,7 @@
 }
 
 /* Full Text 팝업창 모달 스타일 */
-.popup-modal {
+.fulltext-popup {
     display: none; /* 기본 숨김 */
     position: fixed;
     z-index: 1001; /* 다른 모달 위에 표시되도록 높게 설정 */
@@ -246,7 +246,12 @@
     align-items: center;
 }
 
-.popup-modal.show {
+/* Full Text 팝업창 모달의 z-index 조정 */
+.fulltext-popup {
+    z-index: 2000; /* 사이드바나 다른 요소보다 위에 표시되도록 */
+}
+
+.fulltext-popup.show {
     display: flex; /* 'show' 클래스가 있으면 표시 */
 }
 

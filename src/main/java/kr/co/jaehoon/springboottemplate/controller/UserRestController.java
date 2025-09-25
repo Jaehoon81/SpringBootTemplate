@@ -1,6 +1,14 @@
 package kr.co.jaehoon.springboottemplate.controller;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import kr.co.jaehoon.springboottemplate.dto.CustomUserDetails;
+import kr.co.jaehoon.springboottemplate.dto.UserDTO;
+import kr.co.jaehoon.springboottemplate.dto.validation.PasswordChangeGroup;
+import kr.co.jaehoon.springboottemplate.dto.validation.UserUpdateRequest;
+import kr.co.jaehoon.springboottemplate.repository.UserRepository;
+import kr.co.jaehoon.springboottemplate.repository.dao.UserDAO;
 import kr.co.jaehoon.springboottemplate.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +22,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,8 +35,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/user")
@@ -37,8 +52,11 @@ public class UserRestController {
     @Value("${file.upload-dir}")  // 파일 업로드 디렉토리
     private String uploadDir;
 
+//    private final UserDAO userDAO;
 //    private final UserRepository userRepository;
     private final UserService userService;
+
+    private final PasswordEncoder passwordEncoder;
 
     // 프로필 사진(이미지) 업로드
     @PostMapping("/profile-picture")
@@ -46,7 +64,8 @@ public class UserRestController {
             @AuthenticationPrincipal CustomUserDetails currentUser, @RequestParam("file") MultipartFile file
     ) throws Exception {
         if (currentUser == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증된 사용자 정보가 없습니다.");
         }
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body("업로드할 파일이 없습니다.");
@@ -101,7 +120,7 @@ public class UserRestController {
                 // 이미지 파일의 Content-Type 설정
                 String contentType = Files.probeContentType(filePath);
                 if (contentType == null) {
-                    contentType = MediaType.APPLICATION_OCTET_STREAM_VALUE;  // 기본값
+                    contentType = MediaType.APPLICATION_OCTET_STREAM_VALUE;  // Content-Type 기본값
                 }
                 return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType)).body(resource);
             } else {
@@ -112,5 +131,106 @@ public class UserRestController {
             log.error(e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    // 현재 로그인한 사용자의 정보를 조회하는 API
+    @GetMapping("/profile")
+    public ResponseEntity<Map<String, Object>> getProfile(@AuthenticationPrincipal CustomUserDetails currentUser) throws Exception {
+        if (currentUser == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        UserDTO user = userService.findUserById(currentUser.getUser().getId());
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        Map<String, Object> profile = new HashMap<>();
+        profile.put("username", user.getUsername());
+        profile.put("displayname", user.getDisplayname());
+        profile.put("email", user.getEmail());
+        // 비밀번호는 직접 노출하지 않음
+
+        return ResponseEntity.ok(profile);
+    }
+
+    // 현재 로그인한 사용자의 정보를 업데이트하는 API
+    @PutMapping("/profile")
+    public ResponseEntity<?> updateProfile(
+            @AuthenticationPrincipal CustomUserDetails currentUser,
+            @Validated({ PasswordChangeGroup.class }) @RequestBody UserUpdateRequest userUpdateRequest,
+            BindingResult bindingResult
+    ) throws Exception {
+        if (currentUser == null) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증된 사용자 정보가 없습니다.");
+        }
+        UserDTO user = userService.findUserById(currentUser.getUser().getId());
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자 정보를 찾을 수 없습니다.");
+        }
+        // 현재 비밀번호 일치 여부 확인
+        if (!passwordEncoder.matches(userUpdateRequest.getCurrentPassword(), user.getPassword())) {
+            Map<String, String> errors = new HashMap<>();
+            errors.put("currentPassword", "현재 비밀번호가 일치하지 않습니다.");
+
+            log.warn("CurrentPassword_InvalidException: {}", errors.toString());
+            return ResponseEntity.badRequest().body(errors);
+        }
+        // 새 비밀번호가 입력된 경우에만 비밀번호 관련 유효성 검사 적용
+        boolean isPasswordChangeRequested =
+                (userUpdateRequest.getNewPassword() != null && !userUpdateRequest.getNewPassword().isEmpty());
+        if (isPasswordChangeRequested == true) {
+            // newPassword와 confirmPassword의 일치 여부를 클라이언트에서 확인하지만 서버에서도 다시 확인
+            if (!userUpdateRequest.getNewPassword().equals(userUpdateRequest.getConfirmPassword())) {
+                Map<String, String> errors = new HashMap<>();
+                errors.put("confirmPassword", "새 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+
+                log.warn("ConfirmPassword_InvalidException: {}", errors.toString());
+                return ResponseEntity.badRequest().body(errors);
+            }
+        }
+        // 유효성 검사 그룹을 동적으로 적용하기 위해 @Validated 어노테이션과 함께 BindingResult를 사용
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = bindingResult.getFieldErrors().stream().collect(Collectors.toMap(
+                    fieldError -> fieldError.getField(), fieldError -> fieldError.getDefaultMessage()
+            ));
+            log.warn("BindingResult_InvalidException: {}", errors.toString());
+            return ResponseEntity.badRequest().body(errors);
+        }
+        if (isPasswordChangeRequested == true) {
+            // 새 비밀번호가 유효성 검사를 통과하고, 비밀번호 확인과 일치하면 인코딩 수행
+            userUpdateRequest.setNewPassword(passwordEncoder.encode(userUpdateRequest.getNewPassword()));
+        } else {
+            // 비밀번호 변경 요청이 없으면 기존 비밀번호를 유지
+            // (newPassword를 null로 설정하여 MyBatis(userRepoMapper.xml)에서 업데이트하지 않도록 함)
+            userUpdateRequest.setNewPassword(null);
+        }
+        userUpdateRequest.setId(currentUser.getUser().getId());  // 현재 로그인된 사용자의 ID 설정
+        userService.updateUser(userUpdateRequest);
+
+        return ResponseEntity.ok("프로필 정보가 성공적으로 업데이트되었습니다.");
+    }
+
+    // 사용자의 탈퇴 상태를 업데이트하는 API (USER 계정만 가능)
+    @PostMapping("/deactivate")
+    public ResponseEntity<String> deactivateUser(@AuthenticationPrincipal CustomUserDetails currentUser, HttpServletResponse response) throws Exception {
+        if (currentUser == null) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증된 사용자 정보가 없습니다.");
+        }
+        // DB users 테이블의 is_deleted 컬럼을 true로 업데이트
+        Long userId = currentUser.getUser().getId();
+        userService.updateUserDeleteStatus(userId, true);
+
+        // JWT 쿠키 삭제
+        Cookie jwtCookie = new Cookie("jwtToken", "");
+        jwtCookie.setHttpOnly(true);
+        jwtCookie.setPath("/");
+        jwtCookie.setMaxAge(0);
+//        jwtCookie.setSecure(true);
+        response.addCookie(jwtCookie);
+        // SecurityContext 초기화
+        SecurityContextHolder.clearContext();
+
+        return ResponseEntity.ok("회원 탈퇴가 성공적으로 처리되었습니다.");
     }
 }

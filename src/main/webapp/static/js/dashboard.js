@@ -100,52 +100,89 @@ $(document).ready(function () {
     // 프로필 사진(이미지) 관련 로직 ---------------------------------------------------------------------------------------
 
     // 초기 로직: 페이지 로드 시 첫 콘텐츠를 로드 ----------------------------------------------------------------------------
-    var defaultContentUrl = '';
-    var defaultTitle = '';
+    var lastActiveMenuId = localStorage.getItem('lastActiveMenuId');
+    var initialContentUrl = '';
+    var initialTitle = '';
+
+    var accountApprovalUrl = '';
+    var accountApprovalTitle = '';
 
     // '사용자 관리' 메뉴의 서브 화면 정의 (사용자 권한(역할)에 따른 기본 콘텐츠 URL 설정)
     if (userRole === 'SYSTEM') {
-        defaultContentUrl = '/contents/system-approval';
-        defaultTitle = '시스템 관리자 페이지';
+        accountApprovalUrl = '/contents/system-approval';
+        accountApprovalTitle = '시스템 관리자 페이지';
     } else if (userRole === 'ADMIN') {
-        defaultContentUrl = '/contents/admin-approval';
-        defaultTitle = '관리자 페이지';
+        accountApprovalUrl = '/contents/admin-approval';
+        accountApprovalTitle = '관리자 페이지';
     } else {  // USER 계정 또는 기타 권한 시
-        defaultContentUrl = '/contents/secure';  // 일반 사용자 보안 페이지
-        defaultTitle = '환영합니다!';
-        // USER 계정은 '사용자 관리' 메뉴의 계정 승인 기능이 사실상 의미가 없으므로
+        accountApprovalUrl = '/contents/secure';  // 일반 사용자 보안 페이지
+        accountApprovalTitle = '환영합니다!';
+        // USER 계정은 '사용자 관리' 메뉴의 계정승인 기능이 사실상 의미가 없으므로
         // 기본 활성화 메뉴는 '사용자 관리'로 하되, '마이 페이지'로 리다이렉트하는 것도 고려 가능
         // (여기서는 '사용자 관리' 메뉴를 활성화된 상태로 두고 secure_content.jsp를 로드)
     }
-    // 첫 페이지 로드 시 기본 콘텐츠 로드
-    if (defaultContentUrl) {
-        loadContent(defaultContentUrl, defaultTitle);
-    }
+    // 모든 메뉴 항목에서 active 클래스 제거 (하드코딩 방지 및 초기화)
+    $('.sidebar-menu li').removeClass('active');
 
-    // 사이드바 메뉴 클릭 이벤트
+    // 새로고침(=F5) 시에 활성화된 메뉴 상태를 유지하는 로직
+    if (lastActiveMenuId) {
+        var $lastActiveMenuItem = $('.sidebar-menu li[data-menu-id="' + lastActiveMenuId + '"]');
+        if ($lastActiveMenuItem.length > 0) {
+            // 마지막 활성화 메뉴 아이템에 active 클래스 부여
+            // $('.sidebar-menu li').removeClass('active');
+            $lastActiveMenuItem.addClass('active');
+
+            // 해당 메뉴의 data-content-url을 가져와서 로드 (contentUrl 변수에 매핑)
+            var contentUrl = $lastActiveMenuItem.find('a').data('content-url');
+            var menuText = $lastActiveMenuItem.find('a').text().trim();
+
+            // '사용자 관리' 메뉴는 권한(역할)에 따라 URL이 동적으로 변경되므로 다시 확인
+            if (lastActiveMenuId === 'account-approval') {
+                initialContentUrl = accountApprovalUrl;
+                initialTitle = accountApprovalTitle;
+            } else {
+                initialContentUrl = contentUrl;
+                initialTitle = menuText;
+            }
+        } else {
+            // localStorage에 저장된 메뉴가 없거나 유효하지 않은 경우
+            // 기본 값을 'account-approval'로 설정
+            lastActiveMenuId = 'account-approval';
+            // $('.sidebar-menu li').removeClass('active');
+            $('.sidebar-menu li[data-menu-id="account-approval"]').addClass('active');
+            initialContentUrl = accountApprovalUrl;
+            initialTitle = accountApprovalTitle;
+        }
+    } else {
+        // localStorage에 저장된 것이 없는 경우 '사용자 관리' 메뉴를 기본으로 활성화
+        lastActiveMenuId = 'account-approval';
+        // $('.sidebar-menu li').removeClass('active');
+        $('.sidebar-menu li[data-menu-id="account-approval"]').addClass('active');
+        initialContentUrl = accountApprovalUrl;
+        initialTitle = accountApprovalTitle;
+    }
+    // 최종적으로 결정된 초기 콘텐츠를 로드
+    loadContent(initialContentUrl, initialTitle);
+
+    // 사이드바 메뉴 클릭 이벤트 (localStorage에 메뉴 ID를 저장하는 로직 추가)
     $('.sidebar-menu li a').on('click', function (e) {
         e.preventDefault();  // 기본 링크 동작 방지
         // 모든 메뉴 항목의 active 클래스 제거
         $('.sidebar-menu li').removeClass('active');
         // 클릭된 메뉴 항목에 active 클래스 추가
-        $(this).closest('li').addClass('active');
+        var $clickedMenuItem = $(this).closest('li');
+        $clickedMenuItem.addClass('active');
 
+        var menuId = $clickedMenuItem.data('menu-id');
         var contentUrl = $(this).data('content-url');
-        var menuId = $(this).closest('li').data('menu-id');
         var menuText = $(this).text().trim();
 
+        // 메뉴 항목 클릭 시 localStorage에 메뉴 ID를 저장
+        localStorage.setItem('lastActiveMenuId', menuId);
         // '사용자 관리' 메뉴는 사용자 권한(역할)에 따라 다른 콘텐츠를 로드
         if (menuId === 'account-approval') {
-            if (userRole === 'SYSTEM') {
-                contentUrl = '/contents/system-approval';
-                menuText = '시스템 관리자 페이지';
-            } else if (userRole === 'ADMIN') {
-                contentUrl = '/contents/admin-approval';
-                menuText = '관리자 페이지';
-            } else {  // USER 계정 또는 기타 권한 시
-                contentUrl = '/contents/secure';  // 일반 사용자 보안 페이지
-                menuText = '환영합니다!';
-            }
+            contentUrl = accountApprovalUrl;  // 위에서 결정된 권한(역할)별 URL 사용
+            menuText = accountApprovalTitle;  // 위에서 결정된 권한(역할)별 타이틀 사용
         }
         loadContent(contentUrl, menuText);
     });
@@ -163,11 +200,19 @@ $(document).ready(function () {
                 $('#main-content-area').html(response);
                 $('#contentTitle').text(title);
 
+                // 해당 JSP 파일을 로드 시 HTML 내부의 스크립트(<script> 태그)를 찾아서 실행
+                $(response).filter('script').each(function (){
+                    $.globalEval(this.text || this.textContent || this.innerHTML || '');
+                });
                 // 콘텐츠 로드 후 해당 목록의 로드 함수 호출 (전역 스코프에 노출되어 있으므로 직접 호출 가능)
                 if (url.includes('/system-approval') && typeof window.loadPendingAdmins === 'function') {
                     window.loadPendingAdmins();
                 } else if (url.includes('/admin-approval') && typeof window.loadPendingUsers === 'function') {
                     window.loadPendingUsers();
+                }
+                // 콘텐츠 로드 후 프로필 정보 수정을 위한 초기화 함수 호출 (전역 스코프에 노출되어 있으므로 직접 호출 가능)
+                if (url.includes('/profile') && typeof window.initProfileEdit === 'function') {
+                    window.initProfileEdit();
                 }
                 // 콘텐츠 로드 후 새로운 DOM 구조를 기반으로 스크롤바 조정을 위한 전역(window) 함수 호출
                 if (typeof window.checkScrollbarAndAdjustWidth === 'function') {
@@ -184,9 +229,8 @@ $(document).ready(function () {
             }
         });
     }
-    // 페이지 로드 시 처음 활성화되어야 할 메뉴 항목 (기본은 '사용자 관리')
-    $('[data-menu-id="account-approval"]').addClass('active');
-    // 초기 로직: 페이지 로드 시 첫 콘텐츠를 로드 ----------------------------------------------------------------------------
+    // 페이지 로드 시 처음 활성화할 메뉴 항목 (기본은 '사용자 관리')
+    // $('[data-menu-id="account-approval"]').addClass('active');
 
     // Full Text 팝업창 모달 관련 로직 ------------------------------------------------------------------------------------
     var fullTextMsgModal = $('#fullTextMsgModal');
