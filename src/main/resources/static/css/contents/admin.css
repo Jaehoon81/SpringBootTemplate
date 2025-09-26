@@ -10,8 +10,16 @@
     box-sizing: border-box;
 }
 
+.auth-admin-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 1.6em; /* 폰트 크기 */
+}
+
+/* 페이지 하단 버튼 그룹 스타일 */
 .auth-admin-container > button {
-    margin: 15px 8px;
+    margin: 15px 8px; /* 하단 버튼 마진 조정 */
 }
 
 /* Auth-Button Styling */
@@ -279,6 +287,10 @@
     max-width: 500px; /* 상세 팝업창의 최대 너비 설정 */
     text-align: left; /* 텍스트 정렬은 왼쪽으로 */
     animation: fadeIn 0.3s ease-out;
+}
+
+.fulltext-popup.show .popup-content {
+    transform: scale(1);
 }
 
 /* 팝업창 헤더 */

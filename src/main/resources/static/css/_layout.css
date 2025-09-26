@@ -19,7 +19,7 @@
 
 .main-header .project-title {
     color: #ffffff;
-    font-size: 1.8em;
+    font-size: 2.0em;
     font-weight: bold;
     text-decoration: none; /* 링크 밑줄 제거 */
 }
@@ -77,7 +77,7 @@
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
     display: flex;
     flex-direction: column; /* 세로 방향으로 항목 배치 */
-    /*height: 100%; !* 주석처리: .main-content-and-footer-area 내부에서 flex-grow:1로 대체 *!*/
+    /*height: 100%; !* 주석처리: main-content-and-footer-area 내부에서 flex-grow:1로 대체 *!*/
 }
 
 .sidebar-header {
@@ -175,7 +175,7 @@
 
 .content-header h1 {
     margin: 0;
-    font-size: 2em;
+    font-size: 1.8em;
     color: #343a40;
 }
 
@@ -197,17 +197,17 @@
 
 /* 동적으로 로드되는 콘텐츠 내부의 container (content-area 안에 있음) */
 .content-area > .container {
-    max-width: 800px; /* 로드되는 콘텐츠의 최대 너비 제한 (필요시 조정) */
+    max-width: 800px; /* 로드되는 콘텐츠의 최대 너비 제한 (필요 시 조정) */
     width: 100%; /* 항상 부모 너비의 100%를 사용 (max-width 이내에서) */
     margin: 0 auto; /* 가로로 중앙 정렬 보장 */
-    padding: 20px 0; /* .content-area의 패딩이 적용되므로 .container에는 상하 패딩만 적용 */
+    padding: 20px 0; /* content-area의 패딩이 적용되므로 container에는 상하 패딩만 적용 */
     text-align: center; /* 텍스트 내용도 가로로 중앙 정렬 */
 }
 
 /* 프로필 사진(이미지) 컨테이너 */
 .profile-picture-container {
-    width: 120px; /* 프로필 사진(이미지) 영역 너비 */
-    height: 120px; /* 프로필 사진(이미지) 영역 높이 */
+    width: 120px; /* 프로필 사진 영역 너비 */
+    height: 120px; /* 프로필 사진 영역 높이 */
     border-radius: 50%; /* 원형 */
     overflow: hidden; /* 원형으로 크롭 */
     margin: 20px auto 40px auto; /* 중앙 정렬 및 상하 여백 (상-우-하-좌 순서) */
@@ -243,7 +243,7 @@
     justify-content: center;
     align-items: center;
     color: white;
-    font-size: 2em;
+    font-size: 2.0em;
     opacity: 0; /* 평소에는 숨김 */
     transition: opacity 0.3s ease;
 }

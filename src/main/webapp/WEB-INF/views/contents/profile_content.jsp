@@ -48,9 +48,9 @@
     </c:if>
 </div>
 
-<!-- 회원탈퇴 팝업창 모달 구조 (기존 modal-content 재사용) -->
-<div id="deactivateUserModal" class="unregister-modal">
-    <div class="modal-content">
+<!-- 회원탈퇴 팝업창 모달 구조 (기존 popup-content 재사용) -->
+<div id="deactivateUserModal" class="unregister-popup">
+    <div class="popup-content">
         <h3>회원 탈퇴</h3>
         <p>회원을 탈퇴하시려면 아래 입력란에 '탈퇴'라고 정확히 입력해주세요.</p><br>
 

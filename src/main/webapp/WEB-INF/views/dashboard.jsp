@@ -12,7 +12,7 @@
     <link rel="icon" type="image/x-icon" href="/favicon_03.ico"/>
 
     <link rel="stylesheet" type="text/css" href="/static/css/main.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/_layout.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/main_layout.css">
     <link rel="stylesheet" type="text/css" href="/static/css/contents/statistics.css">
     <link rel="stylesheet" type="text/css" href="/static/css/contents/profile.css">
     <!-- Font Awesome 아이콘 사용을 위해 추가 -->
@@ -53,6 +53,7 @@
             <!-- (아래의 jsp:include 태그 사이에는 절대 불필요한 공백, 탭, 줄바꿈 등을 넣으면 안됨!!) -->
             <jsp:include page="/static/include/layout/_sidebar.jsp">
                 <jsp:param name="profilePicturePath" value="${profilePicturePath}"/>
+                <jsp:param name="userRole" value="${userRole}"/>
             </jsp:include>
             <div class="main-content-and-footer-area"><!-- 메인 콘텐츠 및 푸터 영역 -->
                 <div class="content-wrapper"><!-- 주요 콘텐츠 파트 -->

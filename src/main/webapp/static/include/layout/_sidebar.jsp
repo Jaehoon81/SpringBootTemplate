@@ -14,9 +14,13 @@
         <span class="upload-overlay" title="프로필 사진 변경"><i class="fas fa-folder-open"></i></span>
     </div>
     <ul class="sidebar-menu">
-        <li data-menu-id="account-approval"><!-- class="active" 제거 -->
-            <a href="#" data-content-url="/contents/approval"><i class="fas fa-user-check"></i>&nbsp;사용자 관리</a>
-        </li>
+        <!-- param.userRole을 사용하여 전달받은 파라미터 값 사용 -->
+        <c:if test="${param.userRole ne 'USER'}">
+            <!-- USER 권한(역할)이 아닐 때만 '사용자 관리' 메뉴를 표시 -->
+            <li data-menu-id="account-approval"><!-- class="active" 제거 -->
+                <a href="#" data-content-url="/contents/approval"><i class="fas fa-user-check"></i>&nbsp;사용자 관리</a>
+            </li>
+        </c:if>
         <li data-menu-id="data-statistics">
             <a href="#" data-content-url="/contents/statistics"><i class="fas fa-chart-line"></i>&nbsp;&nbsp;데이터 통계</a>
         </li>

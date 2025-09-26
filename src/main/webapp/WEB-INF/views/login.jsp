@@ -19,7 +19,6 @@
     <!-- 로그인 폼 구조 -->
     <div class="login-container">
         <h1>Spring-Boot Template</h1>
-
         <h2>로그인</h2>
         <div class="form-group">
             <label for="login-username">* 아이디:</label>
@@ -47,7 +46,6 @@
     <div id="registerModal" class="register-modal">
         <div class="modal-content">
             <span class="close-modal">&times;</span>
-
             <h2>회원 가입</h2>
             <div class="form-group">
                 <label for="reg-username">* 아이디:</label>

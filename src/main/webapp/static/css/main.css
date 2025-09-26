@@ -41,6 +41,13 @@ body {
 /*    margin: 15px 8px;*/
 /*}*/
 
+h1 {
+    color: #2c3e50;
+    margin-bottom: 30px;
+    font-size: 2.0em;
+    font-weight: 750;
+}
+
 h2 {
     color: #2c3e50;
     margin-bottom: 30px;
@@ -225,30 +232,6 @@ hr {
     transition: opacity 0.3s ease-in-out, visibility 0s linear;
 }
 
-/* 회원탈퇴 팝업창 모달 스타일 */
-.unregister-modal {
-    display: none; /* 기본 숨김 */
-    position: fixed;
-    z-index: 1001; /* 다른 모달 위에 표시되도록 높게 설정 */
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-    justify-content: center;
-    align-items: center;
-}
-
-/* 회원탈퇴 팝업창 모달의 z-index 조정 */
-.unregister-modal {
-    z-index: 2000; /* 사이드바나 다른 요소보다 위에 표시되도록 */
-}
-
-.unregister-modal.show {
-    display: flex; /* 'show' 클래스가 있으면 표시 */
-}
-
 .modal-content {
     background-color: #ffffff;
     padding: 30px 40px; /* 내부 여백 조정 */
@@ -267,10 +250,6 @@ hr {
     transform: scale(1); /* 최종 스케일 (원래 크기) */
 }
 
-.unregister-modal.show .modal-content {
-    transform: scale(1);
-}
-
 .close-modal {
     color: #aaa;
     position: absolute;
@@ -286,6 +265,30 @@ hr {
 .close-modal:focus {
     color: #333;
     text-decoration: none;
+}
+
+/* 회원탈퇴 팝업창 모달 스타일 */
+.unregister-popup {
+    display: none; /* 기본 숨김 */
+    position: fixed;
+    z-index: 1001; /* 다른 모달 위에 표시되도록 높게 설정 */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    justify-content: center;
+    align-items: center;
+}
+
+/* 회원탈퇴 팝업창 모달의 z-index 조정 */
+.unregister-popup {
+    z-index: 2000; /* 사이드바나 다른 요소보다 위에 표시되도록 */
+}
+
+.unregister-popup.show {
+    display: flex; /* 'show' 클래스가 있으면 표시 */
 }
 
 /* Full Text 팝업창 모달 스타일 */
@@ -322,6 +325,14 @@ hr {
     max-width: 500px; /* 상세 팝업창의 최대 너비 설정 */
     text-align: left; /* 텍스트 정렬은 왼쪽으로 */
     animation: fadeIn 0.3s ease-out;
+}
+
+.unregister-popup.show .popup-content {
+    transform: scale(1); /* 최종 스케일 (원래 크기) */
+}
+
+.fulltext-popup.show .popup-content {
+    transform: scale(1);
 }
 
 /* 팝업창 헤더 */

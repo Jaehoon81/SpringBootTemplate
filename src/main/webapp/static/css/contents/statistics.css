@@ -3,21 +3,28 @@
     padding: 40px;
     margin: 0 auto;
     border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    /*box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);*/
     width: 1200px;
     max-width: 90%;
     text-align: center;
     box-sizing: border-box;
+    /*transition: width 0.3s ease; !* 너비 변경 시 부드러운 애니메이션 효과 *!*/
+}
+
+/* 스크롤 발생 시 적용될 스타일 */
+.data-statistics-container.scrolling {
+    width: 1190px; /* 스크롤바 공간을 고려하여 살짝 줄임 */
+    /* 필요에 따라 margin-right: 100px; 등으로 조정 가능 */
+}
+
+.data-statistics-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 1.6em; /* 폰트 크기 */
 }
 
 /* 페이지 하단 버튼 그룹 스타일 */
 /*.data-statistics-container > button {*/
 /*    margin: 15px 8px; !* 하단 버튼 마진 조정 *!*/
 /*}*/
-
-.data-statistics-container h2 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 30px;
-    font-size: 1.8em;
-}

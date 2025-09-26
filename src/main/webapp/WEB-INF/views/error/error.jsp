@@ -34,7 +34,6 @@
             text-align: center;
             box-sizing: border-box;
         }
-
         .error-details {
             font-size: 0.9em;
             color: #6c757d;

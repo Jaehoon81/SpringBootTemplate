@@ -10,7 +10,20 @@
         max-width: 90%;
         text-align: center;
         box-sizing: border-box;
+        /*transition: width 0.3s ease; !* 너비 변경 시 부드러운 애니메이션 효과 *!*/
     }
+    /* 스크롤 발생 시 적용될 스타일 */
+    .auth-secure-container.scrolling {
+        width: 1190px; /* 스크롤바 공간을 고려하여 살짝 줄임 */
+        /* 필요에 따라 margin-right: 100px; 등으로 조정 가능 */
+    }
+    .auth-secure-container h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+        font-size: 1.6em; /* 폰트 크기 */
+    }
+
     /* 페이지 하단 버튼 그룹 스타일 */
     /*.auth-secure-container > button {*/
     /*    margin: 15px 8px; !* 하단 버튼 마진 조정 *!*/
@@ -34,3 +47,38 @@
         </c:choose>
     </p>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // 혹시 모를 스크롤 발생 시에도 해당 컨테이너의 너비를 다시 체크 (선택 사항)
+        var $contentWrapper = $('.content-wrapper');
+        $contentWrapper.on('scroll', function () {
+            if (typeof window.adjustSecureContainerWidthBasedOnScroll === 'function') {
+                window.adjustSecureContainerWidthBasedOnScroll();
+            }
+        });
+        // 윈도우 리사이즈 시에도 스크롤바 유무를 다시 확인하여 조절 (선택 사항)
+        // (max-height 변경 등으로 스크롤바가 생기거나 없어질 때도 반응)
+        $(window).on('resize', function () {
+            if (typeof window.adjustSecureContainerWidthBasedOnScroll === 'function') {
+                window.adjustSecureContainerWidthBasedOnScroll();
+            }
+        });
+    });
+
+    // 스크롤바 유무에 따라 너비를 동적으로 설정하는 함수 -----------------------------------------------------------------------
+    window.adjustSecureContainerWidthBasedOnScroll = function () {
+        // 스크롤바 너비 조절 관련 요소들
+        var $contentWrapper = $('.content-wrapper');
+        var $authSecureContainer = $('.auth-secure-container');
+
+        if ($authSecureContainer.length === 0 || $contentWrapper.length === 0) {
+            return;
+        }
+        if ($contentWrapper[0].scrollHeight > $contentWrapper[0].clientHeight) {
+            $authSecureContainer.addClass('scrolling');
+        } else {
+            $authSecureContainer.removeClass('scrolling');
+        }
+    };
+</script>

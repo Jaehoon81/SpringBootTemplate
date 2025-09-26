@@ -8,10 +8,25 @@
     max-width: 90%;
     text-align: center;
     box-sizing: border-box;
+    /*transition: width 0.3s ease; !* 너비 변경 시 부드러운 애니메이션 효과 *!*/
 }
 
+/* 스크롤 발생 시 적용될 스타일 */
+.auth-admin-container.scrolling {
+    width: 1190px; /* 스크롤바 공간을 고려하여 살짝 줄임 */
+    /* 필요에 따라 margin-right: 100px; 등으로 조정 가능 */
+}
+
+.auth-admin-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 1.6em; /* 폰트 크기 */
+}
+
+/* 페이지 하단 버튼 그룹 스타일 */
 .auth-admin-container > button {
-    margin: 15px 8px;
+    margin: 15px 8px; /* 하단 버튼 마진 조정 */
 }
 
 /* Auth-Button Styling */
@@ -96,8 +111,8 @@
 
 #user-list-container thead tr {
     display: table; /* thead의 tr도 table처럼 동작하도록 컬럼 정렬 */
-    /*width: 100%; !* 스크롤바 너비만큼 줄여서 tbody와 정렬하므로 주석처리 *!*/
-    width: calc(100% - var(--scrollbar-width, 0px)); /* tbody 스크롤바 너비만큼 thead tr 너비에서 차감 (0px은 폴백 값) */
+    width: 100%; /* 스크롤을 더이상 허용하지 않으므로 100% 설정 (아래는 주석처리) */
+    /*width: calc(100% - var(--scrollbar-width, 0px)); !* tbody 스크롤바 너비만큼 thead tr 너비에서 차감 (0px은 폴백 값) *!*/
 
     table-layout: fixed;
 }
@@ -124,8 +139,9 @@
 /* 테이블 바디(tbody) 스타일 */
 #user-list-container tbody {
     display: block; /* tbody를 블록 요소로 만들어 독립적인 스크롤 영역 설정 */
-    max-height: 300px; /* 스크롤되는 높이를 조절 (예: 250px, 400px 등) */
-    overflow-y: auto; /* 세로 스크롤 활성화 */
+    max-height: 100%; /* 스크롤을 더이상 허용하지 않으므로 100% 설정 (아래는 주석처리) */
+    /*max-height: 300px; !* 스크롤되는 높이를 조절 (예: 250px, 400px 등) *!*/
+    /*overflow-y: auto; !* 세로 스크롤 활성화 *!*/
     width: 100%; /* 부모 table 너비에 맞춤 */
 
     /* 스크롤바 너비만큼 thead를 줄였으므로 주석처리 */

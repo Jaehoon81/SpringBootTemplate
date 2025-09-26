@@ -17,11 +17,18 @@
             padding: 40px;
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            width: 600px;
+            width: 1200px;
             max-width: 90%;
             text-align: center;
             box-sizing: border-box;
         }
+        .auth-secure-container h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 1.6em; /* 폰트 크기 */
+        }
+
         /* 페이지 하단 버튼 그룹 스타일 */
         /*.auth-secure-container > button {*/
         /*    margin: 15px 8px; !* 하단 버튼 마진 조정 *!*/
