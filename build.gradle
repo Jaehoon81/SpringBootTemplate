@@ -51,6 +51,9 @@ dependencies {
 //    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 //    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.1.RELEASE'
 
+    // Email Service
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
     // MySQL + MyBatis
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
     testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'
@@ -65,7 +68,7 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    // Bean Validation 구현체 (Hibernate Validator)
+    // Bean Validation (Hibernate Validator)
     implementation 'jakarta.validation:jakarta.validation-api'
     implementation 'org.hibernate.validator:hibernate-validator'
 

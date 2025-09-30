@@ -35,8 +35,12 @@
         <button id="loginBtn">로그인</button>
         <p id="login-message" class="message"></p>
 
-        <!-- 회원가입 팝업창 모달의 텍스트 링크 -->
-        <p><a href="#" id="openRegisterModal">회원 가입</a></p>
+        <!-- 회원가입, 아이디/비밀번호 찾기 팝업창 모달의 텍스트 링크 -->
+        <div class="modal-links">
+            <a href="#" id="openRegisterModal">회원 가입</a>
+            <span>|</span>
+            <a href="#" id="openFindAccountModal">아이디/비밀번호 찾기</a>
+        </div>
         <hr>
 <%--        <p><a href="/secure-page">보호된 페이지로 이동</a> (로그인 후 접근 가능)</p>--%>
         <p><a href="/dashboard">대시보드로 이동</a> (로그인 후 접근 가능)</p>
@@ -83,6 +87,24 @@
             </div>
             <button id="registerBtn">회원 가입</button>
             <p id="reg-message" class="message"></p>
+        </div>
+    </div>
+
+    <!-- 아이디/비밀번호 찾기 팝업창 모달 구조 -->
+    <div id="findAccountModal" class="find-account-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>아이디/비밀번호 찾기</h2>
+            <div class="form-group">
+                <label for="find-displayname">* 이름:</label>
+                <input type="text" id="find-displayname" name="displayname" maxlength="10" placeholder="이름을 입력해주세요." required>
+            </div>
+            <div class="form-group">
+                <label for="find-email">* 이메일:</label>
+                <input type="email" id="find-email" name="email" placeholder="이메일 주소를 입력해주세요." required>
+            </div>
+            <button id="findAccountBtn">이메일 전송</button>
+            <p id="find-message" class="message"></p>
         </div>
     </div>
 

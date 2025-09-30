@@ -44,6 +44,12 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
+    public UserDTO findUserByDisplaynameAndEmail(String displayname, String email) throws IllegalArgumentException {
+        return userDAO.findUserByDisplaynameAndEmail(displayname, email);
+    }
+
+    @Transactional
+    @Override
     public Long findRoleIdByRolename(String rolename) throws Exception {
         return userDAO.findRoleIdByRolename(rolename);
     }
@@ -97,6 +103,12 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
+    public void updatePassword(Long id, String password) throws Exception {
+        userRepository.updatePassword(id, password);
+    }
+
+    @Transactional
+    @Override
     public void updateUserDeleteStatus(Long id, boolean isDeleted) throws Exception {
         userRepository.updateUserDeleteStatus(id, isDeleted);
     }
@@ -121,13 +133,13 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void updateProfilePicturePath(Long id, String path) throws Exception {
-        userRepository.updateProfilePicturePath(id, path);
+    public void updateActiveSessionJti(Long id, String jti) throws Exception {
+        userRepository.updateActiveSessionJti(id, jti);
     }
 
     @Transactional
     @Override
-    public void updateActiveSessionJti(Long id, String jti) throws Exception {
-        userRepository.updateActiveSessionJti(id, jti);
+    public void updateProfilePicturePath(Long id, String path) throws Exception {
+        userRepository.updateProfilePicturePath(id, path);
     }
 }

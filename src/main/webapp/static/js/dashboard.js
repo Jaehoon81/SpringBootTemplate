@@ -332,43 +332,28 @@ $(document).ready(function () {
                 $(response).filter('script').each(function (){
                     $.globalEval(this.text || this.textContent || this.innerHTML || '');
                 });
-                // 콘텐츠 로드 후 선택된 메뉴의 초기화/로드 함수를 호출하고, 스크롤바 상태에 따라 너비를 조절
-                // (전역 스코프에 노출되어 있으므로 직접 호출 가능)
+                // 콘텐츠 로드 후 선택된 메뉴의 초기화/로드 함수를 호출 (전역 스코프에 노출되어 있으므로 직접 호출 가능)
                 if (url.includes('/system-approval')) {
                     if (typeof window.loadPendingAdmins === 'function') {
                         window.loadPendingAdmins();
-                    }
-                    if (typeof window.adjustSystemContainerWidthBasedOnScroll === 'function') {
-                        window.adjustSystemContainerWidthBasedOnScroll();
                     }
                 } else if (url.includes('/admin-approval')) {
                     if (typeof window.loadPendingUsers === 'function') {
                         window.loadPendingUsers();
                     }
-                    if (typeof window.adjustAdminContainerWidthBasedOnScroll === 'function') {
-                        window.adjustAdminContainerWidthBasedOnScroll();
-                    }
                 } else if (url.includes('/secure')) {
-                    if (typeof window.adjustSecureContainerWidthBasedOnScroll === 'function') {
-                        window.adjustSecureContainerWidthBasedOnScroll();
-                    }
-                }
-                if (url.includes('/statistics')) {
+
+                } else if (url.includes('/statistics')) {
                     if (typeof window.initDataStatistics === 'function') {
                         window.initDataStatistics();
                     }
-                    if (typeof window.adjustStatisticsContainerWidthBasedOnScroll === 'function') {
-                        window.adjustStatisticsContainerWidthBasedOnScroll();
-                    }
-                }
-                if (url.includes('/profile')) {
+                } else if (url.includes('/profile')) {
                     if (typeof window.initProfileEdit === 'function') {
                         window.initProfileEdit();
                     }
-                    if (typeof window.adjustProfileContainerWidthBasedOnScroll === 'function') {
-                        window.adjustProfileContainerWidthBasedOnScroll();
-                    }
                 }
+                // 콘텐츠 로드 후 스크롤바 상태에 따라 각 컨테이너(서브 화면)의 너비를 조절
+                adjustContainerWidthBasedOnScroll(url);
                 // 콘텐츠 로드 후 새로운 DOM 구조를 기반으로 스크롤바 조정을 위한 전역(window) 함수 호출
                 // if (typeof window.checkScrollbarAndAdjustWidth === 'function') {
                 //     window.checkScrollbarAndAdjustWidth();
@@ -423,6 +408,30 @@ $(document).ready(function () {
     });
     // Full Text 팝업창 모달 관련 로직 ------------------------------------------------------------------------------------
 
+    // 스크롤바 상태에 따라 각 컨테이너(서브 화면)의 너비를 조절하는 함수
+    function adjustContainerWidthBasedOnScroll(url) {
+        if (url.includes('/system-approval')) {
+            if (typeof window.adjustSystemContainerWidthBasedOnScroll === 'function') {
+                window.adjustSystemContainerWidthBasedOnScroll();
+            }
+        } else if (url.includes('/admin-approval')) {
+            if (typeof window.adjustAdminContainerWidthBasedOnScroll === 'function') {
+                window.adjustAdminContainerWidthBasedOnScroll();
+            }
+        } else if (url.includes('/secure')) {
+            if (typeof window.adjustSecureContainerWidthBasedOnScroll === 'function') {
+                window.adjustSecureContainerWidthBasedOnScroll();
+            }
+        } else if (url.includes('/statistics')) {
+            if (typeof window.adjustStatisticsContainerWidthBasedOnScroll === 'function') {
+                window.adjustStatisticsContainerWidthBasedOnScroll();
+            }
+        } else if (url.includes('/profile')) {
+            if (typeof window.adjustProfileContainerWidthBasedOnScroll === 'function') {
+                window.adjustProfileContainerWidthBasedOnScroll();
+            }
+        }
+    }
     // 스크롤바 유무에 따라 CSS 변수 '--scrollbar-width'를 동적으로 설정하는 함수
     window.checkScrollbarAndAdjustWidth = function () {
         // 이 함수는 main-content-area 내부에 테이블이 로드된 후에 실행되어야 함

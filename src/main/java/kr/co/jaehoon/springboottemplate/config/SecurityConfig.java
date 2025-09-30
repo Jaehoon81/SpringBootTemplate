@@ -100,7 +100,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         // 인증 없이 접근 허용할 경로
                         .requestMatchers(
-                                "/api/auth/register", "/api/auth/admins",
+                                "/api/auth/register", "/api/auth/admins", "/api/auth/find-account",
                                 "/api/auth/web-login", "/api/auth/mobile-login", "/api/auth/web-logout", "/api/auth/mobile-logout",
                                 "/api/user/profile-picture/**",  // 프로필 사진(이미지) 조회
 //                                "/profiles/**",  // UserRestController에 이미 파일 서빙 로직이 있기 때문에 WebConfig 설정과 중복되므로 주석처리

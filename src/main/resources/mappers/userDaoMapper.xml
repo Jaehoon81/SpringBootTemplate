@@ -73,6 +73,16 @@
         WHERE u.id = #{id}
     </select>
 
+    <!-- displayname과 email로 특정 사용자를 조회 -->
+    <select id="findUserByDisplaynameAndEmail" parameterType="map" resultMap="userResultMap">
+        SELECT
+            u.id, u.username, u.password, u.displayname, u.profile_picture_path, u.email, u.role_id, u.active_session_jti, u.is_deleted, u.created_at, u.updated_at,
+            r.rolename
+        FROM users u
+        JOIN roles r ON u.role_id = r.id
+        WHERE u.displayname = #{displayname} AND u.email = #{email} AND u.is_deleted = 0
+    </select>
+
     <!-- 권한(역할) 이름(rolename)을 통해 role_id를 조회 -->
     <select id="findRoleIdByRolename" parameterType="String" resultType="long">
         SELECT id

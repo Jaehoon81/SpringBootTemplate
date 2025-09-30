@@ -197,6 +197,27 @@ hr {
     cursor: pointer; /* 클릭 가능한 요소임을 나타냄 */
 }
 
+/* 회원가입, 아이디/비밀번호 찾기 링크 컨테이너 */
+.modal-links {
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: #666;
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* 링크 사이 간격 */
+}
+
+.modal-links a {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.modal-links a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
 /* 회원가입 팝업창 모달 스타일 */
 .register-modal {
     position: fixed; /* 고정 위치 */
@@ -214,7 +235,6 @@ hr {
     visibility: hidden; /* 요소는 존재하지만 보이지 않음 */
     opacity: 0; /* 완전히 투명 */
     pointer-events: none; /* 클릭 이벤트 비활성화 (숨김 상태에서 클릭 방지) */
-
     /**
      * 트랜지션 정의:
      * - 나타날 때: opacity는 0.3초간 트랜지션, visibility는 즉시 visible (delay 0s)
@@ -224,6 +244,40 @@ hr {
 }
 
 .register-modal.show {
+    visibility: visible; /* 모달이 보일 때 */
+    opacity: 1; /* 불투명하게 */
+    pointer-events: auto; /* 클릭 이벤트 활성화 */
+
+    /* 나타날 때는 visibility 전환에 delay를 주지 않음 */
+    transition: opacity 0.3s ease-in-out, visibility 0s linear;
+}
+
+/* 아이디/비밀번호 찾기 팝업창 모달 스타일 */
+.find-account-modal {
+    position: fixed; /* 고정 위치 */
+    z-index: 1000; /* 다른 요소 위에 표시 */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* 내용이 넘칠 경우 스크롤 허용 */
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+    display: flex; /* Flexbox로 내부 콘텐츠 정렬 */
+    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+    /* 애니메이션을 위한 초기 상태 (숨김) */
+    visibility: hidden; /* 요소는 존재하지만 보이지 않음 */
+    opacity: 0; /* 완전히 투명 */
+    pointer-events: none; /* 클릭 이벤트 비활성화 (숨김 상태에서 클릭 방지) */
+    /**
+     * 트랜지션 정의:
+     * - 나타날 때: opacity는 0.3초간 트랜지션, visibility는 즉시 visible (delay 0s)
+     * - 사라질 때: opacity는 0.3초간 트랜지션, visibility는 opacity 트랜지션 후 hidden (delay 0.0s)
+     */
+    transition: opacity 0.3s ease-in-out, visibility 0s linear 0.0s;
+}
+
+.find-account-modal.show {
     visibility: visible; /* 모달이 보일 때 */
     opacity: 1; /* 불투명하게 */
     pointer-events: auto; /* 클릭 이벤트 활성화 */
@@ -248,6 +302,115 @@ hr {
 
 .register-modal.show .modal-content {
     transform: scale(1); /* 최종 스케일 (원래 크기) */
+}
+
+.find-account-modal.show .modal-content {
+    transform: scale(1); /* 최종 스케일 (원래 크기) */
+}
+
+.modal-content h2 {
+    text-align: center;
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.6em;
+}
+
+/* 입력 필드의 placeholder 스타일 */
+.modal-content input::placeholder {
+    color: #999;
+    font-style: italic;
+}
+
+.modal-content textarea::placeholder { /* textarea 추가 */
+    color: #999;
+    font-style: italic;
+    font-size: 1.15em;
+    font-weight: 550;
+}
+
+.modal-content button {
+    width: 100%;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.modal-content button:hover {
+    background-color: #0056b3;
+}
+
+/* 회원가입 버튼 스타일 */
+#registerModal #registerBtn {
+    background-color: #28a745; /* 초록색으로 변경 */
+    margin-top: 20px; /* 상단 여백 추가 */
+}
+
+#registerModal #registerBtn:hover {
+    background-color: #218838; /* 호버 시 색상 */
+}
+
+/* 이메일 전송 버튼 스타일 */
+#findAccountModal #findAccountBtn {
+    background-color: #28a745; /* 초록색으로 변경 */
+    margin-top: 20px; /* 상단 여백 추가 */
+}
+
+#findAccountModal #findAccountBtn:hover {
+    background-color: #218838; /* 호버 시 색상 */
+}
+
+/* 회원가입 메시지 표시 영역 스타일 */
+#registerModal .message {
+    text-align: center;
+    padding: 10px;
+    margin-top: 15px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+/* 회원가입 성공 메시지 스타일 */
+#registerModal .message.success-message {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+/* 회원가입 에러 메시지 스타일 */
+#registerModal .message.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* 이메일 전송 메시지 표시 영역 스타일 */
+#findAccountModal .message {
+    text-align: center;
+    padding: 10px;
+    margin-top: 15px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+/* 이메일 전송 성공 메시지 스타일 */
+#findAccountModal .message.success-message {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+/* 이메일 전송 에러 메시지 스타일 */
+#findAccountModal .message.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
 }
 
 .close-modal {
@@ -322,7 +485,7 @@ hr {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     position: relative;
     width: 90%;
-    max-width: 500px; /* 상세 팝업창의 최대 너비 설정 */
+    max-width: 500px; /* 팝업창의 최대 너비 설정 */
     text-align: left; /* 텍스트 정렬은 왼쪽으로 */
     animation: fadeIn 0.3s ease-out;
 }
@@ -332,15 +495,22 @@ hr {
 }
 
 .fulltext-popup.show .popup-content {
-    transform: scale(1);
+    transform: scale(1); /* 최종 스케일 (원래 크기) */
 }
 
 /* 팝업창 헤더 */
 .popup-content h3 {
-    margin-top: 0;
+    text-align: center;
     color: #333;
-    font-size: 1.5em;
+    margin-top: 0;
     margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+/* 입력 필드의 placeholder 스타일 */
+.popup-content input::placeholder {
+    color: #999;
+    font-style: italic;
 }
 
 /* 팝업창 내용 */

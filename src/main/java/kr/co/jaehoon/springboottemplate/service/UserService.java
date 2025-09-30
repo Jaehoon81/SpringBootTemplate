@@ -16,6 +16,8 @@ public interface UserService {
 
     public UserDTO findUserById(Long id) throws Exception;
 
+    public UserDTO findUserByDisplaynameAndEmail(String displayname, String email) throws IllegalArgumentException;
+
     public Long findRoleIdByRolename(String rolename) throws Exception;
 
     public Long findAdminIdByDisplayname(String adminname) throws Exception;
@@ -33,6 +35,8 @@ public interface UserService {
 
     public void updateUser(UserUpdateRequest request) throws Exception;
 
+    public void updatePassword(Long id, String password) throws Exception;
+
     public void updateUserDeleteStatus(Long id, boolean isDeleted) throws Exception;
 
     public Integer deleteUser(Long id) throws Exception;
@@ -41,7 +45,7 @@ public interface UserService {
 
     public void updateApprovalStatus(Long userId, boolean isApproved) throws Exception;
 
-    public void updateProfilePicturePath(Long id, String path) throws Exception;
-
     public void updateActiveSessionJti(Long id, String jti) throws Exception;
+
+    public void updateProfilePicturePath(Long id, String path) throws Exception;
 }

@@ -98,14 +98,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 log.warn("Attempted to use a blacklisted JWT token: {}", jwt);
                 // 토큰이 블랙리스트에 있는 경우의 인증 실패 처리
                 // 방법 1) 401 HTML 응답을 반환
-//                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "토큰이 무효화되었습니다. 다시 로그인해주세요.");
+//                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "토큰이 무효화되었습니다.\n다시 로그인해주세요.");
 //                return;
                 // 방법 2) 401 HTML 응답(response.sendError()) 대신, JwtAuthenticationEntryPoint로 예외를 전달
-//                throw new BadCredentialsException("토큰이 무효화되었습니다. 다시 로그인해주세요.");
+//                throw new BadCredentialsException("토큰이 무효화되었습니다.\n다시 로그인해주세요.");
 
                 // 방법 3) 직접 401 JSON 응답을 작성하여 전송
                 // (ExceptionTranslationFilter가 JwtRequestFilter에서 발생한 AuthenticationException을 예상대로 Catch하지 못하는 상황)
-                create401JsonResponse(request, response, "토큰이 무효화되었습니다. 다시 로그인해주세요.", shouldSendJson);
+                create401JsonResponse(request, response, "토큰이 무효화되었습니다.\n다시 로그인해주세요.", shouldSendJson);
                 return;  // 필터 체인 진행을 중단
             }
 
@@ -174,7 +174,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                         log.warn("JTI null in DB for user: {} - Token JTI: {}", username, jti);
 
                         // DB에 저장된 JTI 값이 없는데, 현재 토큰에는 JTI가 있음 (모바일 로그아웃 상태에서 이전 토큰 사용 등)
-                        create401JsonResponse(request, response, "세션이 만료되었습니다. 다시 로그인해주세요.", shouldSendJson);
+                        create401JsonResponse(request, response, "세션이 만료되었습니다.\n다시 로그인해주세요.", shouldSendJson);
                         return;  // 필터 체인 진행을 중단
                     }
                 }

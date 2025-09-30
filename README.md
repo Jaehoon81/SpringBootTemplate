@@ -35,5 +35,6 @@ SpringBoot Template for Web
   <p>2. Release 0.000.002: 모바일 앱용 로그인/로그아웃, 중복 로그인 방지, 서버정보 요청, 세션만료 기능의 REST API 구현</p>
   <p>3. Release 0.000.003: 웹 브라우저용 아이디 기억하기, SYSTEM/ADMIN/USER 권한에 따른 승인 및 로그인 기능 구현</p>
   <p>4. Release 0.000.004: DB의 users 테이블 정규화 및 roles, approval_requests 테이블로 기능 분리</p>
+  <p>5. Release 0.000.005: 웹 브라우저용 사이드바 메뉴 구성, 마이 페이지 및 정보수정, 아이디/비밀번호 찾기 기능 구현</p>
   <br>
 </div>

@@ -18,6 +18,7 @@
 
         <typeAlias type="kr.co.jaehoon.springboottemplate.dto.validation.RegistrationRequest" alias="registrationRequest"/>
         <typeAlias type="kr.co.jaehoon.springboottemplate.dto.validation.UserUpdateRequest" alias="userUpdateRequest"/>
+        <typeAlias type="kr.co.jaehoon.springboottemplate.dto.validation.FindAccountRequest" alias="findAccountRequest"/>
     </typeAliases>
 
 </configuration>

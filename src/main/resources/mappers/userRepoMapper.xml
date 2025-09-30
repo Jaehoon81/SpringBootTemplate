@@ -20,6 +20,13 @@
         WHERE id = #{id}
     </update>
 
+    <!-- 아이디/비밀번호 찾기 진행 시 사용자 비밀번호(랜덤)를 업데이트 -->
+    <update id="updatePassword" parameterType="map">
+        UPDATE users
+        SET password = #{password}
+        WHERE id = #{id}
+    </update>
+
     <!-- 마이 페이지 메뉴 화면에서 사용자 탈퇴 상태를 업데이트 (USER 계정만 가능) -->
     <update id="updateUserDeleteStatus" parameterType="map">
         UPDATE users
@@ -45,17 +52,17 @@
         WHERE user_id = #{userId}
     </update>
 
-    <!-- 해당 계정의 프로필 사진(이미지) 경로를 업데이트 -->
-    <update id="updateProfilePicturePath" parameterType="map">
-        UPDATE users
-        SET profile_picture_path = #{path}
-        WHERE id = #{id}
-    </update>
-
     <!-- USER 계정의 active_session_jti 컬럼을 업데이트 -->
     <update id="updateActiveSessionJti" parameterType="map">
         UPDATE users
         SET active_session_jti = #{jti}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 해당 계정의 프로필 사진(이미지) 경로를 업데이트 -->
+    <update id="updateProfilePicturePath" parameterType="map">
+        UPDATE users
+        SET profile_picture_path = #{path}
         WHERE id = #{id}
     </update>
 

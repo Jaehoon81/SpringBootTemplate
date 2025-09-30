@@ -6,11 +6,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import kr.co.jaehoon.springboottemplate.dto.ApprovalRequestDTO;
 import kr.co.jaehoon.springboottemplate.dto.CustomUserDetails;
+import kr.co.jaehoon.springboottemplate.dto.validation.FindAccountRequest;
 import kr.co.jaehoon.springboottemplate.dto.validation.RegistrationRequest;
 import kr.co.jaehoon.springboottemplate.dto.UserDTO;
 import kr.co.jaehoon.springboottemplate.repository.UserRepository;
 import kr.co.jaehoon.springboottemplate.repository.dao.UserDAO;
 import kr.co.jaehoon.springboottemplate.security.JwtBlacklistService;
+import kr.co.jaehoon.springboottemplate.service.AuthRestService;
 import kr.co.jaehoon.springboottemplate.service.UserService;
 import kr.co.jaehoon.springboottemplate.service.impl.UserDetailsServiceImpl;
 import kr.co.jaehoon.springboottemplate.security.JwtUtil;
@@ -33,6 +35,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -40,6 +43,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -53,11 +57,13 @@ public class AuthRestController {
     private final UserDetailsServiceImpl userDetailsService;
     private final JwtUtil jwtUtil;
     private final JwtBlacklistService jwtBlacklistService;
-    private final PasswordEncoder passwordEncoder;
 
 //    private final UserDAO userDAO;
 //    private final UserRepository userRepository;
     private final UserService userService;
+    private final AuthRestService authRestService;
+
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * 회원가입 API (웹/모바일 공용)
@@ -159,6 +165,36 @@ public class AuthRestController {
         log.debug("Admins_DisplaynameList: {}", displaynames.toString());
 
         return ResponseEntity.ok(displaynames);
+    }
+
+    /**
+     * 아이디/비밀번호 찾기(이메일 발송) API
+     */
+    @PostMapping("/find-account")
+    public ResponseEntity<?> findAccount(@Valid @RequestBody FindAccountRequest request, BindingResult bindingResult) throws Exception {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = bindingResult.getFieldErrors().stream().collect(Collectors.toMap(
+                    fieldError -> fieldError.getField(), fieldError -> fieldError.getDefaultMessage()
+            ));
+            log.warn("BindingResult_InvalidException: {}", errors.toString());
+            return ResponseEntity.badRequest().body(errors);
+        }
+        try {
+            authRestService.findAccountAndResetPassword(request);
+            return ResponseEntity.ok("아이디와 임시 비밀번호가 이메일로 전송되었습니다.");
+        } catch (IllegalArgumentException e) {
+            Map<String, String> errors = new HashMap<>();
+            errors.put("general", e.getMessage());  // general 오류 메시지로 프론트엔드에 전달
+
+            log.warn("General_InvalidException(1): {}", errors.toString());
+            return ResponseEntity.badRequest().body(errors);
+        } catch (Exception e) {
+            Map<String, String> errors = new HashMap<>();
+            errors.put("general", "이메일 전송 중 오류가 발생했습니다.\n유효한 이메일 주소가 아닐 수 있습니다.");
+
+            log.error("General_InvalidException(2): {}", errors.toString());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errors);
+        }
     }
 
     /**

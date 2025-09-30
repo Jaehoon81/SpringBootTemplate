@@ -48,7 +48,10 @@ $(document).ready(function () {
     // 로그인 입력 필드의 키업 이벤트 리스너 ---------------------------------------------------------------------------------
 
     // 로그인 버튼 클릭 이벤트 ---------------------------------------------------------------------------------------------
-    $('#loginBtn').click(function () {
+    $('#loginBtn').click(function (event) {
+        event.preventDefault();  // 기본 폼 제출 동작 방지
+        $('#login-message').text('');  // 이전 메시지 초기화
+
         var username = $('#login-username').val();
         var password = $('#login-password').val();
         var rememberIdChecked = $('#remember-id').is(':checked');  // '아이디 기억하기' 체크박스 상태 확인
@@ -93,6 +96,7 @@ $(document).ready(function () {
                     }
                 }
                 $('#login-message').text(errorMsg).css('color', 'red');
+                console.error("로그인 실패: ", xhr.responseText);
             }
         });
     });
@@ -114,7 +118,7 @@ $(document).ready(function () {
     openRegisterModalBtn.click(function (e) {
         e.preventDefault();  // 기본 링크 동작 방지
         registerModal.addClass('show');
-        regMessage.text('');  // 팝업창을 열 때 메시지 초기화
+        regMessage.text('').removeClass('success-message error-message');  // 팝업창을 열 때 메시지 초기화
 
         // 모달 내부 Input/Select 등의 필드들도 초기화 (선택 사항)
         $('#reg-username').val('');
@@ -158,8 +162,8 @@ $(document).ready(function () {
                 });
             },
             error: function (xhr) {
-                console.error("ADMIN 권한의 Displaynames 로드 실패: ", xhr.responseText);
                 alert('관리자 이름 로드 중 오류가 발생했습니다.');
+                console.error("ADMIN 권한의 Displaynames 로드 실패: ", xhr.responseText);
             }
         });
     }
@@ -179,7 +183,10 @@ $(document).ready(function () {
     // 회원가입 팝업창 모달 기능 관련 ---------------------------------------------------------------------------------------
 
     // 회원가입 버튼 클릭 이벤트 (모달 내부의 필드 사용) -----------------------------------------------------------------------
-    $('#registerBtn').click(function () {
+    $('#registerBtn').click(function (event) {
+        event.preventDefault();  // 기본 폼 제출 동작 방지
+        regMessage.text('').removeClass('success-message error-message');  // 이전 메시지 초기화
+
         var username = $('#reg-username').val();
         var password = $('#reg-password').val();
         var displayname = regDisplaynameInput.val();  // 화면에 표시할 이름
@@ -242,7 +249,7 @@ $(document).ready(function () {
         // }
         // 유효성 검사 실패 시 메시지 표시 및 함수 종료
         if (message) {
-            regMessage.text(message).css('color', 'red');
+            regMessage.text(message).addClass('error-message');
             return;
         }
         // 클라이언트 측 유효성 검사 종료 -----------------------------------------------------------------------------------
@@ -262,7 +269,7 @@ $(document).ready(function () {
             }),
             success: function (response) {
                 // $('#reg-message').text('회원가입 성공: ' + response).css('color', 'green');
-                regMessage.text(response).css('color', 'green');  // 백엔드에서 반환된 성공 메시지 사용
+                regMessage.text('✅ ' + response).addClass('success-message');  // 백엔드에서 반환된 성공 메시지 표시
                 $('#reg-username').val('');
                 $('#reg-password').val('');
                 regDisplaynameInput.val('');
@@ -289,7 +296,102 @@ $(document).ready(function () {
                 } else {
                     errorMsg += (xhr.responseText || '알 수 없는 오류');
                 }
-                regMessage.text(errorMsg).css('color', 'red');
+                regMessage.text('❌ ' + errorMsg).addClass('error-message');  // 오류 메시지 표시
+                console.error("회원가입 실패: ", xhr.responseText);
+            }
+        });
+    });
+
+    // 아이디/비밀번호 찾기 팝업창 모달 기능 관련 -----------------------------------------------------------------------------
+    // 모달 관련 DOM 요소 가져오기
+    var $findAccountModal = $('#findAccountModal');
+    var $openFindAccountModal = $('#openFindAccountModal');
+    var $closeFindAccountModal = $findAccountModal.find('.close-modal');
+    var $findDisplayname = $('#find-displayname');
+    var $findEmail = $('#find-email');
+    var $findAccountBtn = $('#findAccountBtn');
+    var $findMessage = $('#find-message');
+
+    // 아이디/비밀번호 찾기 링크 클릭 시 팝업창 열기
+    $openFindAccountModal.on('click', function (e) {
+        e.preventDefault();  // 기본 링크 동작 방지
+        $findAccountModal.addClass('show');
+        $findMessage.text('').removeClass('success-message error-message');  // 팝업창을 열 때 메시지 초기화
+
+        // 모달 내부 Input 등의 필드들도 초기화 (선택 사항)
+        $findDisplayname.val('');
+        $findEmail.val('');
+    });
+    // 닫기 버튼 클릭 시 팝업창 닫기
+    $closeFindAccountModal.on('click', function () {
+        $findAccountModal.removeClass('show');
+    });
+    // 모달 외부 클릭 시 팝업창 닫기 (이벤트 버블링 방지 포함)
+    $(window).on('click', function (event) {
+        if ($(event.target).is($findAccountModal)) {
+            // $findAccountModal.removeClass('show');  // 모달 배경 클릭 시 안닫히도록 주석처리
+        }
+    });
+    // 아이디/비밀번호 찾기 팝업창 모달 기능 관련 -----------------------------------------------------------------------------
+
+    // 이메일 전송 버튼 클릭 이벤트 (모달 내부의 필드 사용) --------------------------------------------------------------------
+    $findAccountBtn.on('click', function (event) {
+        event.preventDefault();  // 기본 폼 제출 동작 방지
+        $findMessage.text('').removeClass('success-message error-message');  // 이전 메시지 초기화
+
+        var displayname = $findDisplayname.val().trim();
+        var email = $findEmail.val().trim();
+        var hasClientError = false;
+
+        // 클라이언트 측 유효성 검사 시작 -----------------------------------------------------------------------------------
+        // 이름 유효성 검사
+        if (displayname === '') {
+            $findMessage.text('이름은 필수 항목입니다.').addClass('error-message');
+            hasClientError = true;
+        }
+        // 이메일 유효성 검사
+        // '@' 유무 등 기본적인 이메일 정규식
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!hasClientError && email === '') {
+            $findMessage.text('이메일은 필수 항목입니다.').addClass('error-message');
+            hasClientError = true;
+        } else if (!hasClientError && !emailRegex.test(email)) {
+            $findMessage.text('유효한 이메일 형식이 아닙니다.').addClass('error-message');
+            hasClientError = true;
+        }
+        // 유효성 검사 실패 시 메시지 표시 및 함수 종료
+        if (hasClientError) {
+            return;
+        }
+        // 클라이언트 측 유효성 검사 종료 -----------------------------------------------------------------------------------
+
+        $.ajax({
+            url: '/api/auth/find-account',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                displayname: displayname,
+                email: email
+            }),
+            success: function (response) {
+                $findMessage.text('✅ ' + response).addClass('success-message');  // 백엔드에서 반환된 성공 메시지 표시
+                $findDisplayname.val('');
+                $findEmail.val('');
+                // 이메일 전송 성공 시 alert 메시지 표시 및 팝업창 닫기
+                alert('아이디와 임시 비밀번호가 이메일로 전송되었습니다.');
+                $findAccountModal.removeClass('show');
+            },
+            error: function (xhr) {
+                var errorMsg = '계정찾기 실패: ';
+                var errorResponse = JSON.parse(xhr.responseText);
+                // 서버에서 응답 받은 유효성 검증 에러 메시지를 표시
+                if (errorResponse.general) {  // 일반적인 오류 (이름 or 이메일 주소 불일치 등)
+                    errorMsg += errorResponse.general;
+                } else {  // 필드별 에러 또는 알 수 없는 오류
+                    errorMsg += (errorResponse.displayname || '') + (errorResponse.email || '') + ' 알 수 없는 오류';
+                }
+                $findMessage.text('❌ ' + errorMsg).addClass('error-message');  // 오류 메시지 표시
+                console.error("계정찾기 실패: ", xhr.responseText);
             }
         });
     });

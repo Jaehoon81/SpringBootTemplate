@@ -60,7 +60,7 @@
 }
 
 .profile-edit-form input[readonly] {
-    background-color: #f0f8ff; /* 옅은 회색: #e9ecef */
+    background-color: #e8f0fe; /* 옅은 회색: #e9ecef */
     color: #555; /* 회색: #6c757d */
     cursor: not-allowed;
 }
@@ -143,6 +143,10 @@ hr {
     position: relative;
 }
 
+#deactivateUserModal.show #deactivateUserModal .popup-content {
+    transform: scale(1); /* 최종 스케일 (원래 크기) */
+}
+
 #deactivateUserModal .popup-content h3 {
     margin-top: 0;
     color: #333;
@@ -155,13 +159,21 @@ hr {
     margin-bottom: 25px;
 }
 
+/* 입력 필드의 placeholder 스타일 */
+#deactivateUserModal .popup-content input::placeholder {
+    color: #999;
+    font-style: normal;
+}
+
 #deactivateUserModal .popup-content input[type="text"] {
     width: calc(100% - 36px); /* 패딩을 고려한 계산 */
-    padding: 12px;
+    height: 44px;
+    padding: 12px 15px;
     /*margin-bottom: 20px;*/
     border: 1px solid #ddd;
     border-radius: 5px;
-    font-size: 1.1em;
+    font-size: 1.05em;
+    color: #333;
     text-align: center;
     box-sizing: border-box;
 }

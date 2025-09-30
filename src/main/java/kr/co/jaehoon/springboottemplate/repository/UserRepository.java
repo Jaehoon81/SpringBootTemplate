@@ -25,6 +25,15 @@ public class UserRepository {
         sqlSession.update("User.updateUser", request);
     }
 
+    // 아이디/비밀번호 찾기 진행 시 사용자 비밀번호(랜덤)를 업데이트
+    public void updatePassword(Long id, String password) throws Exception {
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", id);
+        params.put("password", password);
+
+        sqlSession.update("User.updatePassword", params);
+    }
+
     // 마이 페이지 메뉴 화면에서 사용자 탈퇴 상태를 업데이트 (USER 계정만 가능)
     public void updateUserDeleteStatus(Long id, boolean isDeleted) throws Exception {
         Map<String, Object> params = new HashMap<>();
@@ -52,15 +61,6 @@ public class UserRepository {
         sqlSession.update("User.updateApprovalStatus", params);
     }
 
-    // 해당 계정의 프로필 사진(이미지) 경로를 업데이트
-    public void updateProfilePicturePath(Long id, String path) throws Exception {
-        Map<String, Object> params = new HashMap<>();
-        params.put("id", id);
-        params.put("path", path);
-
-        sqlSession.update("User.updateProfilePicturePath", params);
-    }
-
     // USER 계정의 active_session_jti 컬럼을 업데이트
     public void updateActiveSessionJti(Long id, String jti) throws Exception {
         Map<String, Object> params = new HashMap<>();
@@ -68,5 +68,14 @@ public class UserRepository {
         params.put("jti", jti);
 
         sqlSession.update("User.updateActiveSessionJti", params);
+    }
+
+    // 해당 계정의 프로필 사진(이미지) 경로를 업데이트
+    public void updateProfilePicturePath(Long id, String path) throws Exception {
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", id);
+        params.put("path", path);
+
+        sqlSession.update("User.updateProfilePicturePath", params);
     }
 }
