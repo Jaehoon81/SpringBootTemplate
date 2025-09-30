@@ -1,9 +1,14 @@
 HELP.md
+
+### Build ###
 .gradle
+target/
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+*.jar
+*.war
 
 ### STS ###
 .apt_generated
@@ -19,6 +24,7 @@ bin/
 
 ### IntelliJ IDEA ###
 .idea
+.idea/
 *.iws
 *.iml
 *.ipr
@@ -35,3 +41,10 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Logs ###
+*.log
+logs/
+
+### Sensitive Information (Critical!) ###
+.env
