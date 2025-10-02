@@ -31,46 +31,159 @@
         <result property="rolename" column="rolename"/><!-- 조인으로 채움 -->
         <!-- 승인 요청 정보를 User 모델(DTO)에 포함 -->
         <association property="approvalRequest" resultMap="approvalRequestResultMap" columnPrefix="ar_"/>
+        <!-- 참가자 목록을 매핑하는 collection 태그 -->
+        <!-- participants: User 모델(DTO)의 참가자 목록 필드 이름 -->
+        <collection property="participants" ofType="kr.co.jaehoon.springboottemplate.dto.ParticipantDTO"
+                    resultMap="participantResultMap_userJoin"/>
+    </resultMap>
+
+    <!-- DB의 participants 테이블을 위한 resultMap (UserDTO 조인용) -->
+    <!-- participantResultMap_userJoin: UserDTO-ParticipantDTO 매핑에 사용 -->
+    <resultMap id="participantResultMap_userJoin" type="kr.co.jaehoon.springboottemplate.dto.ParticipantDTO">
+        <id property="participantId" column="p_participant_id"/>
+        <result property="userId" column="p_user_id"/>
+        <result property="participantName" column="p_participant_name"/>
+        <result property="birthYear" column="p_birth_year"/>
+        <result property="birthMonth" column="p_birth_month"/>
+        <result property="gender" column="p_gender" javaType="kr.co.jaehoon.springboottemplate.dto.validation.Gender"/>
+        <result property="createdAt" column="p_created_at"/>
+        <result property="updatedAt" column="p_updated_at"/>
     </resultMap>
 
     <select id="findByUsername" parameterType="String" resultMap="userResultMap">
         SELECT
-            u.id, u.username, u.password, u.displayname, u.profile_picture_path, u.email, u.role_id, u.active_session_jti, u.is_deleted, u.created_at, u.updated_at,
+            u.id,
+            u.username,
+            u.password,
+            u.displayname,
+            u.profile_picture_path,
+            u.email,
+            u.role_id,
+            u.active_session_jti,
+            u.is_deleted,
+            u.created_at,
+            u.updated_at,
+
             r.rolename,
-            ar.request_id AS ar_request_id, ar.user_id AS ar_user_id, ar.req_message AS ar_req_message, ar.assigned_admin_id AS ar_assigned_admin_id, uu.displayname AS ar_assigned_admin_name, ar.is_approved AS ar_is_approved,
-            ar.requested_at AS ar_requested_at, ar.approved_at AS ar_approved_at
+
+            ar.request_id AS ar_request_id,
+            ar.user_id AS ar_user_id,
+            ar.req_message AS ar_req_message,
+            ar.assigned_admin_id AS ar_assigned_admin_id,
+            uu.displayname AS ar_assigned_admin_name,
+            ar.is_approved AS ar_is_approved,
+            ar.requested_at AS ar_requested_at,
+            ar.approved_at AS ar_approved_at,
+
+            <!-- 참가자 정보 컬럼 추가 (p_ 접두사를 사용하여 users 컬럼과 충돌 방지) -->
+            p.participant_id AS p_participant_id,
+            p.user_id AS p_user_id,
+            p.participant_name AS p_participant_name,
+            p.birth_year AS p_birth_year,
+            p.birth_month AS p_birth_month,
+            p.gender AS p_gender,
+            p.created_at AS p_created_at,
+            p.updated_at AS p_updated_at
         FROM users u
         JOIN roles r ON u.role_id = r.id
         LEFT JOIN approval_requests ar ON u.id = ar.user_id
         LEFT JOIN users uu ON ar.assigned_admin_id = uu.id
+        LEFT JOIN participants p ON u.id = p.user_id
         WHERE u.username = #{username}
+
+        <!-- 참가자 목록 정렬 (필요 시) -->
+        ORDER BY p.created_at ASC
     </select>
 
     <select id="findByDisplayname" parameterType="String" resultMap="userResultMap">
         SELECT
-            u.id, u.username, u.password, u.displayname, u.profile_picture_path, u.email, u.role_id, u.active_session_jti, u.is_deleted, u.created_at, u.updated_at,
+            u.id,
+            u.username,
+            u.password,
+            u.displayname,
+            u.profile_picture_path,
+            u.email,
+            u.role_id,
+            u.active_session_jti,
+            u.is_deleted,
+            u.created_at,
+            u.updated_at,
+
             r.rolename,
-            ar.request_id AS ar_request_id, ar.user_id AS ar_user_id, ar.req_message AS ar_req_message, ar.assigned_admin_id AS ar_assigned_admin_id, uu.displayname AS ar_assigned_admin_name, ar.is_approved AS ar_is_approved,
-            ar.requested_at AS ar_requested_at, ar.approved_at AS ar_approved_at
+
+            ar.request_id AS ar_request_id,
+            ar.user_id AS ar_user_id,
+            ar.req_message AS ar_req_message,
+            ar.assigned_admin_id AS ar_assigned_admin_id,
+            uu.displayname AS ar_assigned_admin_name,
+            ar.is_approved AS ar_is_approved,
+            ar.requested_at AS ar_requested_at,
+            ar.approved_at AS ar_approved_at,
+
+            <!-- 참가자 정보 컬럼 추가 (p_ 접두사를 사용하여 users 컬럼과 충돌 방지) -->
+            p.participant_id AS p_participant_id,
+            p.user_id AS p_user_id,
+            p.participant_name AS p_participant_name,
+            p.birth_year AS p_birth_year,
+            p.birth_month AS p_birth_month,
+            p.gender AS p_gender,
+            p.created_at AS p_created_at,
+            p.updated_at AS p_updated_at
         FROM users u
         JOIN roles r ON u.role_id = r.id
         LEFT JOIN approval_requests ar ON u.id = ar.user_id
         LEFT JOIN users uu ON ar.assigned_admin_id = uu.id
+        LEFT JOIN participants p ON u.id = p.user_id
         WHERE u.displayname = #{displayname}
+
+        <!-- 참가자 목록 정렬 (필요 시) -->
+        ORDER BY p.created_at ASC
     </select>
 
     <!-- 사용자 정보를 조회 (업데이트 시 현재 정보를 불러오기 위한 용도) -->
     <select id="findUserById" parameterType="long" resultMap="userResultMap">
         SELECT
-            u.id, u.username, u.password, u.displayname, u.profile_picture_path, u.email, u.role_id, u.active_session_jti, u.is_deleted, u.created_at, u.updated_at,
+            u.id,
+            u.username,
+            u.password,
+            u.displayname,
+            u.profile_picture_path,
+            u.email,
+            u.role_id,
+            u.active_session_jti,
+            u.is_deleted,
+            u.created_at,
+            u.updated_at,
+
             r.rolename,
-            ar.request_id AS ar_request_id, ar.user_id AS ar_user_id, ar.req_message AS ar_req_message, ar.assigned_admin_id AS ar_assigned_admin_id, uu.displayname AS ar_assigned_admin_name, ar.is_approved AS ar_is_approved,
-            ar.requested_at AS ar_requested_at, ar.approved_at AS ar_approved_at
+
+            ar.request_id AS ar_request_id,
+            ar.user_id AS ar_user_id,
+            ar.req_message AS ar_req_message,
+            ar.assigned_admin_id AS ar_assigned_admin_id,
+            uu.displayname AS ar_assigned_admin_name,
+            ar.is_approved AS ar_is_approved,
+            ar.requested_at AS ar_requested_at,
+            ar.approved_at AS ar_approved_at,
+
+            <!-- 참가자 정보 컬럼 추가 (p_ 접두사를 사용하여 users 컬럼과 충돌 방지) -->
+            p.participant_id AS p_participant_id,
+            p.user_id AS p_user_id,
+            p.participant_name AS p_participant_name,
+            p.birth_year AS p_birth_year,
+            p.birth_month AS p_birth_month,
+            p.gender AS p_gender,
+            p.created_at AS p_created_at,
+            p.updated_at AS p_updated_at
         FROM users u
         JOIN roles r ON u.role_id = r.id
         LEFT JOIN approval_requests ar ON u.id = ar.user_id
         LEFT JOIN users uu ON ar.assigned_admin_id = uu.id
+        LEFT JOIN participants p ON u.id = p.user_id
         WHERE u.id = #{id}
+
+        <!-- 참가자 목록 정렬 (필요 시) -->
+        ORDER BY p.created_at ASC
     </select>
 
     <!-- displayname과 email로 특정 사용자를 조회 -->
@@ -133,7 +246,8 @@
     <select id="findPendingUsersByAdminName" parameterType="long" resultType="kr.co.jaehoon.springboottemplate.dto.LoginApprovalDTO">
         SELECT
             u.id, u.username, u.displayname, u.email, ar.req_message,
-            r.rolename, ar.assigned_admin_id AS ar_assigned_admin_id, uu.displayname AS ar_assigned_admin_name
+            r.rolename,
+            ar.assigned_admin_id AS ar_assigned_admin_id, uu.displayname AS ar_assigned_admin_name
         FROM users u
         JOIN roles r ON u.role_id = r.id
         JOIN approval_requests ar ON u.id = ar.user_id

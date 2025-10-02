@@ -28,8 +28,8 @@ public class AuthRestService {
 //    private final UserDAO userDAO;
 //    private final UserRepository userRepository;
     private final UserService userService;
-    private final EmailService emailService;
 
+    private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional

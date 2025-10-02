@@ -32,6 +32,25 @@ logging:
   level:
     kr.co.jaehoon.springboottemplate: debug
 
+# SpringDoc OpenAPI (Swagger UI)
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html  # Swagger UI 접근 경로 설정 (기본값: /swagger-ui/index.html)
+  api-docs:
+    path: /v3/api-docs  # OpenAPI 3.0 JSON/YAML 문서의 기본 경로
+
+# Swagger UI의 API 정보 (선택 사항)
+info:
+  title: Spring-Boot Template API
+  version: ${app.version}
+  description: Spring-Boot Template RESTful API Documentation
+  contact:
+    name: Jaehoon81
+    email: jungjh0519@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+
 # Server Port/Error
 server:
   port: 8080

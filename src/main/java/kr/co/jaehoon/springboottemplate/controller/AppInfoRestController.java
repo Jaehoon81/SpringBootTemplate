@@ -32,7 +32,7 @@ public class AppInfoRestController {
     public ResponseEntity<Map<String, String>> getAppVersion() {
         Map<String, String> responseMap = new HashMap<>();
         responseMap.put("version", appVersion);
-        responseMap.put("message", "애플리케이션 버전 정보입니다.");
+        responseMap.put("resMessage", "애플리케이션 버전 정보입니다.");
 
 //        return ResponseEntity.ok(responseMap);
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(responseMap);

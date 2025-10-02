@@ -1,11 +1,20 @@
 package kr.co.jaehoon.springboottemplate.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import kr.co.jaehoon.springboottemplate.dto.ApprovalRequestDTO;
 import kr.co.jaehoon.springboottemplate.dto.CustomUserDetails;
+import kr.co.jaehoon.springboottemplate.dto.network.BasicResponse;
+import kr.co.jaehoon.springboottemplate.dto.network.MobileAuthRequest;
+import kr.co.jaehoon.springboottemplate.dto.network.MobileAuthResponse;
 import kr.co.jaehoon.springboottemplate.dto.validation.FindAccountRequest;
 import kr.co.jaehoon.springboottemplate.dto.validation.RegistrationRequest;
 import kr.co.jaehoon.springboottemplate.dto.UserDTO;
@@ -45,6 +54,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Tag(name = "Authentication API", description = "웹/모바일 인증(회원가입, 계정찾기, 로그인/로그아웃) 관련 API")
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
@@ -70,7 +80,14 @@ public class AuthRestController {
      * ADMIN 또는 USER 권한의 경우에만 /api/auth/register 엔드포인트로 회원 가입이 가능
      */
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody RegistrationRequest registrationRequest) throws Exception {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody RegistrationRequest registrationRequest, BindingResult bindingResult) throws Exception {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = bindingResult.getFieldErrors().stream().collect(Collectors.toMap(
+                    fieldError -> fieldError.getField(), fieldError -> fieldError.getDefaultMessage()
+            ));
+            log.warn("Register_BindingResult_InvalidException: {}", errors.toString());
+            return ResponseEntity.badRequest().body(errors);
+        }
         // 1. 아이디 중복 확인
         UserDTO user1 = userService.findByUsername(registrationRequest.getUsername());
         if (user1 != null) {
@@ -176,7 +193,7 @@ public class AuthRestController {
             Map<String, String> errors = bindingResult.getFieldErrors().stream().collect(Collectors.toMap(
                     fieldError -> fieldError.getField(), fieldError -> fieldError.getDefaultMessage()
             ));
-            log.warn("BindingResult_InvalidException: {}", errors.toString());
+            log.warn("Find-Account_BindingResult_InvalidException: {}", errors.toString());
             return ResponseEntity.badRequest().body(errors);
         }
         try {
@@ -186,13 +203,13 @@ public class AuthRestController {
             Map<String, String> errors = new HashMap<>();
             errors.put("general", e.getMessage());  // general 오류 메시지로 프론트엔드에 전달
 
-            log.warn("General_InvalidException(1): {}", errors.toString());
+            log.warn("Find-Account_General_InvalidException(1): {}", errors.toString());
             return ResponseEntity.badRequest().body(errors);
         } catch (Exception e) {
             Map<String, String> errors = new HashMap<>();
             errors.put("general", "이메일 전송 중 오류가 발생했습니다.\n유효한 이메일 주소가 아닐 수 있습니다.");
 
-            log.error("General_InvalidException(2): {}", errors.toString());
+            log.error("Find-Account_General_InvalidException(2): {}", errors.toString());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errors);
         }
     }
@@ -242,7 +259,9 @@ public class AuthRestController {
         response.addCookie(jwtCookie);
 
         // 프론트엔드에서 jwtToken을 body로 받을 필요 없으므로 빈 응답 반환 또는 성공 메시지만 반환
-//        return ResponseEntity.ok(new WebAuthResponse(jwt));
+//        return ResponseEntity.ok(new AuthenticationResponse(
+//                jwt, userDetails.getUsername(), "로그인(웹) 성공"
+//        ));
         return ResponseEntity.ok().body("로그인(웹) 성공");
     }
 
@@ -294,8 +313,21 @@ public class AuthRestController {
      * 모바일 로그인 API (JWT 응답 본문 전달)
      * 모바일 앱은 로그인 성공 시 Access Token을 응답 본문에서 파싱하여 저장함
      */
+    @Operation(summary = "모바일 로그인",
+            description = "모바일 앱에서 사용자를 인증하고 JWT 토큰을 발급합니다.",
+            parameters = {
+                    @Parameter(name = "username", description = "사용자 아이디", required = true),
+                    @Parameter(name = "password", description = "비밀번호", required = true) })
+    @ApiResponse(responseCode = "200",
+            description = "로그인(모바일) 성공",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = MobileAuthResponse.class)))
+    @ApiResponse(responseCode = "400",
+            description = "잘못된 요청",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Map.class)))
+    @ApiResponse(responseCode = "401", description = "인증 실패")
+    @ApiResponse(responseCode = "500", description = "서버 오류")
     @PostMapping("/mobile-login")
-    public ResponseEntity<?> mobileLogin(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+    public ResponseEntity<?> mobileLogin(@RequestBody MobileAuthRequest authenticationRequest) throws Exception {
         try {
             // 1. Spring Security의 AuthenticationManager를 통해 사용자가 유효한지 검증
             // (stateless이므로 SecurityContextHolder에 저장하지 않음)
@@ -328,8 +360,8 @@ public class AuthRestController {
         userService.updateActiveSessionJti(((CustomUserDetails) userDetails).getUser().getId(), jti);
 
         // 모바일 클라이언트에게 JWT(Access Token)를 응답 본문에 포함하여 반환
-        return ResponseEntity.ok(new MobileAuthResponse(
-                jwt, userDetails.getUsername(), "로그인(모바일) 성공"
+        return ResponseEntity.status(HttpStatus.OK).body(BasicResponse.success(
+                MobileAuthResponse.from(jwt, (CustomUserDetails) userDetails, "로그인(모바일) 성공")
         ));
     }
 
@@ -362,29 +394,60 @@ public class AuthRestController {
      * 모바일에서 Authorization 헤더 기반의 요청에 대해 JSON 응답을 보내고, Access Token을 블랙리스트 처리
      * 클라이언트는 요청 시 Access Token을 Authorization 헤더에 담아 전송
      */
+    @Operation(summary = "모바일 로그아웃",
+            description = "모바일 앱 사용자를 로그아웃하고 JWT 토큰을 무효화합니다.",
+            parameters = {
+                    @Parameter(name = "Authorization", description = "JWT 토큰 (Bearer)", required = true, example = "Bearer <token>") })
+    @ApiResponse(responseCode = "200",
+            description = "로그아웃(모바일) 성공",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = MobileAuthResponse.class)))
+    @ApiResponse(responseCode = "400",
+            description = "잘못된 요청",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Map.class)))
+    @ApiResponse(responseCode = "401", description = "인증 실패")
+    @ApiResponse(responseCode = "500", description = "서버 오류")
     @PostMapping(value = "/mobile-logout", produces = MediaType.APPLICATION_JSON_VALUE)  // JSON 응답 강제
-    public ResponseEntity<Map<String, String>> mobileLogout(HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal CustomUserDetails userDetails) throws Exception {
+    public ResponseEntity<?> mobileLogout(
+            HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal CustomUserDetails userDetails,
+            // Swagger UI에서 아래 파라미터를 보고 Authorization 헤더 입력 필드를 생성
+            @Parameter(name = "Authorization", description = "JWT 토큰 (Bearer)", required = true, example = "Bearer <token>")
+            @RequestHeader(name = "Authorization", required = false) String authHeader  // required = false: 헤더가 없어도 호출 가능하게 함
+    ) throws Exception {
         String jwt = null;
         // Authorization 헤더에서 JWT 추출 (모바일에서 명시적으로 보낸 경우)
         final String authorizationHeader = request.getHeader("Authorization");
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             jwt = authorizationHeader.substring(7);
+        } else if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            jwt = authHeader.substring(7);
+        } else {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증 토큰이 누락되었거나 유효하지 않습니다.");
         }
         performLogout(jwt, response);  // 공통 로그아웃 로직 호출
-
-        // 모바일 클라이언트를 위해 JSON 응답
-        Map<String, String> responseMap = new HashMap<>();
-        responseMap.put("username", SecurityContextHolder.getContext().getAuthentication().getName());
-        responseMap.put("message", "로그아웃(모바일) 성공");
 
         if (userDetails != null && userDetails.getUser().getId() != null) {
             // DB의 해당 계정에 active_session_jti 컬럼을 null로 업데이트하여 해당 토큰을 무효화
             userService.updateActiveSessionJti(userDetails.getUser().getId(), null);
         }
-        // Spring Security의 Context에서 현재 인증 정보를 클리어
-        SecurityContextHolder.clearContext();
-//        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(responseMap);
-        return ResponseEntity.ok(responseMap);
+        if (userDetails != null) {
+            // Spring Security의 Context에서 현재 인증 정보를 클리어
+            SecurityContextHolder.clearContext();
+            // 모바일 클라이언트에게 JWT(Access Token)를 응답 본문에 포함하지 않고 반환
+            return ResponseEntity.status(HttpStatus.OK).body(BasicResponse.success(
+                    MobileAuthResponse.from("", userDetails, "로그아웃(모바일) 성공")
+            ));
+        } else {  // userDetails == null
+            // 모바일 클라이언트를 위해 JSON(Map) 응답
+            Map<String, String> responseMap = new HashMap<>();
+            responseMap.put("accessToken", "");
+            responseMap.put("username", SecurityContextHolder.getContext().getAuthentication().getName());
+            responseMap.put("resMessage", "로그아웃(모바일) 성공");
+
+            // Spring Security의 Context에서 현재 인증 정보를 클리어
+            SecurityContextHolder.clearContext();
+//            return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(responseMap);
+            return ResponseEntity.ok(responseMap);
+        }
     }
 
     /**
@@ -421,28 +484,23 @@ public class AuthRestController {
     public ResponseEntity<Map<String, String>> checkTokenValidity() {
         Map<String, String> responseMap = new HashMap<>();
         responseMap.put("username", SecurityContextHolder.getContext().getAuthentication().getName());
-        responseMap.put("message", "Access Token이 유효합니다.");
+        responseMap.put("resMessage", "Access Token이 유효합니다.");
 
 //        return ResponseEntity.ok(responseMap);
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(responseMap);
     }
 
     @Data
-    static class AuthenticationRequest {  // 로그인 요청 DTO (웹/모바일 공용)
+    static class AuthenticationRequest {  // 로그인 요청 데이터 (웹용)
         private String username;
         private String password;
     }
 
-    // WebAuthResponse 클래스 필요 없음 (JWT를 body로 보내지 않으므로)
+    // AuthenticationResponse 클래스 필요 없음 (JWT를 body로 보내지 않으므로)
     @Data
-    static class WebAuthResponse {  // 웹용 로그인 응답 DTO
-        private final String jwt;
-    }
-
-    @Data
-    static class MobileAuthResponse {  // 모바일용 로그인 응답 DTO
+    static class AuthenticationResponse {  // 로그인 응답 데이터 (웹용)
         private final String accessToken;
         private final String username;
-        private final String message;
+        private final String resMessage;
     }
 }

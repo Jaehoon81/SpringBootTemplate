@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.jaehoon.springboottemplate.repository.dao.ParticipantDAO">
+
+    <!-- participantResultMap: Participant 모델(DTO)의 기본 필드 매핑용 -->
+    <resultMap id="participantResultMap" type="kr.co.jaehoon.springboottemplate.dto.ParticipantDTO">
+        <id property="participantId" column="participant_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="participantName" column="participant_name"/>
+        <result property="birthYear" column="birth_year"/>
+        <result property="birthMonth" column="birth_month"/>
+        <result property="gender" column="gender" javaType="kr.co.jaehoon.springboottemplate.dto.validation.Gender"/><!-- Enum 타입 매핑 -->
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <select id="findParticipantsByUserId" parameterType="long" resultMap="participantResultMap">
+        SELECT participant_id, user_id, participant_name, birth_year, birth_month, gender, created_at, updated_at
+        FROM participants
+        WHERE user_id = #{userId}
+        ORDER BY created_at DESC
+    </select>
+
+</mapper>

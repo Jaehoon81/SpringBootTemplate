@@ -159,6 +159,14 @@ public class UserRestController {
             @Validated({ PasswordChangeGroup.class }) @RequestBody UserUpdateRequest userUpdateRequest,
             BindingResult bindingResult
     ) throws Exception {
+        // 유효성 검사 그룹을 동적으로 적용하기 위해 @Validated 어노테이션과 함께 BindingResult를 사용
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = bindingResult.getFieldErrors().stream().collect(Collectors.toMap(
+                    fieldError -> fieldError.getField(), fieldError -> fieldError.getDefaultMessage()
+            ));
+            log.warn("Profile_BindingResult_InvalidException: {}", errors.toString());
+            return ResponseEntity.badRequest().body(errors);
+        }
         if (currentUser == null) {
 //            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증된 사용자 정보가 없습니다.");
@@ -172,7 +180,7 @@ public class UserRestController {
             Map<String, String> errors = new HashMap<>();
             errors.put("currentPassword", "현재 비밀번호가 일치하지 않습니다.");
 
-            log.warn("CurrentPassword_InvalidException: {}", errors.toString());
+            log.warn("Profile_CurrentPassword_InvalidException: {}", errors.toString());
             return ResponseEntity.badRequest().body(errors);
         }
         // 새 비밀번호가 입력된 경우에만 비밀번호 관련 유효성 검사 적용
@@ -184,17 +192,9 @@ public class UserRestController {
                 Map<String, String> errors = new HashMap<>();
                 errors.put("confirmPassword", "새 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
 
-                log.warn("ConfirmPassword_InvalidException: {}", errors.toString());
+                log.warn("Profile_ConfirmPassword_InvalidException: {}", errors.toString());
                 return ResponseEntity.badRequest().body(errors);
             }
-        }
-        // 유효성 검사 그룹을 동적으로 적용하기 위해 @Validated 어노테이션과 함께 BindingResult를 사용
-        if (bindingResult.hasErrors()) {
-            Map<String, String> errors = bindingResult.getFieldErrors().stream().collect(Collectors.toMap(
-                    fieldError -> fieldError.getField(), fieldError -> fieldError.getDefaultMessage()
-            ));
-            log.warn("BindingResult_InvalidException: {}", errors.toString());
-            return ResponseEntity.badRequest().body(errors);
         }
         if (isPasswordChangeRequested == true) {
             // 새 비밀번호가 유효성 검사를 통과하고, 비밀번호 확인과 일치하면 인코딩 수행

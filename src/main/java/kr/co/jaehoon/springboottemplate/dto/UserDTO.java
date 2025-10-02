@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Getter
@@ -37,4 +38,6 @@ public class UserDTO {
     public boolean isApproved() {
         return (approvalRequest != null && approvalRequest.isApproved());
     }
+    // 로그인한 사용자의 참가자 목록 (users-participants 관계)
+    private List<ParticipantDTO> participants;
 }
