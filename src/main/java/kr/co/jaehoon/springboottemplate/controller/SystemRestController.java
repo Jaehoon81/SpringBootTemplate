@@ -69,7 +69,9 @@ public class SystemRestController {
 //    }
     @GetMapping("/pending-admins")
     @PreAuthorize("hasRole('SYSTEM')")  // SYSTEM 권한 필요
-    public ResponseEntity<List<LoginApprovalDTO>> getPendingAdmins(@AuthenticationPrincipal CustomUserDetails adminUserDetails) throws Exception {
+    public ResponseEntity<List<LoginApprovalDTO>> getPendingAdmins(
+            @AuthenticationPrincipal CustomUserDetails adminUserDetails
+    ) throws Exception {
         if (adminUserDetails == null || adminUserDetails.getUser() == null
                 || !"SYSTEM".equalsIgnoreCase(adminUserDetails.getUser().getRolename())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);  // SYSTEM 권한이 아닌 경우 403 Forbidden 반환
@@ -88,7 +90,9 @@ public class SystemRestController {
      */
     @PostMapping("/approve-admin")
     @PreAuthorize("hasRole('SYSTEM')")  // SYSTEM 권한 필요
-    public ResponseEntity<String> approveAdmin(@RequestBody AdminApprovalRequest request, @AuthenticationPrincipal CustomUserDetails adminUserDetails) throws Exception {
+    public ResponseEntity<String> approveAdmin(
+            @RequestBody AdminApprovalRequest request, @AuthenticationPrincipal CustomUserDetails adminUserDetails
+    ) throws Exception {
         if (adminUserDetails == null || adminUserDetails.getUser() == null
                 || !"SYSTEM".equalsIgnoreCase(adminUserDetails.getUser().getRolename())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("접근 권한이 없습니다.");  // SYSTEM 권한이 아닌 경우 403 Forbidden 반환

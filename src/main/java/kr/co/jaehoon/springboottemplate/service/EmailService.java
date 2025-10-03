@@ -21,7 +21,7 @@ public class EmailService {
     private final JavaMailSender mailSender;
 
     // TEXT 형식으로 이메일을 보낼 때 사용하는 메서드
-    public void sendEmail(String to, String subject, String text) {
+    public void sendTextEmail(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
         message.setSubject(subject);

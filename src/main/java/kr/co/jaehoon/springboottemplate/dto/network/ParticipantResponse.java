@@ -27,6 +27,7 @@ public class ParticipantResponse {
     /**
      * Participant 모델(DTO) 객체를 ParticipantResponse로 변환하는 팩토리 메서드
      * @param participant 변환할 ParticipantDTO 객체
+     * @param resMessage 응답 메시지
      * @return ParticipantResponse 객체
      */
     public static ParticipantResponse from(ParticipantDTO participant, String resMessage) {

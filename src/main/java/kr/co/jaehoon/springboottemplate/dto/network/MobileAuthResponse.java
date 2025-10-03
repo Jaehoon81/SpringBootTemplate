@@ -24,7 +24,9 @@ public class MobileAuthResponse {
 
     /**
      * CustomUserDetails 모델 객체를 MobileAuthResponse로 변환하는 팩토리 메서드
+     * @param jwtToken JWT Access Token
      * @param userDetails 변환할 CustomUserDetails 모델 객체
+     * @param resMessage 응답 메시지
      * @return MobileAuthResponse 객체
      */
     public static MobileAuthResponse from(String jwtToken, CustomUserDetails userDetails, String resMessage) {

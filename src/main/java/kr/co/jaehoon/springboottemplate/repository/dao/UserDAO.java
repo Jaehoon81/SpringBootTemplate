@@ -22,7 +22,8 @@ public interface UserDAO {
     public UserDTO findUserById(@Param("id") Long id) throws Exception;
 
     // displayname과 email로 특정 사용자를 조회
-    public UserDTO findUserByDisplaynameAndEmail(@Param("displayname") String displayname, @Param("email") String email) throws IllegalArgumentException;
+    public UserDTO findUserByDisplaynameAndEmail(
+            @Param("displayname") String displayname, @Param("email") String email) throws IllegalArgumentException;
 
     // 권한(역할) 이름(rolename)을 통해 role_id를 조회
     public Long findRoleIdByRolename(@Param("rolename") String rolename) throws Exception;

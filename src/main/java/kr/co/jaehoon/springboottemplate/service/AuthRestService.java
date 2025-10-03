@@ -33,7 +33,9 @@ public class AuthRestService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public void findAccountAndResetPassword(FindAccountRequest request) throws IllegalArgumentException, MessagingException, Exception {
+    public void findAccountAndResetPassword(
+            FindAccountRequest request
+    ) throws IllegalArgumentException, MessagingException, Exception {
         UserDTO user = userService.findUserByDisplaynameAndEmail(request.getDisplayname(), request.getEmail());
         if (user == null) {
             throw new IllegalArgumentException("이름 또는 이메일과 일치하는 계정을 찾을 수 없습니다.");
@@ -56,7 +58,7 @@ public class AuthRestService {
 //                + "임시 비밀번호: <b>" + newRandomPassword + "</b><br/><br/>"
 //                + "로그인 후 반드시 비밀번호를 변경해주세요!<br/>"
 //                + "감사합니다.";
-//        emailService.sendEmail(user.getEmail(), subject, text);
+//        emailService.sendTextEmail(user.getEmail(), subject, text);
         String htmlContent = "<!DOCTYPE html>"
                 + "<html><head><meta charset='UTF-8'></head><body style='font-family: Arial, sans-serif; color: #333;'>"
                 + "<h3 style='font-size: 1.05em;'>안녕하세요, <strong style='color: #2E86C1;'>" + user.getDisplayname() + "</strong>님.</h3>"

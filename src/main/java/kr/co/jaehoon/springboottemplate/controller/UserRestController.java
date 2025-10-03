@@ -1,6 +1,7 @@
 package kr.co.jaehoon.springboottemplate.controller;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import kr.co.jaehoon.springboottemplate.dto.CustomUserDetails;
@@ -9,6 +10,8 @@ import kr.co.jaehoon.springboottemplate.dto.validation.PasswordChangeGroup;
 import kr.co.jaehoon.springboottemplate.dto.validation.UserUpdateRequest;
 import kr.co.jaehoon.springboottemplate.repository.UserRepository;
 import kr.co.jaehoon.springboottemplate.repository.dao.UserDAO;
+import kr.co.jaehoon.springboottemplate.security.JwtBlacklistService;
+import kr.co.jaehoon.springboottemplate.security.JwtUtil;
 import kr.co.jaehoon.springboottemplate.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,10 +38,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -51,6 +51,9 @@ public class UserRestController {
 
     @Value("${file.upload-dir}")  // 파일 업로드 디렉토리
     private String uploadDir;
+
+    private final JwtUtil jwtUtil;
+    private final JwtBlacklistService jwtBlacklistService;
 
 //    private final UserDAO userDAO;
 //    private final UserRepository userRepository;
@@ -107,10 +110,14 @@ public class UserRestController {
     // 프로필 사진(이미지) 조회
     // (클라이언트에서 <img src="/profiles/{userId}/{filename}"/> 요청 시 처리)
 //    @GetMapping("/profile-picture/{userId}/{filename:.+}")
-//    public ResponseEntity<Resource> serveProfilePicture(@PathVariable Long userId, @PathVariable String filename) throws Exception {
+//    public ResponseEntity<Resource> serveProfilePicture(
+//            @PathVariable Long userId, @PathVariable String filename
+//    ) throws Exception {
     // (클라이언트에서 <img src="/api/user/profile-picture/{username}/{filename}"/> 요청 시 처리)
     @GetMapping("/profile-picture/{username}/{filename:.+}")
-    public ResponseEntity<Resource> serveProfilePicture(@PathVariable String username, @PathVariable String filename) throws Exception {
+    public ResponseEntity<Resource> serveProfilePicture(
+            @PathVariable String username, @PathVariable String filename
+    ) throws Exception {
         try {
             // 실제 파일이 저장된 물리적 경로를 구성
 //            Path filePath = Paths.get(uploadDir, "profiles", String.valueOf(userId), filename);
@@ -212,7 +219,9 @@ public class UserRestController {
 
     // 사용자의 탈퇴 상태를 업데이트하는 API (USER 계정만 가능)
     @PostMapping("/deactivate")
-    public ResponseEntity<String> deactivateUser(@AuthenticationPrincipal CustomUserDetails currentUser, HttpServletResponse response) throws Exception {
+    public ResponseEntity<String> deactivateUser(
+            @AuthenticationPrincipal CustomUserDetails currentUser, HttpServletRequest request, HttpServletResponse response
+    ) throws Exception {
         if (currentUser == null) {
 //            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증된 사용자 정보가 없습니다.");
@@ -221,6 +230,28 @@ public class UserRestController {
         Long userId = currentUser.getUser().getId();
         userService.updateUserDeleteStatus(userId, true);
 
+        String jwt = null;
+        // 쿠키에서 JWT 추출 (웹 브라우저의 자동 쿠키 전송)
+        if (jwt == null && request.getCookies() != null) {
+            jwt = Arrays.stream(request.getCookies())
+                    .filter(cookie -> "jwtToken".equals(cookie.getName()))
+                    .map(Cookie::getValue)
+                    .findFirst()
+                    .orElse(null);
+        }
+        // JWT가 존재하면 검증 시작
+        if (jwt != null) {
+            try {
+                Date expiration = jwtUtil.extractExpiration(jwt);
+                // JWT를 블랙리스트에 추가하여 즉시 무효화 (여기서는 웹 토큰에 해당)
+//                jwtBlacklistService.addTokenToBlacklist(jwt, expiration.getTime());  // 간단한 인메모리 캐시를 사용
+                jwtBlacklistService.addTokenToBlacklist(jwt, expiration);  // MySQL DB 기반 영속적인 방식
+            } catch (Exception e) {
+                // 토큰 추출 실패 또는 이미 만료된 토큰인 경우에도 로그아웃 처리 진행 (블랙리스트에 추가는 불필요)
+//                System.out.println("로그아웃 처리 중 토큰 오류: " + e.getMessage());
+                log.warn("JWT token error during logout processing: {}", e.getMessage());
+            }
+        }
         // JWT 쿠키 삭제
         Cookie jwtCookie = new Cookie("jwtToken", "");
         jwtCookie.setHttpOnly(true);
@@ -228,9 +259,10 @@ public class UserRestController {
         jwtCookie.setMaxAge(0);
 //        jwtCookie.setSecure(true);
         response.addCookie(jwtCookie);
-        // SecurityContext 초기화
-        SecurityContextHolder.clearContext();
 
+        // Spring Security의 Context에서 현재 인증 정보를 클리어
+        SecurityContextHolder.clearContext();
+        // 웹 클라이언트를 위해 텍스트 응답
         return ResponseEntity.ok("회원 탈퇴가 성공적으로 처리되었습니다.");
     }
 }

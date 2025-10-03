@@ -36,7 +36,9 @@ public class HomeController {
 
     // 동적 콘텐츠 로드를 위한 엔드포인트
     @GetMapping("/contents/{contentName}")
-    public String getContent(@PathVariable String contentName, @AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
+    public String getContent(
+            @PathVariable String contentName, @AuthenticationPrincipal CustomUserDetails customUserDetails, Model model
+    ) {
         if (customUserDetails != null) {
             log.debug("Contents/{}_UserDetails: {}", contentName.toUpperCase(), customUserDetails.getAuthorities().toString());
 

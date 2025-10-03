@@ -18,7 +18,7 @@ import java.util.Objects;
 
 @Controller
 @Slf4j
-public class MyErrorController implements ErrorController {
+public class CustomErrorController implements ErrorController {
 
 //    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -41,6 +41,7 @@ public class MyErrorController implements ErrorController {
 //        }
 //        return "error/error";
 //    }
+
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request, Model model) {
         Object error = request.getAttribute(RequestDispatcher.ERROR_MESSAGE);      // error.jsp의 ${error}

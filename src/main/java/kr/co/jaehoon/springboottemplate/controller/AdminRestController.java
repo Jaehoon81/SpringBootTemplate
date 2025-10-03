@@ -38,7 +38,9 @@ public class AdminRestController {
      */
     @GetMapping("/pending-users")
     @PreAuthorize("hasRole('ADMIN')")  // ADMIN 권한 필요
-    public ResponseEntity<List<LoginApprovalDTO>> getPendingUsers(@AuthenticationPrincipal CustomUserDetails adminUserDetails) throws Exception {
+    public ResponseEntity<List<LoginApprovalDTO>> getPendingUsers(
+            @AuthenticationPrincipal CustomUserDetails adminUserDetails
+    ) throws Exception {
         if (adminUserDetails == null || adminUserDetails.getUser() == null
                 || !"ADMIN".equalsIgnoreCase(adminUserDetails.getUser().getRolename())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);  // ADMIN 권한이 아닌 경우 403 Forbidden 반환
@@ -58,7 +60,9 @@ public class AdminRestController {
      */
     @PostMapping("/approve-user")
     @PreAuthorize("hasRole('ADMIN')")  // ADMIN 권한 필요
-    public ResponseEntity<String> approveUser(@RequestBody UserApprovalRequest request, @AuthenticationPrincipal CustomUserDetails adminUserDetails) throws Exception {
+    public ResponseEntity<String> approveUser(
+            @RequestBody UserApprovalRequest request, @AuthenticationPrincipal CustomUserDetails adminUserDetails
+    ) throws Exception {
         if (adminUserDetails == null || adminUserDetails.getUser() == null
                 || !"ADMIN".equalsIgnoreCase(adminUserDetails.getUser().getRolename())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("접근 권한이 없습니다.");  // ADMIN 권한이 아닌 경우 403 Forbidden 반환

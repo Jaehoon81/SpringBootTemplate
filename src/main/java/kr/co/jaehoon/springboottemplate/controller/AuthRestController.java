@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import kr.co.jaehoon.springboottemplate.dto.ApprovalRequestDTO;
 import kr.co.jaehoon.springboottemplate.dto.CustomUserDetails;
 import kr.co.jaehoon.springboottemplate.dto.network.BasicResponse;
+import kr.co.jaehoon.springboottemplate.dto.network.ErrorResponse;
 import kr.co.jaehoon.springboottemplate.dto.network.MobileAuthRequest;
 import kr.co.jaehoon.springboottemplate.dto.network.MobileAuthResponse;
 import kr.co.jaehoon.springboottemplate.dto.validation.FindAccountRequest;
@@ -33,6 +34,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -80,7 +82,9 @@ public class AuthRestController {
      * ADMIN 또는 USER 권한의 경우에만 /api/auth/register 엔드포인트로 회원 가입이 가능
      */
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody RegistrationRequest registrationRequest, BindingResult bindingResult) throws Exception {
+    public ResponseEntity<?> registerUser(
+            @Valid @RequestBody RegistrationRequest registrationRequest, BindingResult bindingResult
+    ) throws Exception {
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = bindingResult.getFieldErrors().stream().collect(Collectors.toMap(
                     fieldError -> fieldError.getField(), fieldError -> fieldError.getDefaultMessage()
@@ -188,7 +192,9 @@ public class AuthRestController {
      * 아이디/비밀번호 찾기(이메일 발송) API
      */
     @PostMapping("/find-account")
-    public ResponseEntity<?> findAccount(@Valid @RequestBody FindAccountRequest request, BindingResult bindingResult) throws Exception {
+    public ResponseEntity<?> findAccount(
+            @Valid @RequestBody FindAccountRequest request, BindingResult bindingResult
+    ) throws Exception {
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = bindingResult.getFieldErrors().stream().collect(Collectors.toMap(
                     fieldError -> fieldError.getField(), fieldError -> fieldError.getDefaultMessage()
@@ -219,7 +225,9 @@ public class AuthRestController {
      * 웹 브라우저는 로그인 성공 시 HttpOnly 쿠키를 전달받음
      */
     @PostMapping("/web-login")
-    public ResponseEntity<?> webLogin(@RequestBody AuthenticationRequest authenticationRequest, HttpServletResponse response) throws Exception {
+    public ResponseEntity<?> webLogin(
+            @RequestBody AuthenticationRequest authenticationRequest, HttpServletResponse response
+    ) throws Exception {
         try {
             // 1. Spring Security의 AuthenticationManager를 통해 사용자가 유효한지 검증
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -229,7 +237,7 @@ public class AuthRestController {
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (BadCredentialsException e) {
             // 인증 실패 시 (아이디 or 비밀번호 불일치)
-            log.error(e.getMessage(), e);
+            log.warn(e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("아이디 또는 비밀번호가 일치하지 않습니다.");
         }
         // 2. 인증 성공 후 UserDetails를 로드하여 사용자 정보 확인
@@ -304,7 +312,7 @@ public class AuthRestController {
 //        userService.updateActiveSessionJti(((CustomUserDetails) userDetails).getUser().getId(), jti);
 //
 //        // 모바일 클라이언트에게 JWT(Access Token)를 응답 본문에 포함하여 반환
-//        return ResponseEntity.ok(new MobileAuthResponse(
+//        return ResponseEntity.ok(new AuthenticationResponse(
 //                jwt, userDetails.getUsername(), "로그인(모바일) 성공"
 //        ));
 //    }
@@ -316,15 +324,13 @@ public class AuthRestController {
     @Operation(summary = "모바일 로그인",
             description = "모바일 앱에서 사용자를 인증하고 JWT 토큰을 발급합니다.",
             parameters = {
-                    @Parameter(name = "username", description = "사용자 아이디", required = true),
-                    @Parameter(name = "password", description = "비밀번호", required = true) })
+                    @Parameter(name = "username", description = "사용자 아이디", required = false),
+                    @Parameter(name = "password", description = "비밀번호", required = false) })
     @ApiResponse(responseCode = "200",
             description = "로그인(모바일) 성공",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = MobileAuthResponse.class)))
-    @ApiResponse(responseCode = "400",
-            description = "잘못된 요청",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Map.class)))
     @ApiResponse(responseCode = "401", description = "인증 실패")
+    @ApiResponse(responseCode = "403", description = "접근 거부")
     @ApiResponse(responseCode = "500", description = "서버 오류")
     @PostMapping("/mobile-login")
     public ResponseEntity<?> mobileLogin(@RequestBody MobileAuthRequest authenticationRequest) throws Exception {
@@ -337,8 +343,9 @@ public class AuthRestController {
 //            SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (BadCredentialsException e) {
             // 인증 실패 시 (아이디 or 비밀번호 불일치)
-            log.error(e.getMessage(), e);
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("아이디 또는 비밀번호가 일치하지 않습니다.");
+            log.warn(e.getMessage(), e);
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("아이디 또는 비밀번호가 일치하지 않습니다.");
+            throw new BadCredentialsException("아이디 또는 비밀번호가 일치하지 않습니다.");
         }
         // 2. 인증 성공 후 UserDetails를 로드하여 사용자 정보 확인
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
@@ -347,11 +354,19 @@ public class AuthRestController {
             CustomUserDetails customUserDetails = (CustomUserDetails) userDetails;
             if (!"USER".equalsIgnoreCase(customUserDetails.getUser().getRole())) {
                 // USER 권한이 아닐 경우 403 Forbidden 응답 반환
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("모바일 앱에서는 일반 사용자만 로그인할 수 있습니다.");
+//                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("모바일 앱에서는 일반 사용자만 로그인할 수 있습니다.");
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(BasicResponse.failure(
+                        ErrorResponse.from(403, "Forbidden",
+                                "접근 권한이 없습니다.", "모바일 앱에서는 일반 사용자만 로그인할 수 있습니다.")
+                ));
             }
         } else {
             // CustomUserDetails가 아닌 경우 500 Internal_Server_Error 응답 반환
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("사용자 권한 정보를 확인할 수 없습니다.");
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("사용자 권한 정보를 확인할 수 없습니다.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(BasicResponse.failure(
+                    ErrorResponse.from(500, "Internal_Server_Error",
+                            "서버 오류가 발생했습니다.", "사용자 권한 정보를 확인할 수 없습니다.")
+            ));
         }
         // 4. USER 권한 확인 완료 시 JWT 생성 및 반환
         final String jwt = jwtUtil.generateToken(userDetails.getUsername(), true);
@@ -401,16 +416,13 @@ public class AuthRestController {
     @ApiResponse(responseCode = "200",
             description = "로그아웃(모바일) 성공",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = MobileAuthResponse.class)))
-    @ApiResponse(responseCode = "400",
-            description = "잘못된 요청",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Map.class)))
-    @ApiResponse(responseCode = "401", description = "인증 실패")
+    @ApiResponse(responseCode = "401", description = "인증 실패 (JWT 토큰 누락 또는 유효하지 않음)")
     @ApiResponse(responseCode = "500", description = "서버 오류")
     @PostMapping(value = "/mobile-logout", produces = MediaType.APPLICATION_JSON_VALUE)  // JSON 응답 강제
     public ResponseEntity<?> mobileLogout(
             HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal CustomUserDetails userDetails,
             // Swagger UI에서 아래 파라미터를 보고 Authorization 헤더 입력 필드를 생성
-            @Parameter(name = "Authorization", description = "JWT 토큰 (Bearer)", required = true, example = "Bearer <token>")
+//            @Parameter(name = "Authorization", description = "JWT 토큰 (Bearer)", required = true, example = "Bearer <token>")
             @RequestHeader(name = "Authorization", required = false) String authHeader  // required = false: 헤더가 없어도 호출 가능하게 함
     ) throws Exception {
         String jwt = null;
@@ -422,6 +434,7 @@ public class AuthRestController {
             jwt = authHeader.substring(7);
         } else {
 //            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증 토큰이 누락되었거나 유효하지 않습니다.");
+            throw new BadCredentialsException("인증 토큰이 누락되었거나 유효하지 않습니다.");
         }
         performLogout(jwt, response);  // 공통 로그아웃 로직 호출
 
@@ -437,16 +450,13 @@ public class AuthRestController {
                     MobileAuthResponse.from("", userDetails, "로그아웃(모바일) 성공")
             ));
         } else {  // userDetails == null
-            // 모바일 클라이언트를 위해 JSON(Map) 응답
-            Map<String, String> responseMap = new HashMap<>();
-            responseMap.put("accessToken", "");
-            responseMap.put("username", SecurityContextHolder.getContext().getAuthentication().getName());
-            responseMap.put("resMessage", "로그아웃(모바일) 성공");
-
-            // Spring Security의 Context에서 현재 인증 정보를 클리어
-            SecurityContextHolder.clearContext();
-//            return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(responseMap);
-            return ResponseEntity.ok(responseMap);
+            // userDetails가 null이라면 토큰이 이미 만료됐을 가능성이 있으므로
+            // 아래와 같이 500 에러 응답은 반환하지만 자동 로그아웃 됨
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("사용자 정보 누락 또는 토큰이 만료되었을 수 있습니다.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(BasicResponse.failure(
+                    ErrorResponse.from(500, "Internal_Server_Error",
+                            "서버 오류가 발생했습니다.", "사용자 정보 누락 또는 토큰이 만료되었을 수 있습니다.")
+            ));
         }
     }
 
@@ -491,14 +501,14 @@ public class AuthRestController {
     }
 
     @Data
-    static class AuthenticationRequest {  // 로그인 요청 데이터 (웹용)
+    static class AuthenticationRequest {  // 로그인 요청 데이터 (웹/모바일 공용)
         private String username;
         private String password;
     }
 
     // AuthenticationResponse 클래스 필요 없음 (JWT를 body로 보내지 않으므로)
     @Data
-    static class AuthenticationResponse {  // 로그인 응답 데이터 (웹용)
+    static class AuthenticationResponse {  // 로그인 응답 데이터 (웹/모바일 공용)
         private final String accessToken;
         private final String username;
         private final String resMessage;
