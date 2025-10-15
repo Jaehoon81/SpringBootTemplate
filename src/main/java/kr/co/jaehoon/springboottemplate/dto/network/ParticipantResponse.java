@@ -3,6 +3,7 @@ package kr.co.jaehoon.springboottemplate.dto.network;
 import io.swagger.v3.oas.annotations.media.Schema;
 import kr.co.jaehoon.springboottemplate.dto.ParticipantDTO;
 import kr.co.jaehoon.springboottemplate.dto.validation.Gender;
+import kr.co.jaehoon.springboottemplate.dto.validation.Grade;
 import lombok.Builder;
 import lombok.Data;
 
@@ -21,6 +22,8 @@ public class ParticipantResponse {
     private Short birthMonth;
     @Schema(description = "참가자 성별(Enum 타입)", example = "MALE", allowableValues = { "MALE", "FEMALE", "OTHER" })
     private Gender gender;
+    @Schema(description = "참가자 등급(Enum 타입)", example = "GOLD", allowableValues = { "GOLD", "SILVER", "BRONZE", "NONE" })
+    private Grade grade;
     @Schema(description = "응답 메시지", example = "참가자 등록 성공")
     private String resMessage;
 
@@ -37,6 +40,7 @@ public class ParticipantResponse {
                 .birthYear(participant.getBirthYear())
                 .birthMonth(participant.getBirthMonth())
                 .gender(participant.getGender())
+                .grade(participant.getGrade())
                 .resMessage(resMessage)
                 .build();
     }

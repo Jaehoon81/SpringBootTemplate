@@ -33,6 +33,7 @@ public class ParticipantCrudService {
         participant.setBirthYear(request.getBirthYear());
         participant.setBirthMonth(request.getBirthMonth());
         participant.setGender(request.getGender());  // Enum 값을 직접 설정
+        participant.setGrade(request.getGrade());  // Enum 값을 직접 설정
 
         participantService.saveParticipant(participant);
         return participant;

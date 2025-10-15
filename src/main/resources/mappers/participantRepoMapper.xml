@@ -4,8 +4,8 @@
 <mapper namespace="Participant">
 
     <insert id="saveParticipant" parameterType="participantDTO" useGeneratedKeys="true" keyProperty="participantId">
-        INSERT INTO participants (user_id, participant_name, birth_year, birth_month, gender)
-        VALUES (#{userId}, #{participantName}, #{birthYear}, #{birthMonth}, #{gender})
+        INSERT INTO participants (user_id, participant_name, birth_year, birth_month, gender, grade)
+        VALUES (#{userId}, #{participantName}, #{birthYear}, #{birthMonth}, #{gender}, #{grade})
     </insert>
 
 </mapper>

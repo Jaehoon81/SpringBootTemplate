@@ -11,6 +11,7 @@
 <!--        <package name="kr.co.jaehoon.springboottemplate.dto"/>-->
 
         <typeAlias type="kr.co.jaehoon.springboottemplate.dto.validation.Gender" alias="gender"/>
+        <typeAlias type="kr.co.jaehoon.springboottemplate.dto.validation.Grade" alias="grade"/>
 
         <typeAlias type="kr.co.jaehoon.springboottemplate.dto.validation.RegistrationRequest" alias="registrationRequest"/>
         <typeAlias type="kr.co.jaehoon.springboottemplate.dto.validation.FindAccountRequest" alias="findAccountRequest"/>

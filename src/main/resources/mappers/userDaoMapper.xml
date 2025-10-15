@@ -46,6 +46,7 @@
         <result property="birthYear" column="p_birth_year"/>
         <result property="birthMonth" column="p_birth_month"/>
         <result property="gender" column="p_gender" javaType="kr.co.jaehoon.springboottemplate.dto.validation.Gender"/>
+        <result property="grade" column="p_grade" javaType="kr.co.jaehoon.springboottemplate.dto.validation.Grade"/>
         <result property="createdAt" column="p_created_at"/>
         <result property="updatedAt" column="p_updated_at"/>
     </resultMap>
@@ -82,6 +83,7 @@
             p.birth_year AS p_birth_year,
             p.birth_month AS p_birth_month,
             p.gender AS p_gender,
+            p.grade AS p_grade,
             p.created_at AS p_created_at,
             p.updated_at AS p_updated_at
         FROM users u
@@ -127,6 +129,7 @@
             p.birth_year AS p_birth_year,
             p.birth_month AS p_birth_month,
             p.gender AS p_gender,
+            p.grade AS p_grade,
             p.created_at AS p_created_at,
             p.updated_at AS p_updated_at
         FROM users u
@@ -173,6 +176,7 @@
             p.birth_year AS p_birth_year,
             p.birth_month AS p_birth_month,
             p.gender AS p_gender,
+            p.grade AS p_grade,
             p.created_at AS p_created_at,
             p.updated_at AS p_updated_at
         FROM users u

@@ -20,7 +20,7 @@ CREATE TABLE `users` (
     `email` VARCHAR(100) NOT NULL DEFAULT '',
     `role_id` BIGINT NOT NULL,
     `active_session_jti` VARCHAR(255) NULL, -- 가장 최근에 발급된 모바일 JWT의 Jti(JWT ID)를 저장
-    `is_deleted` TINYINT(1) NOT NULL DEFAULT '0', -- 회원탈퇴 여부 0: 유지, 1: 탈퇴 (요청이 있을 경우에만 해당)
+    `is_deleted` TINYINT(1) NOT NULL DEFAULT 0, -- 회원탈퇴 여부 0: 유지, 1: 탈퇴 (요청이 있을 경우에만 해당)
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
     `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -65,6 +65,7 @@ CREATE TABLE `participants` (
     `birth_month` TINYINT NOT NULL CHECK (`birth_month` >= 1 AND `birth_month` <= 12),
     -- 성별 (VARCHAR(10): 'MALE', 'FEMALE', 'OTHER' 등을 지정, CHECK 제약조건으로 유효값 제한)
     `gender` VARCHAR(10) NOT NULL CHECK (`gender` IN ('MALE', 'FEMALE', 'OTHER')),
+    `grade` VARCHAR(20) NOT NULL DEFAULT 'NONE',
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
     `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );

@@ -30,4 +30,10 @@ public class ParticipantRequest {
     // Enum 값에 대한 유효성 검사는 @Enumerated 또는 커스텀 어노테이션으로 처리 가능하지만,
     // 여기서는 문자열로 받아 Service 계층에서 변환 및 검증
     private Gender gender;  // Enum 타입으로 직접 수신받음
+
+    @Schema(description = "참가자 등급(Enum 타입)", example = "GOLD", allowableValues = { "GOLD", "SILVER", "BRONZE", "NONE" })
+    @NotNull(message = "등급은 필수 항목입니다.")
+    // Enum 값에 대한 유효성 검사는 @Enumerated 또는 커스텀 어노테이션으로 처리 가능하지만,
+    // 여기서는 문자열로 받아 Service 계층에서 변환 및 검증
+    private Grade grade;  // Enum 타입으로 직접 수신받음
 }
