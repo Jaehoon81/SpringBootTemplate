@@ -82,9 +82,9 @@ public class UserRestController {
                     .map(f -> f.substring(f.lastIndexOf(".") + 1))
                     .orElse("");
 
-            // 사용자별 디렉토리 생성 (예: upload/profiles/{userId}/)
+            // 사용자별 디렉토리 생성 (예: ./uploads/profiles/{userId}/)
 //            Path userUploadPath = Paths.get(uploadDir, "profiles", String.valueOf(userId));
-            // 사용자별 디렉토리 생성 (예: upload/profiles/{username}/)
+            // 사용자별 디렉토리 생성 (예: ./uploads/profiles/{username}/)
             Path userUploadPath = Paths.get(uploadDir, "profiles", String.valueOf(username));
             Files.createDirectories(userUploadPath);  // 디렉토리가 없으면 생성
             // 고유한 파일명 생성 (UUID)

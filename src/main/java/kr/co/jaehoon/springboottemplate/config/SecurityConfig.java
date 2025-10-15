@@ -76,7 +76,8 @@ public class SecurityConfig {
                                 "/api/auth/mobile-login", "/api/auth/mobile-logout",
 
 //                                "/profiles/**",  // UserRestController에 이미 파일서빙 로직이 있기 때문에 WebConfig 설정과 중복되므로 주석처리
-                                "/api/user/profile-picture/**"  // 프로필 사진(이미지) 조회
+                                "/api/user/profile-picture/**",  // 프로필 사진(이미지) 조회
+                                "/api/records/play/{recordId}"   // 음성녹음 플레이(재생)
                         ).permitAll()
                         .requestMatchers(
                                 // Swagger UI 및 OpenAPI 문서 경로
@@ -94,6 +95,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/user/profile", "/api/user/profile-picture", "/api/user/deactivate").authenticated()
                         // 참가자 관련(등록) API는 인증된 사용자만 허용
                         .requestMatchers("/api/participants/**").authenticated()
+                        // 음성녹음 관련(업로드) API는 인증된 사용자만 허용
+                        .requestMatchers("/api/records/**").authenticated()
 
                         // 역할별 접근 권한 설정 (콘텐츠 URL 기준)
                         .requestMatchers("/contents/system-approval").hasRole("SYSTEM")

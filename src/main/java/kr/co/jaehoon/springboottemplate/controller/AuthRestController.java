@@ -300,7 +300,7 @@ public class AuthRestController {
 //        } catch (AuthenticationException e) {  // AuthenticationException을 Catch하여 BadCredentialsException 포함
 //            // 인증 실패 시 (아이디 or 비밀번호 불일치)
 //            String errorMessage = e.getMessage();
-//            log.error(errorMessage, e);
+//            log.warn(errorMessage, e);
 ////            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("아이디 또는 비밀번호가 일치하지 않습니다.");
 //            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMessage);
 //        }

@@ -59,11 +59,11 @@ public class ParticipantRestController {
             description = "참가자 등록 성공",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ParticipantResponse.class)))
     @ApiResponse(responseCode = "400",
-            description = "잘못된 요청",
+            description = "잘못된 요청 또는 유효성 검사 실패",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Map.class)))
     @ApiResponse(responseCode = "401", description = "인증 실패 (JWT 토큰 누락 또는 유효하지 않음)")
     @ApiResponse(responseCode = "500", description = "서버 오류")
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<?> registerParticipant(
             @AuthenticationPrincipal CustomUserDetails currentUser,
             @Valid @RequestBody ParticipantRequest request,

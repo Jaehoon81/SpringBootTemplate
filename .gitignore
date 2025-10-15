@@ -46,6 +46,12 @@ out/
 *.log
 logs/
 
+### Uploads ###
+#*.png
+#*.jpg
+#*.mp4
+uploads/
+
 ### Environment Variables ###
 .env
 

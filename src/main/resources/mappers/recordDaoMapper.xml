@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.jaehoon.springboottemplate.repository.dao.RecordDAO">
+
+    <!-- recordResultMap: Record 모델(DTO)의 기본 필드 매핑용 -->
+    <resultMap id="recordResultMap" type="kr.co.jaehoon.springboottemplate.dto.RecordDTO">
+        <id property="recordId" column="record_id"/>
+        <result property="participantId" column="participant_id"/>
+        <result property="recordSequence" column="record_sequence"/>
+        <result property="filePath" column="file_path"/>
+        <result property="mimeType" column="mime_type"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <!-- record_id로 특정 녹음을 조회 -->
+    <select id="findByRecordId" parameterType="long" resultMap="recordResultMap">
+        SELECT record_id, participant_id, record_sequence, file_path, mime_type, created_at, updated_at
+        FROM records
+        WHERE record_id = #{recordId}
+    </select>
+
+    <!-- 특정 참가자의 특정 순서 녹음이 이미 존재하는지 확인 -->
+    <select id="findByParticipantIdAndSequence" parameterType="map" resultMap="recordResultMap">
+        SELECT record_id, participant_id, record_sequence, file_path, mime_type, created_at, updated_at
+        FROM records
+        WHERE participant_id = #{participantId} AND record_sequence = #{recordSequence}
+    </select>
+
+    <!-- 특정 참가자의 모든 녹음 목록을 조회 -->
+    <select id="findRecordsByParticipantId" parameterType="long" resultMap="recordResultMap">
+        SELECT record_id, participant_id, record_sequence, file_path, mime_type, created_at, updated_at
+        FROM records
+        WHERE participant_id = #{participantId}
+        ORDER BY record_sequence ASC
+    </select>
+
+</mapper>

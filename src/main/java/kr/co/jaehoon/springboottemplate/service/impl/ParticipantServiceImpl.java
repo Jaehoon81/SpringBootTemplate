@@ -8,7 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +18,12 @@ public class ParticipantServiceImpl implements ParticipantService {
 
     private final ParticipantDAO participantDAO;
     private final ParticipantRepository participantRepository;
+
+    @Transactional
+    @Override
+    public Optional<ParticipantDTO> findByParticipantId(Long participantId) throws IOException {
+        return participantDAO.findByParticipantId(participantId);
+    }
 
     @Transactional
     @Override

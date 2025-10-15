@@ -15,6 +15,14 @@
         <result property="updatedAt" column="updated_at"/>
     </resultMap>
 
+    <!-- 특정 참가자(participantId) 정보를 조회 -->
+    <select id="findByParticipantId" parameterType="long" resultMap="participantResultMap">
+        SELECT participant_id, user_id, participant_name, birth_year, birth_month, gender, created_at, updated_at
+        FROM participants
+        WHERE participant_id = #{participantId}
+    </select>
+
+    <!-- 특정 사용자(userId)의 모든 참가자 정보를 조회 -->
     <select id="findParticipantsByUserId" parameterType="long" resultMap="participantResultMap">
         SELECT participant_id, user_id, participant_name, birth_year, birth_month, gender, created_at, updated_at
         FROM participants

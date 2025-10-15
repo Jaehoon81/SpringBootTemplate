@@ -17,6 +17,7 @@
         <typeAlias type="kr.co.jaehoon.springboottemplate.dto.network.MobileAuthRequest" alias="mobileAuthRequest"/>
         <typeAlias type="kr.co.jaehoon.springboottemplate.dto.validation.UserUpdateRequest" alias="userUpdateRequest"/>
         <typeAlias type="kr.co.jaehoon.springboottemplate.dto.validation.ParticipantRequest" alias="participantRequest"/>
+        <typeAlias type="kr.co.jaehoon.springboottemplate.dto.validation.RecordRequest" alias="recordRequest"/>
 
         <typeAlias type="kr.co.jaehoon.springboottemplate.dto.MemberDTO" alias="memberDTO"/>
         <typeAlias type="kr.co.jaehoon.springboottemplate.dto.UserDTO" alias="userDTO"/>
@@ -24,6 +25,7 @@
         <typeAlias type="kr.co.jaehoon.springboottemplate.dto.LoginApprovalDTO" alias="loginApprovalDTO"/>
         <typeAlias type="kr.co.jaehoon.springboottemplate.dto.BlacklistedTokenDTO" alias="blacklistedTokenDTO"/>
         <typeAlias type="kr.co.jaehoon.springboottemplate.dto.ParticipantDTO" alias="participantDTO"/>
+        <typeAlias type="kr.co.jaehoon.springboottemplate.dto.RecordDTO" alias="recordDTO"/>
     </typeAliases>
 
 </configuration>

@@ -36,11 +36,15 @@ CREATE TABLE `approval_requests` (
     `assigned_admin_id` BIGINT NULL, -- ADMIN의 users.id 참조
     `is_approved` TINYINT(1) NOT NULL DEFAULT 0, -- 계정승인 여부 0: 대기, 1: 승인 (요청이 있을 경우에만 해당)
     `requested_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
-    `approved_at` DATETIME NULL, -- 승인 완료 시 업데이트
-
-    FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE, -- 사용자 삭제 시 요청도 삭제
-    FOREIGN KEY (`assigned_admin_id`) REFERENCES `users`(`id`)
+    `approved_at` DATETIME NULL -- 승인 완료 시 업데이트
 );
+
+ALTER TABLE `approval_requests`
+ADD CONSTRAINT `fk_approval_requests_user_id` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
+ON DELETE CASCADE; -- 사용자 삭제 시 요청도 삭제
+
+ALTER TABLE `approval_requests`
+ADD CONSTRAINT `fk_approval_requests_assigned_admin_id` FOREIGN KEY (`assigned_admin_id`) REFERENCES `users`(`id`);
 
 -- springframeworkdemo DB의 blacklisted_tokens Table Definition
 CREATE TABLE `blacklisted_tokens` (
@@ -68,3 +72,24 @@ CREATE TABLE `participants` (
 ALTER TABLE `participants`
 ADD CONSTRAINT `fk_participants_user_id` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
 ON DELETE RESTRICT; -- 사용자 삭제 시 참가자는 유지
+
+-- springframeworkdemo DB의 records Table Definition
+CREATE TABLE `records` (
+    `record_id` BIGINT AUTO_INCREMENT PRIMARY KEY,
+    `participant_id` BIGINT NOT NULL,
+    -- 녹음 순서 (1, 2, 3 또는 그 이상)
+    `record_sequence` TINYINT NOT NULL,
+    -- 실제 파일 시스템에 저장된 음성 파일의 경로
+    `file_path` VARCHAR(255) NOT NULL,
+    -- 파일의 MIME 타입 (음성 파일 재생에 필요)
+    `mime_type` VARCHAR(50) NOT NULL, -- mp4 형식임을 명시 (예: audio/mp4 또는 video/mp4)
+    `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    -- 한 참가자의 녹음 순서는 중복될 수 없도록 UNIQUE 인덱스 추가 (예: participant_id=1, record_sequence=1은 하나만 존재)
+    UNIQUE (`participant_id`, `record_sequence`)
+);
+
+ALTER TABLE `records`
+ADD CONSTRAINT `fk_records_participant_id` FOREIGN KEY (`participant_id`) REFERENCES `participants`(`participant_id`)
+ON DELETE CASCADE; -- 참가자 삭제 시 해당 참가자의 모든 녹음 기록도 함께 삭제

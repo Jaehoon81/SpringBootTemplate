@@ -11,6 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 //@Slf4j
@@ -33,5 +36,11 @@ public class ParticipantCrudService {
 
         participantService.saveParticipant(participant);
         return participant;
+    }
+
+    // 특정 participantId가 해당 userId의 소유인지 확인
+    public boolean isOwner(Long participantId, Long userId) throws IOException {
+        Optional<ParticipantDTO> participant = participantService.findByParticipantId(participantId);
+        return participant.map(p -> p.getUserId().equals(userId)).orElse(false);
     }
 }
