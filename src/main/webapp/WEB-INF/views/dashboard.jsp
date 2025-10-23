@@ -16,7 +16,8 @@
     <link rel="stylesheet" type="text/css" href="/static/css/contents/statistics.css">
     <link rel="stylesheet" type="text/css" href="/static/css/contents/profile.css">
     <!-- Font Awesome 아이콘 사용을 위해 추가 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<%--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">--%>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
         p {
             margin: 8px 0px 8px 0px;
@@ -80,9 +81,9 @@
         </div>
     </div>
 
-<%--    <script src="https://code.jquery.com/jquery-3.7.1.min.js"--%>
-<%--            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>--%>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<%--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>--%>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="/static/js/dashboard.js"></script>
     <c:if test="${userRole eq 'SYSTEM'}">
         <link rel="stylesheet" type="text/css" href="/static/css/contents/system.css">

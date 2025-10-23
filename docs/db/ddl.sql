@@ -78,7 +78,7 @@ ON DELETE RESTRICT; -- 사용자 삭제 시 참가자는 유지
 CREATE TABLE `records` (
     `record_id` BIGINT AUTO_INCREMENT PRIMARY KEY,
     `participant_id` BIGINT NOT NULL,
-    -- 녹음 순서 (1, 2, 3 또는 그 이상)
+    -- 녹음순서 (1, 2, 3 또는 그 이상)
     `record_sequence` TINYINT NOT NULL,
     -- 실제 파일 시스템에 저장된 음성 파일의 경로
     `file_path` VARCHAR(255) NOT NULL,

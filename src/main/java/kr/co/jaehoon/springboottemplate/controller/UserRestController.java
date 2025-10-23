@@ -103,7 +103,7 @@ public class UserRestController {
             return ResponseEntity.ok(storedPath);  // 저장된 경로 반환
         } catch (IOException e) {
             log.error(e.getMessage(), e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("파일 업로드에 실패했습니다.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("파일 업로드 중 오류 발생: " + e.getMessage());
         }
     }
 
@@ -171,7 +171,7 @@ public class UserRestController {
             Map<String, String> errors = bindingResult.getFieldErrors().stream().collect(Collectors.toMap(
                     fieldError -> fieldError.getField(), fieldError -> fieldError.getDefaultMessage()
             ));
-            log.warn("Profile_BindingResult_InvalidException: {}", errors.toString());
+            log.warn("User-Profile_BindingResult_InvalidException: {}", errors.toString());
             return ResponseEntity.badRequest().body(errors);
         }
         if (currentUser == null) {
@@ -187,7 +187,7 @@ public class UserRestController {
             Map<String, String> errors = new HashMap<>();
             errors.put("currentPassword", "현재 비밀번호가 일치하지 않습니다.");
 
-            log.warn("Profile_CurrentPassword_InvalidException: {}", errors.toString());
+            log.warn("User-Profile_CurrentPassword_InvalidException: {}", errors.toString());
             return ResponseEntity.badRequest().body(errors);
         }
         // 새 비밀번호가 입력된 경우에만 비밀번호 관련 유효성 검사 적용
@@ -199,7 +199,7 @@ public class UserRestController {
                 Map<String, String> errors = new HashMap<>();
                 errors.put("confirmPassword", "새 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
 
-                log.warn("Profile_ConfirmPassword_InvalidException: {}", errors.toString());
+                log.warn("User-Profile_ConfirmPassword_InvalidException: {}", errors.toString());
                 return ResponseEntity.badRequest().body(errors);
             }
         }

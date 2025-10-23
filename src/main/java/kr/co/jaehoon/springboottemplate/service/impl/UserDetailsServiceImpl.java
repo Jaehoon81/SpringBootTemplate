@@ -35,7 +35,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         // 회원을 탈퇴한 계정은 로그인 불가
         if (user.isDeleted()) {
-            throw new BadCredentialsException("탈퇴 처리된 계정입니다.\n관리자에게 문의해주세요.");
+            throw new BadCredentialsException("탈퇴 처리된 계정입니다.\n담당 관리자에게 문의해주세요.");
         }
         // ADMIN 또는 USER 권한의 사용자에 대한 승인 상태를 확인
         // (권한이 ADMIN or USER이면서 아직 승인되지 않았다면 로그인 거부)

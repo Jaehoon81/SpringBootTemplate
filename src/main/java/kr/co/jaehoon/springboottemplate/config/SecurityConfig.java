@@ -93,12 +93,16 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/check-token", "/api/app-info/version").authenticated()
                         // 프로필 정보 조회 및 업데이트, 사진(이미지) 업로드, 회원 탈퇴는 인증된 사용자만 허용
                         .requestMatchers("/api/user/profile", "/api/user/profile-picture", "/api/user/deactivate").authenticated()
-                        // 참가자 관련(등록) API는 인증된 사용자만 허용
+                        // 참가자 관련(등록 및 목록 조회) API는 인증된 사용자만 허용
+//                        .requestMatchers("/api/participants/register").authenticated()
+//                        .requestMatchers("/api/participants/paginated-list").hasAnyRole("USER", "ADMIN", "SYSTEM")
+//                        .requestMatchers("/api/participants/{participantId}/record-details").hasAnyRole("USER", "ADMIN", "SYSTEM")
+//                        .requestMatchers("/api/participants/grade").hasAnyRole("USER", "ADMIN", "SYSTEM")
                         .requestMatchers("/api/participants/**").authenticated()
                         // 음성녹음 관련(업로드) API는 인증된 사용자만 허용
                         .requestMatchers("/api/records/**").authenticated()
 
-                        // 역할별 접근 권한 설정 (콘텐츠 URL 기준)
+                        // 권한(역할)별 접근 권한 설정 (콘텐츠 URL 기준)
                         .requestMatchers("/contents/system-approval").hasRole("SYSTEM")
                         .requestMatchers("/contents/admin-approval").hasRole("ADMIN")
                         .requestMatchers("/contents/secure").hasRole("USER")

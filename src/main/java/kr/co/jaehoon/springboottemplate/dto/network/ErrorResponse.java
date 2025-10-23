@@ -15,7 +15,7 @@ public class ErrorResponse {
     private String errorType;
     @Schema(description = "상세 메시지", example = "인증 정보가 유효하지 않습니다.")
     private String errorMessage;
-    @Schema(description = "예외 메시지 (개발 및 디버그 용도로 사용)", example = "탈퇴 처리된 계정입니다.\n관리자에게 문의해주세요.")
+    @Schema(description = "예외 메시지 (개발 및 디버그 용도로 사용)", example = "탈퇴 처리된 계정입니다.\n담당 관리자에게 문의해주세요.")
     private String exceptionMessage;
 
     /**

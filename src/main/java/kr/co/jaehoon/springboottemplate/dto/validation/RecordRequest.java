@@ -15,7 +15,7 @@ public class RecordRequest {
     @NotNull(message = "참가자 ID는 필수 항목입니다.")
     private Long participantId;
 
-    @Schema(description = "녹음 순서 (1, 2, 3 또는 그 이상)", example = "1")
+    @Schema(description = "녹음순서 (1, 2, 3 또는 그 이상)", example = "1")
     @NotNull(message = "녹음 순서는 필수 항목입니다.")
     @Min(value = 1, message = "녹음 순서는 1 이상이어야 합니다.")
     @Max(value = 3, message = "녹음 순서는 3 이하여야 합니다.")  // 최대 3개의 녹음을 가정

@@ -15,6 +15,20 @@
         <result property="approvedAt" column="approved_at"/>
     </resultMap>
 
+    <!-- DB의 participants 테이블을 위한 resultMap (UserDTO 조인용) -->
+    <!-- participantResultMap_userJoin: UserDTO-ParticipantDTO 매핑에 사용 -->
+    <resultMap id="participantResultMap_userJoin" type="kr.co.jaehoon.springboottemplate.dto.ParticipantDTO">
+        <id property="participantId" column="p_participant_id"/>
+        <result property="userId" column="p_user_id"/>
+        <result property="participantName" column="p_participant_name"/>
+        <result property="birthYear" column="p_birth_year"/>
+        <result property="birthMonth" column="p_birth_month"/>
+        <result property="gender" column="p_gender" javaType="kr.co.jaehoon.springboottemplate.dto.validation.Gender"/>
+        <result property="grade" column="p_grade" javaType="kr.co.jaehoon.springboottemplate.dto.validation.Grade"/>
+        <result property="createdAt" column="p_created_at"/>
+        <result property="updatedAt" column="p_updated_at"/>
+    </resultMap>
+
     <!-- userResultMap: User 모델(DTO)의 기본 필드 매핑용 -->
     <resultMap id="userResultMap" type="kr.co.jaehoon.springboottemplate.dto.UserDTO">
         <id property="id" column="id"/>
@@ -37,20 +51,6 @@
                     resultMap="participantResultMap_userJoin"/>
     </resultMap>
 
-    <!-- DB의 participants 테이블을 위한 resultMap (UserDTO 조인용) -->
-    <!-- participantResultMap_userJoin: UserDTO-ParticipantDTO 매핑에 사용 -->
-    <resultMap id="participantResultMap_userJoin" type="kr.co.jaehoon.springboottemplate.dto.ParticipantDTO">
-        <id property="participantId" column="p_participant_id"/>
-        <result property="userId" column="p_user_id"/>
-        <result property="participantName" column="p_participant_name"/>
-        <result property="birthYear" column="p_birth_year"/>
-        <result property="birthMonth" column="p_birth_month"/>
-        <result property="gender" column="p_gender" javaType="kr.co.jaehoon.springboottemplate.dto.validation.Gender"/>
-        <result property="grade" column="p_grade" javaType="kr.co.jaehoon.springboottemplate.dto.validation.Grade"/>
-        <result property="createdAt" column="p_created_at"/>
-        <result property="updatedAt" column="p_updated_at"/>
-    </resultMap>
-
     <select id="findByUsername" parameterType="String" resultMap="userResultMap">
         SELECT
             u.id,
@@ -71,7 +71,7 @@
             ar.user_id AS ar_user_id,
             ar.req_message AS ar_req_message,
             ar.assigned_admin_id AS ar_assigned_admin_id,
-            uu.displayname AS ar_assigned_admin_name,
+            u_admin.displayname AS ar_assigned_admin_name,
             ar.is_approved AS ar_is_approved,
             ar.requested_at AS ar_requested_at,
             ar.approved_at AS ar_approved_at,
@@ -89,7 +89,7 @@
         FROM users u
         JOIN roles r ON u.role_id = r.id
         LEFT JOIN approval_requests ar ON u.id = ar.user_id
-        LEFT JOIN users uu ON ar.assigned_admin_id = uu.id
+        LEFT JOIN users u_admin ON ar.assigned_admin_id = u_admin.id
         LEFT JOIN participants p ON u.id = p.user_id
         WHERE u.username = #{username}
 
@@ -117,7 +117,7 @@
             ar.user_id AS ar_user_id,
             ar.req_message AS ar_req_message,
             ar.assigned_admin_id AS ar_assigned_admin_id,
-            uu.displayname AS ar_assigned_admin_name,
+            u_admin.displayname AS ar_assigned_admin_name,
             ar.is_approved AS ar_is_approved,
             ar.requested_at AS ar_requested_at,
             ar.approved_at AS ar_approved_at,
@@ -135,7 +135,7 @@
         FROM users u
         JOIN roles r ON u.role_id = r.id
         LEFT JOIN approval_requests ar ON u.id = ar.user_id
-        LEFT JOIN users uu ON ar.assigned_admin_id = uu.id
+        LEFT JOIN users u_admin ON ar.assigned_admin_id = u_admin.id
         LEFT JOIN participants p ON u.id = p.user_id
         WHERE u.displayname = #{displayname}
 
@@ -164,7 +164,7 @@
             ar.user_id AS ar_user_id,
             ar.req_message AS ar_req_message,
             ar.assigned_admin_id AS ar_assigned_admin_id,
-            uu.displayname AS ar_assigned_admin_name,
+            u_admin.displayname AS ar_assigned_admin_name,
             ar.is_approved AS ar_is_approved,
             ar.requested_at AS ar_requested_at,
             ar.approved_at AS ar_approved_at,
@@ -182,7 +182,7 @@
         FROM users u
         JOIN roles r ON u.role_id = r.id
         LEFT JOIN approval_requests ar ON u.id = ar.user_id
-        LEFT JOIN users uu ON ar.assigned_admin_id = uu.id
+        LEFT JOIN users u_admin ON ar.assigned_admin_id = u_admin.id
         LEFT JOIN participants p ON u.id = p.user_id
         WHERE u.id = #{id}
 
@@ -251,11 +251,11 @@
         SELECT
             u.id, u.username, u.displayname, u.email, ar.req_message,
             r.rolename,
-            ar.assigned_admin_id AS ar_assigned_admin_id, uu.displayname AS ar_assigned_admin_name
+            ar.assigned_admin_id AS ar_assigned_admin_id, u_admin.displayname AS ar_assigned_admin_name
         FROM users u
         JOIN roles r ON u.role_id = r.id
         JOIN approval_requests ar ON u.id = ar.user_id
-        JOIN users uu ON ar.assigned_admin_id = uu.id
+        JOIN users u_admin ON ar.assigned_admin_id = u_admin.id
         WHERE r.rolename = 'USER' AND ar.is_approved = 0 AND ar.assigned_admin_id = #{adminId}
         ORDER BY u.id ASC
     </select>

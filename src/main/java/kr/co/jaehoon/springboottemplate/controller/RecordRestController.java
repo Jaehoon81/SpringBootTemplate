@@ -65,14 +65,14 @@ public class RecordRestController {
      * @return 저장된 음성녹음 정보 또는 유효성 검사 오류
      */
     @Operation(summary = "음성녹음 파일 업로드",
-            description = "모바일 앱에서 Base64 인코딩된 음성녹음 파일을 전송하여 저장합니다.",
+            description = "모바일 앱에서 Base64 인코딩된 음성녹음 파일을 전송하여 저장합니다. 순서는 1번부터 순차적으로 업로드되어야 합니다.",
             parameters = {
                     @Parameter(name = "Authorization", description = "JWT 토큰 (Bearer)", required = true, example = "Bearer <token>") })
     @ApiResponse(responseCode = "200",
             description = "음성녹음 업로드/업데이트 성공",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = RecordResponse.class)))
     @ApiResponse(responseCode = "400",
-            description = "잘못된 요청 또는 유효성 검사 실패",
+            description = "잘못된 요청, 유효성 검사 실패 또는 순서 오류",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Map.class)))
     @ApiResponse(responseCode = "401", description = "인증 실패 (JWT 토큰 누락 또는 유효하지 않음)")
     @ApiResponse(responseCode = "403", description = "접근 거부")
@@ -82,12 +82,12 @@ public class RecordRestController {
             @AuthenticationPrincipal CustomUserDetails currentUser,
             @Valid @RequestBody RecordRequest request,
             BindingResult bindingResult
-    ) throws AccessDeniedException, IOException, Exception {
+    ) throws AccessDeniedException, IllegalArgumentException, IOException, Exception {
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = bindingResult.getFieldErrors().stream().collect(Collectors.toMap(
                     fieldError -> fieldError.getField(), fieldError -> fieldError.getDefaultMessage()
             ));
-            log.warn("Records_BindingResult_InvalidException: {}", errors.toString());
+            log.warn("Records-Upload_BindingResult_InvalidException: {}", errors.toString());
 //            return ResponseEntity.badRequest().body(errors);
 
             List<String> errorList = (errors.values().stream().map(Object::toString)).toList();
@@ -109,17 +109,27 @@ public class RecordRestController {
         } catch (AccessDeniedException e) {
             Map<String, String> errors = new HashMap<>();
             errors.put("general", "참가자 소유권 확인 중 오류가 발생했습니다: " + e.getMessage());
-            log.error("Records_General_InvalidException(1): {}", errors.toString());
+            log.warn("Records-Upload_General_InvalidException(1): {}", errors.toString());
 //            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errors);
 
             final String exceptionMessage = errors.get("general");
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(BasicResponse.failure(
                     ErrorResponse.from(403, "Forbidden", "접근 권한이 없습니다.", exceptionMessage)
             ));
+        } catch (IllegalArgumentException e) {
+            Map<String, String> errors = new HashMap<>();
+            errors.put("general", "녹음순서 유효성 검증 중 오류가 발생했습니다: " + e.getMessage());
+            log.warn("Records-Upload_General_InvalidException(2): {}", errors.toString());
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+
+            final String exceptionMessage = errors.get("general");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(BasicResponse.failure(
+                    ErrorResponse.from(400, "Bad_Request", "잘못된 요청입니다.", exceptionMessage)
+            ));
         } catch (IOException e) {
             Map<String, String> errors = new HashMap<>();
             errors.put("general", "파일 저장 중 오류가 발생했습니다: " + e.getMessage());
-            log.error("Records_General_InvalidException(2): {}", errors.toString());
+            log.error("Records-Upload_General_InvalidException(3): {}", errors.toString());
 //            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errors);
 
             final String exceptionMessage = errors.get("general");
@@ -129,7 +139,7 @@ public class RecordRestController {
         } catch (Exception e) {
             Map<String, String> errors = new HashMap<>();
             errors.put("general", "음성녹음 업로드 중 오류가 발생했습니다: " + e.getMessage());
-            log.error("Records_General_InvalidException(3): {}", errors.toString());
+            log.error("Records-Upload_General_InvalidException(4): {}", errors.toString());
 //            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errors);
 
             final String exceptionMessage = errors.get("general");
@@ -139,14 +149,12 @@ public class RecordRestController {
         }
     }
 
-    // 음성녹음 파일을 스트리밍 방식으로 제공하는 API
-    @Operation(summary = "음성녹음 파일 다운로드/재생",
-            description = "ID를 통해 저장된 음성녹음 파일을 스트리밍 형태로 반환합니다. 웹 브라우저에서 직접 재생 가능합니다.")
-    @ApiResponse(responseCode = "200",
-            description = "파일 스트림 성공",
-            content = @Content(mediaType = "audio/*", schema = @Schema(type = "string", format = "binary")))
-    @ApiResponse(responseCode = "404", description = "파일을 찾을 수 없음")
-    @ApiResponse(responseCode = "500", description = "서버 오류")
+    /**
+     * 음성녹음 파일을 스트리밍 방식으로 제공하는 API (웹 브라우저용)
+     * ID를 통해 저장된 음성녹음 파일을 스트리밍 형태로 반환 (직접 재생 가능)
+     * @param recordId 저장된 음성녹음 식별자(=record_id)
+     * @return 웹 브라우저에 응답할 파일 스트림
+     */
     @GetMapping("/play/{recordId}")
     public ResponseEntity<Resource> streamAudioRecord(@PathVariable Long recordId) throws MalformedURLException, IOException, Exception {
         try {

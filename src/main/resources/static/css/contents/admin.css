@@ -199,8 +199,8 @@
 #user-list-container th:nth-child(6),
 #user-list-container td:nth-child(6) { width: 10%; } /* 가.부 */
 
-/* 홀수 행 배경색 교차 */
-#user-list-container tbody tr:nth-child(odd) {
+/* 짝수 행 배경색 교차 */
+#user-list-container tbody tr:nth-child(even) {
     background-color: #f9f9f9; /* 연한 회색 */
 }
 

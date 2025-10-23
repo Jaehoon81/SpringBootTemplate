@@ -101,7 +101,7 @@ window.adjustAdminContainerWidthBasedOnScroll = function () {
 };
 
 $(document).ready(function () {
-    // '승인' 버튼 클릭 이벤트 --------------------------------------------------------------------------------------------
+    // 승인 버튼 클릭 이벤트 ----------------------------------------------------------------------------------------------
     // (동적으로 생성되는 버튼에 이벤트를 위임(바인딩)하기 위해 $(document).off().on() 사용)
     $(document).off('click', '#main-content-area .approve-btn')
                .on('click', '#main-content-area .approve-btn', function () {

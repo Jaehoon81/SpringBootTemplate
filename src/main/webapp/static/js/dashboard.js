@@ -45,6 +45,7 @@ $(document).ready(function () {
         }
     });
 
+    // 프로필 사진(이미지) 업로드 함수
     function uploadProfilePicture(file) {
         var formData = new FormData();
         formData.append('file', file);
@@ -56,7 +57,7 @@ $(document).ready(function () {
             processData: false,  // FormData 사용 시 필수
             contentType: false,  // FormData 사용 시 필수
             headers: {
-                'Authorization': 'Bearer ' + getJwtTokenFromCookie()  // 인증 토큰 포함 (웹 브라우저용)
+                'Authorization': 'Bearer ' + window.getJwtTokenFromCookie()  // 인증 토큰 포함 (웹 브라우저용)
             },
             success: function (responsePath) {  // 응답으로 저장된 파일 경로를 받음
                 alert('프로필 사진이 성공적으로 업데이트되었습니다.');
@@ -83,7 +84,7 @@ $(document).ready(function () {
         });
     }
     // 쿠키에서 JWT 토큰을 가져오는 함수 (웹 브라우저 인증용)
-    function getJwtTokenFromCookie() {
+    window.getJwtTokenFromCookie = function () {
         var name = "jwt=";
         var decodedCookie = decodeURIComponent(document.cookie);
         var ca = decodedCookie.split(';');
@@ -97,7 +98,7 @@ $(document).ready(function () {
             }
         }
         return "";
-    }
+    };
     // 프로필 사진(이미지) 관련 로직 ---------------------------------------------------------------------------------------
 
     // 초기 로직: 페이지 로드 시 첫 콘텐츠를 로드 ----------------------------------------------------------------------------
@@ -215,7 +216,7 @@ $(document).ready(function () {
         } else {
             initialActiveMenuId = lastActiveMenuId;
         }
-    } else {  // SYSTEM 또는 ADMIN 권한(역할)일 때
+    } else {  // SYSTEM or ADMIN 권한(역할)일 때
         // '사용자 관리' 메뉴를 선택했던 기록이 있거나 아예 기록이 없는 경우 '사용자 관리' 메뉴로 강제
         if (!lastActiveMenuId || lastActiveMenuId === 'account-approval') {
             initialActiveMenuId = 'account-approval';

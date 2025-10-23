@@ -47,7 +47,7 @@ public class SystemRestController {
 //    @PreAuthorize("hasRole('SYSTEM')")  // SYSTEM 권한 필요
 //    public ResponseEntity<List<LoginApprovalDTO>> getPendingAdmins() throws Exception {
 //        List<Map<String, Object>> pendingAdmins = userService.findPendingAdmins();
-//        log.debug("Pending-Admins_PendingAdminList: {}", pendingAdmins.toString());
+//        log.debug("System-PendingAdmins_PendingAdminList: {}", pendingAdmins.toString());
 //
 //        // DTO에 없는 필드는 무시하도록 설정 (선택 사항)
 //        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -59,7 +59,7 @@ public class SystemRestController {
 //            // List<Map<String, Object>>을 List<LoginApprovalDTO>로 변환
 //            // TypeReference<List<LoginApprovalDTO>>() {}: 익명 클래스를 사용하여 타입 정보를 전달
 //            loginApprovals = objectMapper.convertValue(pendingAdmins, new TypeReference<List<LoginApprovalDTO>>() {});
-//            log.debug("Pending-Admins_LoginApprovalList: {}", loginApprovals.toString());
+//            log.debug("System-PendingAdmins_LoginApprovalList: {}", loginApprovals.toString());
 //        } catch (IllegalArgumentException e) {
 //            // List<Map>에서 List<DTO>로 변환하는데 실패하더라도 빈 리스트(List.of())를 반환
 ////            System.out.println("List<Map>에서 List<DTO>로 변환 중 오류 발생: " + e.getMessage());
@@ -78,7 +78,7 @@ public class SystemRestController {
         }
         // 로그인한 SYSTEM 계정이 담당하는 승인 대기 중인 ADMIN 계정의 목록을 조회
         List<LoginApprovalDTO> pendingAdmins = userService.findPendingAdmins();
-        log.debug("Pending-Admins_PendingAdminList: {}", pendingAdmins.toString());
+        log.debug("System-PendingAdmins_PendingAdminList: {}", pendingAdmins.toString());
 
         return ResponseEntity.ok(pendingAdmins);
     }
@@ -102,7 +102,7 @@ public class SystemRestController {
         }
         try {
             userService.updateApprovalStatus(request.getAdminId(), true);  // true로 승인
-            return ResponseEntity.ok("계정이 성공적으로 승인되었습니다.");
+            return ResponseEntity.ok("ADMIN 계정이 성공적으로 승인되었습니다.");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("계정승인 중 오류 발생: " + e.getMessage());

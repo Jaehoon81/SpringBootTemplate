@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,13 +20,13 @@ public class RecordServiceImpl implements RecordService {
 
     @Transactional
     @Override
-    public Optional<RecordDTO> findByRecordId(Long recordId) throws IOException {
+    public Optional<RecordDTO> findByRecordId(Long recordId) throws Exception {
         return recordDAO.findByRecordId(recordId);
     }
 
     @Transactional
     @Override
-    public Optional<RecordDTO> findByParticipantIdAndSequence(Long participantId, Short recordSequence) throws IOException {
+    public Optional<RecordDTO> findByParticipantIdAndSequence(Long participantId, Short recordSequence) throws Exception {
         return recordDAO.findByParticipantIdAndSequence(participantId, recordSequence);
     }
 

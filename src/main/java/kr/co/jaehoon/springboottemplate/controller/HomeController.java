@@ -77,7 +77,7 @@ public class HomeController {
     @GetMapping("/secure-page")  // 보호된 페이지 (더이상 사용하지 않음)
     public String securePage(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
         if (customUserDetails != null) {
-            log.debug("Secure-Page_UserDetails: {}", customUserDetails.getAuthorities().toString());
+            log.debug("SecurePage_UserDetails: {}", customUserDetails.getAuthorities().toString());
 
             model.addAttribute("displayName", customUserDetails.getDisplayname());
             model.addAttribute("userRole", customUserDetails.getUser().getRolename());
@@ -88,7 +88,7 @@ public class HomeController {
     @GetMapping("/system-page")  // SYSTEM 권한만 접근 가능한 페이지 (사용하지 않음)
     public String systemPage(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
         if (customUserDetails != null) {
-            log.debug("System-Page_UserDetails: {}", customUserDetails.getAuthorities().toString());
+            log.debug("SystemPage_UserDetails: {}", customUserDetails.getAuthorities().toString());
 
             model.addAttribute("displayName", customUserDetails.getDisplayname());
             model.addAttribute("userRole", customUserDetails.getUser().getRolename());
@@ -100,7 +100,7 @@ public class HomeController {
     @GetMapping("/admin-page")  // ADMIN 권한만 접근 가능한 페이지 (사용하지 않음)
     public String adminPage(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
         if (customUserDetails != null) {
-            log.debug("Admin-Page_UserDetails: {}", customUserDetails.getAuthorities().toString());
+            log.debug("AdminPage_UserDetails: {}", customUserDetails.getAuthorities().toString());
 
             model.addAttribute("displayName", customUserDetails.getDisplayname());
             model.addAttribute("userRole", customUserDetails.getUser().getRolename());

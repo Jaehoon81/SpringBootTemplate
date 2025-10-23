@@ -12,6 +12,7 @@ import kr.co.jaehoon.springboottemplate.dto.ParticipantDTO;
 import kr.co.jaehoon.springboottemplate.dto.network.BasicResponse;
 import kr.co.jaehoon.springboottemplate.dto.network.ErrorResponse;
 import kr.co.jaehoon.springboottemplate.dto.network.ParticipantResponse;
+import kr.co.jaehoon.springboottemplate.dto.validation.GradeUpdateRequest;
 import kr.co.jaehoon.springboottemplate.dto.validation.ParticipantRequest;
 import kr.co.jaehoon.springboottemplate.service.ParticipantCrudService;
 import lombok.RequiredArgsConstructor;
@@ -20,13 +21,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -73,7 +72,7 @@ public class ParticipantRestController {
             Map<String, String> errors = bindingResult.getFieldErrors().stream().collect(Collectors.toMap(
                     fieldError -> fieldError.getField(), fieldError -> fieldError.getDefaultMessage()
             ));
-            log.warn("Participants_BindingResult_InvalidException: {}", errors.toString());
+            log.warn("Participants-Register_BindingResult_InvalidException: {}", errors.toString());
 //            return ResponseEntity.badRequest().body(errors);
 
             List<String> errorList = (errors.values().stream().map(Object::toString)).toList();
@@ -95,13 +94,125 @@ public class ParticipantRestController {
         } catch (Exception e) {
             Map<String, String> errors = new HashMap<>();
             errors.put("general", "참가자 등록 중 오류가 발생했습니다: " + e.getMessage());
-            log.error("Participants_General_InvalidException: {}", errors.toString());
+            log.error("Participants-Register_General_InvalidException: {}", errors.toString());
 //            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errors);
 
             final String exceptionMessage = errors.get("general");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(BasicResponse.failure(
                     ErrorResponse.from(500, "Internal_Server_Error", "서버 오류가 발생했습니다.", exceptionMessage)
             ));
+        }
+    }
+
+    /**
+     * 참가자 및 음성녹음 목록을 조회 (웹 브라우저용)
+     * @param currentUser 현재 로그인한 사용자 정보
+     * @param page 요청 페이지 번호 (1부터 시작)
+     * @param size 한 페이지당 항목(셀) 수
+     * @return 웹 브라우저에 응답할 현재 페이지 정보와 참가자 및 음성녹음 목록
+     */
+    @GetMapping("/paginated-list")
+    public ResponseEntity<?> getPaginatedParticipantList(
+            @AuthenticationPrincipal CustomUserDetails currentUser,
+            @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "5") int size  // pageSize
+    ) throws AccessDeniedException, Exception {
+        if (currentUser == null) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+            throw new BadCredentialsException("인증된 사용자 정보가 없습니다.");
+        }
+        try {
+            Long currentUserId = currentUser.getUser().getId();
+            String rolename = currentUser.getUser().getRolename();
+
+            // 권한(역할)에 따른 데이터 필터링은 ParticipantCrudService를 통해서 수행
+            Map<String, Object> resultMap = participantCrudService.getPaginatedParticipantList(page, size, currentUserId, rolename);
+            return ResponseEntity.ok(resultMap);
+        } catch (AccessDeniedException e) {
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("해당 참가자 정보에 접근할 권한이 없습니다.");
+            throw new AccessDeniedException("해당 참가자 정보에 접근할 권한이 없습니다.");
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("참가자 목록 조회 중 오류가 발생했습니다.");
+        }
+    }
+
+    /**
+     * 특정 참가자의 음성녹음 상세 정보를 조회 (웹 브라우저용)
+     * @param currentUser 현재 로그인한 사용자 정보
+     * @param participantId 특정 참가자 고유 ID
+     * @return 웹 브라우저에 응답할 특정 참가자 정보와 3개 음성녹음 데이터
+     */
+    @GetMapping("/{participantId}/record-details")
+    public ResponseEntity<?> getParticipantRecordDetails(
+            @AuthenticationPrincipal CustomUserDetails currentUser, @PathVariable Long participantId
+    ) throws AccessDeniedException, IllegalArgumentException, Exception {
+        if (currentUser == null) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+            throw new BadCredentialsException("인증된 사용자 정보가 없습니다.");
+        }
+        try {
+            Long currentUserId = currentUser.getUser().getId();
+            String rolename = currentUser.getUser().getRolename();
+
+            // 권한(역할)에 따른 데이터 필터링은 ParticipantCrudService를 통해서 수행
+            Map<String, Object> resultMap = participantCrudService.getParticipantRecordDetails(participantId, currentUserId, rolename);
+            return ResponseEntity.ok(resultMap);
+        } catch (AccessDeniedException e) {
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("해당 참가자 정보에 접근할 권한이 없습니다.");
+            throw new AccessDeniedException("해당 참가자 정보에 접근할 권한이 없습니다.");
+        } catch (IllegalArgumentException e) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 참가자 정보를 찾을 수 없습니다.");
+            throw new IllegalArgumentException("해당 참가자 정보를 찾을 수 없습니다.");
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("참가자 음성녹음 상세 조회 중 오류가 발생했습니다.");
+        }
+    }
+
+    /**
+     * 특정 참가자의 등급을 업데이트 (웹 브라우저용)
+     * SYSTEM or ADMIN 권한만 등급 변경이 가능하도록 설정 (USER 권한은 등급 변경 불가능)
+     * @param currentUser 현재 로그인한 사용자 정보
+     * @param request 특정 참가자 정보 및 등급 데이터 (JSON)
+     * @param bindingResult 유효성 검사 결과
+     * @return 웹 브라우저에 응답할 성공 메시지 또는 유효성 검사 오류
+     */
+    @PutMapping("/grade")
+    public ResponseEntity<?> updateParticipantGrade(
+            @AuthenticationPrincipal CustomUserDetails currentUser,
+            @Valid @RequestBody GradeUpdateRequest request,
+            BindingResult bindingResult
+    ) throws AccessDeniedException, IllegalArgumentException, Exception {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = bindingResult.getFieldErrors().stream().collect(Collectors.toMap(
+                    fieldError -> fieldError.getField(), fieldError -> fieldError.getDefaultMessage()
+            ));
+            log.warn("Participants-Grade_BindingResult_InvalidException: {}", errors.toString());
+            return ResponseEntity.badRequest().body(errors);
+        }
+        if (currentUser == null) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+            throw new BadCredentialsException("인증된 사용자 정보가 없습니다.");
+        }
+        String rolename = currentUser.getUser().getRolename();
+        if (rolename.equals("USER")) {
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("USER 계정은 자신의 참가자 등급을 변경할 수 없습니다.");
+            throw new AccessDeniedException("USER 계정은 자신의 참가자 등급을 변경할 수 없습니다.");
+        }
+        try {
+            // 해당 참가자의 등급을 업데이트한 후 성공 메시지를 반환
+            Long currentUserId = currentUser.getUser().getId();
+            participantCrudService.updateParticipantGrade(request, currentUserId, rolename);
+            return ResponseEntity.ok("참가자 등급이 성공적으로 변경되었습니다.");
+        } catch (AccessDeniedException e) {
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("해당 참가자는 등급을 변경할 권한이 없습니다.");
+            throw new AccessDeniedException("해당 참가자는 등급을 변경할 권한이 없습니다.");
+        } catch (IllegalArgumentException e) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 참가자 정보를 찾을 수 없습니다.");
+            throw new IllegalArgumentException("해당 참가자 정보를 찾을 수 없습니다.");
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("참가자 등급 변경 중 오류가 발생했습니다.");
         }
     }
 }

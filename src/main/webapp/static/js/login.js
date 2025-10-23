@@ -105,7 +105,7 @@ $(document).ready(function () {
     // 모달 관련 DOM 요소 가져오기
     var registerModal = $('#registerModal');
     var openRegisterModalBtn = $('#openRegisterModal');
-    var closeButton = $('.close-modal');
+    var closeModalBtn = $('.close-modal');
     var regDisplaynameInput = $('#reg-displayname');
     var regEmailInput = $('#reg-email');
     var regReqMessage = $('#reg-req-message');
@@ -135,7 +135,7 @@ $(document).ready(function () {
         toggleAdminnameField();
     });
     // 닫기 버튼 클릭 시 팝업창 닫기
-    closeButton.click(function () {
+    closeModalBtn.click(function () {
         registerModal.removeClass('show');
     });
     // 모달 외부 클릭 시 팝업창 닫기 (이벤트 버블링 방지 포함)
@@ -327,7 +327,7 @@ $(document).ready(function () {
         $findAccountModal.removeClass('show');
     });
     // 모달 외부 클릭 시 팝업창 닫기 (이벤트 버블링 방지 포함)
-    $(window).on('click', function (event) {
+    $(window).click(function (event) {
         if ($(event.target).is($findAccountModal)) {
             // $findAccountModal.removeClass('show');  // 모달 배경 클릭 시 안닫히도록 주석처리
         }

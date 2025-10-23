@@ -10,9 +10,9 @@ import lombok.Data;
 @Builder
 public class RecordResponse {
 
-    @Schema(description = "음성녹음 고유 Index", example = "1")
+    @Schema(description = "음성녹음 고유 Index", example = "101")
     private Long recordIndex;
-    @Schema(description = "녹음 순서 (1, 2, 3 또는 그 이상)", example = "1")
+    @Schema(description = "녹음순서 (1, 2, 3 또는 그 이상)", example = "1")
     private Short recordSequence;
     @Schema(description = "음성 파일의 저장 경로", example = "./uploads/audios/2025/10/15/...")
     private String filePath;

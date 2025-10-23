@@ -48,7 +48,7 @@ public class AdminRestController {
         // 로그인한 ADMIN 계정의 id를 사용하여 담당하는 승인 대기 중인 USER 계정의 목록을 조회
         Long adminId = adminUserDetails.getUser().getId();
         List<LoginApprovalDTO> pendingUsers = userService.findPendingUsersByAdminName(adminId);
-        log.debug("Pending-Users_PendingUserList: {}", pendingUsers.toString());
+        log.debug("Admin-PendingUsers_PendingUserList: {}", pendingUsers.toString());
 
         return ResponseEntity.ok(pendingUsers);
     }
@@ -72,7 +72,7 @@ public class AdminRestController {
         }
         try {
             userService.updateApprovalStatus(request.getUserId(), true);  // true로 승인
-            return ResponseEntity.ok("계정이 성공적으로 승인되었습니다.");
+            return ResponseEntity.ok("USER 계정이 성공적으로 승인되었습니다.");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("계정승인 중 오류 발생: " + e.getMessage());

@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
@@ -50,13 +51,29 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
             Map<String, Object> errorDetails = new HashMap<>();
             errorDetails.put("status", HttpServletResponse.SC_FORBIDDEN);
             errorDetails.put("error", "Forbidden");
-            errorDetails.put("message", "접근 권한이 없습니다.");  // 상세 메시지
-            errorDetails.put("exceptionMessage", accessDeniedException.getMessage());  // 예외 메시지 (개발 및 디버그 용도로 사용)
+//            errorDetails.put("message", "접근 권한이 없습니다.\n다른 계정으로 로그인해주세요.");  // 상세 메시지
+//            errorDetails.put("exceptionMessage", accessDeniedException.getMessage());  // 예외 메시지 (개발 및 디버그 용도로 사용)
 
+            String errorMessage = "접근 권한이 없습니다.";
+            String exceptionMessage = accessDeniedException.getMessage();
             if (expectsJsonExplicitly == false && isAjaxRequest == true) {
+//                if (exceptionMessage != null && accessDeniedException.getCause() instanceof AccessDeniedException) {
+                if (exceptionMessage != null && accessDeniedException instanceof AccessDeniedException) {
+                    // 전달받은 예외가 AccessDeniedException이고,
+                    // 특정 메시지인 경우 해당 메시지를 사용 (특정 메시지를 그대로 반환)
+                    if (exceptionMessage.contains("등급")) {
+                        errorMessage = exceptionMessage;
+                    } else {  // 그 외 모든 권한 예외는 일반적인 메시지로 처리 (로그인한 사용자가 해당 권한이 없는 경우 등)
+                        errorMessage = "접근 권한이 없습니다.";
+                    }
+                }
+                errorDetails.put("message", errorMessage);  // 상세 메시지
+                errorDetails.put("exceptionMessage", exceptionMessage);  // 예외 메시지 (개발 및 디버그 용도로 사용)
                 // 웹 브라우저용 JSON 응답 작성
                 objectMapper.writeValue(response.getWriter(), errorDetails);
             } else {  // expectsJsonExplicitly == true && isAjaxRequest == false
+                errorDetails.put("message", errorMessage);  // 상세 메시지
+                errorDetails.put("exceptionMessage", exceptionMessage);  // 예외 메시지 (개발 및 디버그 용도로 사용)
                 // 모바일 앱용 BasicResponse 및 ErrorResponse로 JSON 응답 작성
                 objectMapper.writeValue(response.getWriter(), BasicResponse.failure(
                         ErrorResponse.from(

@@ -112,4 +112,4 @@ app:
 # SpringBootTemplate 프로젝트의 Release 버전을 기록
 springboot-template:
   release:
-    version: 0.000.005
+    version: 0.001.000

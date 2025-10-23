@@ -89,19 +89,19 @@ public class AuthRestController {
             Map<String, String> errors = bindingResult.getFieldErrors().stream().collect(Collectors.toMap(
                     fieldError -> fieldError.getField(), fieldError -> fieldError.getDefaultMessage()
             ));
-            log.warn("Register_BindingResult_InvalidException: {}", errors.toString());
+            log.warn("Auth-Register_BindingResult_InvalidException: {}", errors.toString());
             return ResponseEntity.badRequest().body(errors);
         }
         // 1. 아이디 중복 확인
         UserDTO user1 = userService.findByUsername(registrationRequest.getUsername());
         if (user1 != null) {
-            log.warn("Register_UserDTO_Username: {}", user1.getUsername());
+            log.warn("Auth-Register_UserDTO_Username: {}", user1.getUsername());
             return ResponseEntity.badRequest().body("이미 사용 중인 아이디입니다.");
         }
         // 2. 이름 중복 확인
         UserDTO user2 = userService.findByDisplayname(registrationRequest.getDisplayname());
         if (user2 != null) {
-            log.warn("Register_UserDTO_Displayname: {}", user2.getDisplayname());
+            log.warn("Auth-Register_UserDTO_Displayname: {}", user2.getDisplayname());
             return ResponseEntity.badRequest().body("이미 사용 중인 이름입니다.");
         }
         // 3-1. 권한에 대한 유효성 검사 (USER, ADMIN만 허용)
@@ -113,7 +113,7 @@ public class AuthRestController {
         // 3-2. 권한 유무 확인
         Long roleId = userService.findRoleIdByRolename(registrationRequest.getRole().toUpperCase());
         if (roleId == null) {
-            log.warn("Register_Long_RoleID: {}", (Object) null);
+            log.warn("Auth-Register_Long_RoleID: {}", (Object) null);
             return ResponseEntity.badRequest().body("유효하지 않은 권한입니다.");
         } else {
             registrationRequest.setRoleId(roleId);
@@ -142,7 +142,7 @@ public class AuthRestController {
             if (registrationRequest.getAdminname() != null && !registrationRequest.getAdminname().trim().isEmpty()) {
                 Long adminId = userService.findAdminIdByDisplayname(registrationRequest.getAdminname());
                 if (adminId == null) {
-                    log.warn("Register_Long_AdminID: {}", (Object) null);
+                    log.warn("Auth-Register_Long_AdminID: {}", (Object) null);
                     if (userService.deleteUser(newUser.getId()) == 1) {
                         log.debug("The 'users' table has been rolled back(1).");
                     }
@@ -161,7 +161,7 @@ public class AuthRestController {
             // (displayname은 중복될 수 있으므로 추후에는 ID 기반으로 선택하는 것을 고려)
             Integer adminCount = userService.countAdminByDisplayname(registrationRequest.getAdminname());
             if (adminCount == 0) {
-                log.warn("Register_Integer_AdminCount: {}", adminCount.toString());
+                log.warn("Auth-Register_Integer_AdminCount: {}", adminCount.toString());
                 if (userService.deleteUser(newUser.getId()) == 1) {
                     log.debug("The 'users' table has been rolled back(3).");
                 }
@@ -183,7 +183,7 @@ public class AuthRestController {
     @GetMapping("/admins")
     public ResponseEntity<List<String>> getAdminNames() throws Exception {
         List<String> displaynames = userService.findAdminNames();
-        log.debug("Admins_DisplaynameList: {}", displaynames.toString());
+        log.debug("Auth-Admins_DisplaynameList: {}", displaynames.toString());
 
         return ResponseEntity.ok(displaynames);
     }
@@ -199,7 +199,7 @@ public class AuthRestController {
             Map<String, String> errors = bindingResult.getFieldErrors().stream().collect(Collectors.toMap(
                     fieldError -> fieldError.getField(), fieldError -> fieldError.getDefaultMessage()
             ));
-            log.warn("Find-Account_BindingResult_InvalidException: {}", errors.toString());
+            log.warn("Auth-FindAccount_BindingResult_InvalidException: {}", errors.toString());
             return ResponseEntity.badRequest().body(errors);
         }
         try {
@@ -209,13 +209,13 @@ public class AuthRestController {
             Map<String, String> errors = new HashMap<>();
             errors.put("general", e.getMessage());  // general 오류 메시지로 프론트엔드에 전달
 
-            log.warn("Find-Account_General_InvalidException(1): {}", errors.toString());
+            log.warn("Auth-FindAccount_General_InvalidException(1): {}", errors.toString());
             return ResponseEntity.badRequest().body(errors);
         } catch (Exception e) {
             Map<String, String> errors = new HashMap<>();
             errors.put("general", "이메일 전송 중 오류가 발생했습니다.\n유효한 이메일 주소가 아닐 수 있습니다.");
 
-            log.error("Find-Account_General_InvalidException(2): {}", errors.toString());
+            log.error("Auth-FindAccount_General_InvalidException(2): {}", errors.toString());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errors);
         }
     }
@@ -242,7 +242,7 @@ public class AuthRestController {
         }
         // 2. 인증 성공 후 UserDetails를 로드하여 사용자 정보 확인
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-        // 3. 권한 확인: 웹 로그인은 SYSTEM 또는 ADMIN 권한만 허용
+        // 3. 권한 확인: 웹 로그인은 SYSTEM or ADMIN 권한만 허용
         if (userDetails != null && userDetails instanceof CustomUserDetails) {
             CustomUserDetails customUserDetails = (CustomUserDetails) userDetails;
             if ("USER".equalsIgnoreCase(customUserDetails.getUser().getRole())) {
@@ -477,7 +477,7 @@ public class AuthRestController {
                 log.warn("JWT token error during logout processing: {}", e.getMessage());
             }
         }
-        // 웹 클라이언트를 위해 JWT 쿠키 삭제 (브라우저에서 해당 쿠키를 더 이상 전송하지 않음)
+        // 웹 클라이언트를 위해 JWT 쿠키 삭제 (브라우저에서 해당 쿠키를 더이상 전송하지 않음)
         Cookie jwtCookie = new Cookie("jwtToken", "");  // 빈 값으로 설정
         jwtCookie.setHttpOnly(true);
         jwtCookie.setPath("/");

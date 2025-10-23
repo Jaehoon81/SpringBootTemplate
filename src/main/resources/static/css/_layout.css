@@ -13,7 +13,7 @@
     padding: 15px 30px;
     display: flex; /* Flexbox로 좌우 요소 배치 */
     justify-content: space-between; /* 좌측과 우측 끝으로 분리 */
-    align-items: center; /* 세로로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 

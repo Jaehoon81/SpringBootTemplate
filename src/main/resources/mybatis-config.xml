@@ -18,6 +18,7 @@
         <typeAlias type="kr.co.jaehoon.springboottemplate.dto.network.MobileAuthRequest" alias="mobileAuthRequest"/>
         <typeAlias type="kr.co.jaehoon.springboottemplate.dto.validation.UserUpdateRequest" alias="userUpdateRequest"/>
         <typeAlias type="kr.co.jaehoon.springboottemplate.dto.validation.ParticipantRequest" alias="participantRequest"/>
+        <typeAlias type="kr.co.jaehoon.springboottemplate.dto.validation.GradeUpdateRequest" alias="gradeUpdateRequest"/>
         <typeAlias type="kr.co.jaehoon.springboottemplate.dto.validation.RecordRequest" alias="recordRequest"/>
 
         <typeAlias type="kr.co.jaehoon.springboottemplate.dto.MemberDTO" alias="memberDTO"/>

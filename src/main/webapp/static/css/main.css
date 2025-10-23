@@ -173,7 +173,7 @@ hr {
 
 /* Checkbox Group Styling */
 .checkbox-group {
-    display: flex; /* Flexbox 사용하여 내부 요소 정렬 */
+    display: flex; /* Flexbox를 사용하여 내부 요소 정렬 */
     align-items: center; /* 세로 중앙 정렬 */
     margin-bottom: 20px;
     text-align: left; /* 전체 컨테이너가 중앙 정렬이어도 체크박스 그룹은 왼쪽 정렬 */

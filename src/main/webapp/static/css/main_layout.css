@@ -271,7 +271,7 @@ html, body {
     flex-grow: 1; /* content-wrapper의 남은 공간을 채움 */
     display: flex; /* Flexbox 활성화 */
     flex-direction: column; /* 자식 요소들을 세로 방향으로 배열 */
-    /*justify-content: center; !* 세로로 중앙 정렬 *!*/
+    /*justify-content: center; !* 세로 중앙 정렬 *!*/
     justify-content: flex-start; /* 콘텐츠를 상단에서부터 시작 (스크롤 가능한 영역) */
     align-items: center; /* 가로 중앙 정렬은 유지 */
     text-align: initial; /* 텍스트 정렬은 콘텐츠 내부에서 정의 */

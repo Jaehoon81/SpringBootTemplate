@@ -8,4 +8,10 @@
         VALUES (#{userId}, #{participantName}, #{birthYear}, #{birthMonth}, #{gender}, #{grade})
     </insert>
 
+    <update id="updateParticipantGrade" parameterType="map">
+        UPDATE participants
+        SET grade = #{newGrade}, updated_at = CURRENT_TIMESTAMP
+        WHERE participant_id = #{participantId}
+    </update>
+
 </mapper>
