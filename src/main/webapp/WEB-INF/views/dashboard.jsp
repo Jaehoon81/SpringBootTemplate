@@ -17,7 +17,7 @@
     <link rel="stylesheet" type="text/css" href="/static/css/contents/profile.css">
     <!-- Font Awesome 아이콘 사용을 위해 추가 -->
 <%--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">--%>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <style>
         p {
             margin: 8px 0px 8px 0px;
@@ -85,6 +85,8 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="/static/js/dashboard.js"></script>
+    <script src="/static/js/contents/statistics.js"></script>
+    <script src="/static/js/contents/profile.js"></script>
     <c:if test="${userRole eq 'SYSTEM'}">
         <link rel="stylesheet" type="text/css" href="/static/css/contents/system.css">
         <script src="/static/js/contents/system.js"></script>
@@ -93,8 +95,6 @@
         <link rel="stylesheet" type="text/css" href="/static/css/contents/admin.css">
         <script src="/static/js/contents/admin.js"></script>
     </c:if>
-    <script src="/static/js/contents/statistics.js"></script>
-    <script src="/static/js/contents/profile.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             // 로그아웃 버튼 클릭 이벤트 (헤더에 추가)

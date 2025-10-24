@@ -1,8 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<style>
+    .statistics-tooltip {
+        width: 310px; /* 데이터 통계 툴팁의 너비 */
+        margin-left: -164px; /* 툴팁 너비의 절반만큼 왼쪽으로 이동하여 중앙 정렬 */
+    }
+</style>
+
 <!-- 데이터 통계 및 리스트 폼 구조 -->
 <div class="data-statistics-container">
-    <h2>데이터 통계 및 리스트</h2>
+    <h2>데이터 통계 및 리스트
+        <!-- 데이터 통계 및 리스트 안내 툴팁 -->
+        <p style="display: inline;">
+            <span class="tooltip-container">
+                <span class="tooltip-icon"><i class="fa-solid fa-circle-info"></i></span>
+                <span class="custom-tooltip statistics-tooltip"
+                      data-tooltip-text="/swagger-ui/index.html 로 접속 후,&nbsp; 모바일 로그인 &rarr; 새 참가자 등록 &rarr; 음성녹음 파일 업로드"></span>
+            </span>
+        </p>
+    </h2>
     <div id="participant-list-container">
         <table class="data-statistics-table">
             <thead>
@@ -49,15 +65,15 @@
         </div>
         <div class="audio-tracks-container">
             <div class="audio-track" id="audio-track-1">
-                <p>음성 1 (<span id="audio-date-1">-</span>)</p>
+                <p>음성 1번 (<span id="audio-date-1">-</span>)</p>
                 <audio id="audio-player-controls-1" controls></audio>
             </div>
             <div class="audio-track" id="audio-track-2">
-                <p>음성 2 (<span id="audio-date-2">-</span>)</p>
+                <p>음성 2번 (<span id="audio-date-2">-</span>)</p>
                 <audio id="audio-player-controls-2" controls></audio>
             </div>
             <div class="audio-track" id="audio-track-3">
-                <p>음성 3 (<span id="audio-date-3">-</span>)</p>
+                <p>음성 3번 (<span id="audio-date-3">-</span>)</p>
                 <audio id="audio-player-controls-3" controls></audio>
             </div>
         </div>
@@ -65,4 +81,13 @@
 </div>
 
 <script type="text/javascript">
+    $(document).ready(function () {
+        $('.tooltip-container').each(function () {
+            const customTooltip = $(this).find('.custom-tooltip');
+            var tooltipText = customTooltip.data('tooltip-text');
+
+            // data-tooltip-text 속성의 내용을 읽어서 커스텀 툴팁 안에 채워넣음
+            customTooltip.text(tooltipText);
+        });
+    });
 </script>

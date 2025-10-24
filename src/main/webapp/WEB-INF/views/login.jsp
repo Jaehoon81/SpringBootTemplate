@@ -14,7 +14,13 @@
     <link rel="stylesheet" type="text/css" href="/static/css/main.css">
     <!-- Font Awesome 아이콘 사용을 위해 추가 -->
 <%--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">--%>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        .login-tooltip {
+            width: 130px; /* 로그인 툴팁의 너비 */
+            margin-left: -74px; /* 툴팁 너비의 절반만큼 왼쪽으로 이동하여 중앙 정렬 */
+        }
+    </style>
 </head>
 <body>
     <!-- 로그인 폼 구조 -->
@@ -36,6 +42,14 @@
         <button id="loginBtn">로그인</button>
         <p id="login-message" class="message"></p>
 
+        <!-- 시스템 관리자 로그인 안내 툴팁 -->
+        <p style="margin-top: -20px; margin-bottom: 25px;">
+            시스템 관리자 계정으로 로그인하려면?
+            <span class="tooltip-container">
+                <span class="tooltip-icon"><i class="fa-solid fa-circle-info"></i></span>
+                <span class="custom-tooltip login-tooltip" data-tooltip-text="시스템 관리자 계정:&nbsp; system / 1234qwer!!"></span>
+            </span>
+        </p>
         <!-- 회원가입, 아이디/비밀번호 찾기 팝업창 모달의 텍스트 링크 -->
         <div class="modal-links">
             <a href="#" id="openRegisterModal">회원 가입</a>
@@ -43,8 +57,8 @@
             <a href="#" id="openFindAccountModal">아이디/비밀번호 찾기</a>
         </div>
         <hr>
-<%--        <p><a href="/secure-page">보호된 페이지로 이동</a> (로그인 후 접근 가능)</p>--%>
-        <p><a href="/dashboard">대시보드로 이동</a> (로그인 후 접근 가능)</p>
+<%--        <p><a href="/secure-page" style="display: inline;">보호된 페이지로 이동</a> (로그인 후 접근 가능)</p>--%>
+        <p><a href="/dashboard" style="display: inline;">대시보드로 이동</a> (로그인 후 접근 가능)</p>
     </div>
 
     <!-- 회원가입 팝업창 모달 구조 -->
@@ -113,5 +127,16 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="/static/js/login.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.tooltip-container').each(function () {
+                const customTooltip = $(this).find('.custom-tooltip');
+                var tooltipText = customTooltip.data('tooltip-text');
+
+                // data-tooltip-text 속성의 내용을 읽어서 커스텀 툴팁 안에 채워넣음
+                customTooltip.text(tooltipText);
+            });
+        });
+    </script>
 </body>
 </html>

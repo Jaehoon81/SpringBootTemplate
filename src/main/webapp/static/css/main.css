@@ -545,3 +545,56 @@ hr {
     text-decoration: none;
     cursor: pointer;
 }
+
+/* 툴팁을 감싸는 컨테이너 */
+.tooltip-container {
+    display: inline-block; /* 인포 아이콘과 툴팁이 한 줄에 표시되도록 */
+    position: relative;
+    cursor: pointer;
+}
+
+/* 인포 아이콘 스타일 */
+.tooltip-icon {
+    color: #007bff;
+    margin-left: 5px;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+/* 커스텀 툴팁 박스 스타일 */
+.custom-tooltip {
+    visibility: hidden; /* 기본적으로 숨김 */
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    border-radius: 6px;
+    width: 150px; /* 기본 툴팁의 너비 */
+    padding: 8px 12px;
+    z-index: 100; /* 다른 요소 위에 표시되도록 z-index 설정 */
+    bottom: 140%; /* 인포 아이콘 위쪽에 배치 */
+    left: 50%;
+    margin-left: -75px; /* 툴팁 너비의 절반만큼 왼쪽으로 이동하여 중앙 정렬 */
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: center;
+    opacity: 0; /* 초기 투명도 */
+    transition: opacity 0.3s; /* 부드러운 애니메이션 효과 */
+}
+
+/* 툴팁 아래 화살표 스타일 */
+.custom-tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%; /* 툴팁 박스 아래에 배치 */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent; /* 화살표 모양 생성 */
+}
+
+/* 마우스 오버 시 툴팁 표시 */
+.tooltip-container:hover .custom-tooltip {
+    visibility: visible;
+    opacity: 1;
+}
