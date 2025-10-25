@@ -67,6 +67,8 @@ public class HomeController {
                 return "contents/secure_content";
             case "statistics":       // 데이터 통계 페이지 콘텐츠
                 return "contents/statistics_content";
+            case "notice":           // 데이터 통계 - 공지사항 페이지 콘텐츠
+                return "contents/notice_content";
             case "profile":          // 마이 페이지 콘텐츠
                 return "contents/profile_content";
             default:                 // 해당하는 콘텐츠가 없을 경우 대시보드로 리다이렉트

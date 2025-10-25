@@ -22,7 +22,7 @@
 <body>
     <div class="auth-system-container">
         <h2>시스템 관리자 페이지</h2>
-        <p><c:out value="${displayName}"/>님, 시스템 관리자 권한으로 접속하셨습니다.</p>
+        <p><span style="font-weight: bold;"><c:out value="${displayName}"/></span>님, 시스템 관리자 권한으로 접속하셨습니다.</p>
         <p>(아래는 승인 대기 중인 관리자 계정의 목록입니다.)</p>
 
         <div id="admin-list-container">

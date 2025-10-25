@@ -7,45 +7,51 @@
     }
 </style>
 
-<!-- 데이터 통계 및 리스트 폼 구조 -->
-<div class="data-statistics-container">
-    <h2>데이터 통계 및 리스트
-        <!-- 데이터 통계 및 리스트 안내 툴팁 -->
-        <p style="display: inline;">
-            <span class="tooltip-container">
-                <span class="tooltip-icon"><i class="fa-solid fa-circle-info"></i></span>
-                <span class="custom-tooltip statistics-tooltip"
-                      data-tooltip-text="/swagger-ui/index.html 로 접속 후,&nbsp; 모바일 로그인 &rarr; 새 참가자 등록 &rarr; 음성녹음 파일 업로드"></span>
-            </span>
+<!-- 동적으로 콘텐츠가 로드될 영역 -->
+<div id="dataContentArea">
+    <!-- 데이터 통계 및 리스트 폼 구조 (초기 콘텐츠) -->
+    <div class="data-statistics-container">
+        <h2>데이터 통계 및 리스트
+            <!-- 데이터 통계 및 리스트 안내 툴팁 -->
+            <p style="display: inline;">
+                <span class="tooltip-container">
+                    <span class="tooltip-icon"><i class="fa-solid fa-circle-info"></i></span>
+                    <span class="custom-tooltip statistics-tooltip"
+                          data-tooltip-text="/swagger-ui/index.html 로 접속 후,&nbsp; 모바일 로그인 &rarr; 새 참가자 등록 &rarr; 음성녹음 파일 업로드"></span>
+                </span>
+            </p>
+        </h2>
+        <p style="margin-top: -20px;">
+            <a href="#" id="goToNoticeLink" style="display: inline;">공지사항으로 이동</a>
         </p>
-    </h2>
-    <div id="participant-list-container">
-        <table class="data-statistics-table">
-            <thead>
-                <tr>
-                    <th>번호</th>
-                    <th>이름</th>
-                    <th>출생연월</th>
-                    <th>성별</th>
-                    <th>등급</th>
-                    <th>담당관리자</th>
-                    <th>음성녹음</th>
-                    <th>녹음일자</th>
-                </tr>
-            </thead>
-            <tbody id="participant-list-body">
-                <!-- 참가자 목록이 JavaScript로 여기에 동적으로 로드됨 -->
-                <tr>
-                    <td colspan="8" class="loading-contents">참가자 목록을 불러오는 중...</td>
-                </tr>
-            </tbody>
-        </table>
-        <div id="no-data-message" class="no-data-message" style="display: none;">
-            <p style="color: red;">참가자 목록 조회 중 오류가 발생했습니다.</p>
+        <div id="participant-list-container">
+            <table class="data-statistics-table">
+                <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>이름</th>
+                        <th>출생연월</th>
+                        <th>성별</th>
+                        <th>등급</th>
+                        <th>담당관리자</th>
+                        <th>음성녹음</th>
+                        <th>녹음일자</th>
+                    </tr>
+                </thead>
+                <tbody id="participant-list-body">
+                    <!-- 참가자 목록이 JavaScript로 여기에 동적으로 로드됨 -->
+                    <tr>
+                        <td colspan="8" class="loading-contents">참가자 목록을 불러오는 중...</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="no-data-message" class="no-data-message" style="display: none;">
+                <p style="color: red;">참가자 목록 조회 중 오류가 발생했습니다.</p>
+            </div>
         </div>
-    </div>
-    <div id="pagination-controls" class="pagination-controls">
-        <!-- 페이지네이션 버튼(링크)들이 여기에 동적으로 생성됨 -->
+        <div id="pagination-controls" class="pagination-controls">
+            <!-- 페이지네이션 버튼(링크)들이 여기에 동적으로 생성됨 -->
+        </div>
     </div>
 </div>
 

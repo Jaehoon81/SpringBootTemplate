@@ -107,7 +107,7 @@ public class SecurityConfig {
                         .requestMatchers("/contents/admin-approval").hasRole("ADMIN")
                         .requestMatchers("/contents/secure").hasRole("USER")
                         // 모든 인증된 사용자는 접근 가능
-                        .requestMatchers("/contents/statistics", "/contents/profile").hasAnyRole("USER", "ADMIN", "SYSTEM")
+                        .requestMatchers("/contents/statistics", "/contents/notice", "/contents/profile").hasAnyRole("USER", "ADMIN", "SYSTEM")
 
                         // SYSTEM, ADMIN 권한 전용 페이지 설정
 //                        .requestMatchers("/system-page").hasRole("SYSTEM")

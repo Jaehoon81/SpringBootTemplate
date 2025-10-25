@@ -2,7 +2,8 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <div class="auth-admin-container">
     <h2>일반 사용자 계정 승인 관리</h2>
-    <p><c:out value="${displayName}"/>님, 관리자 권한으로 접속하셨습니다. 모든 기능을 사용할 수 있습니다.</p>
+    <p><span style="font-weight: bold;"><c:out value="${displayName}"/></span>님,
+        관리자 권한으로 접속하셨습니다. 모든 기능을 사용할 수 있습니다.</p>
     <p>(아래는 승인 대기 중인 일반 사용자 계정의 목록입니다.)</p>
 
     <div id="user-list-container">

@@ -43,22 +43,22 @@
 <body>
     <div class="auth-secure-container">
         <h2>보호된 페이지</h2>
-        <p><c:out value="${displayName}"/>님, 환영합니다!</p>
+        <p><span style="font-weight: bold;"><c:out value="${displayName}"/></span>님, 환영합니다!</p>
         <p>이 페이지는 인증된 사용자만 접근할 수 있습니다.</p>
-
+        <br>
         <p style="color: #007bff;"><!-- 권한에 따른 메시지 표시 -->
             <c:choose>
                 <c:when test="${userRole eq 'SYSTEM'}">
-                    (시스템 관리자 권한으로 로그인하셨습니다. 시스템의 모든 기능을 총괄합니다.)
+                    (<c:out value="${displayName}"/>님은 시스템 관리자 권한으로 시스템의 모든 기능을 총괄합니다.)
                 </c:when>
                 <c:when test="${userRole eq 'ADMIN'}">
-                    (관리자 권한으로 로그인하셨습니다. 모든 기능을 사용할 수 있습니다.)
+                    (<c:out value="${displayName}"/>님은 관리자 권한이므로 모든 기능을 사용할 수 있습니다.)
                 </c:when>
                 <c:when test="${userRole eq 'USER'}">
-                    (일반 사용자 권한으로 로그인하셨습니다. 계정 승인 작업은 시스템 관리자 또는 관리자만 가능합니다.)
+                    (<c:out value="${displayName}"/>님은 일반 사용자 권한으로 로그인하셨습니다. 계정 승인 작업은 시스템 관리자 또는 관리자만 가능합니다.)
                 </c:when>
                 <c:otherwise>
-                    (알 수 없는 권한입니다.)
+                    (<c:out value="${displayName}"/>님은 알 수 없는 권한입니다.)
                 </c:otherwise>
             </c:choose>
         </p><br>
