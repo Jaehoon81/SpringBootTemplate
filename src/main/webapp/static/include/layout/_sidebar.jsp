@@ -22,7 +22,7 @@
             </li>
         </c:if>
         <li data-menu-id="data-statistics">
-            <a href="#" data-content-url="/contents/statistics"><i class="fas fa-chart-line"></i>&nbsp;&nbsp;데이터 통계</a>
+            <a href="#" id="sidebar-statistics" data-content-url="/contents/statistics"><i class="fas fa-chart-line"></i>&nbsp;&nbsp;데이터 통계</a>
         </li>
         <li data-menu-id="edit-profile">
             <a href="#" data-content-url="/contents/profile"><i class="fas fa-user-edit"></i>&nbsp;마이 페이지</a>

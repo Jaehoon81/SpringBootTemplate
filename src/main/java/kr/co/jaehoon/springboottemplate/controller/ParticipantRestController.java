@@ -12,6 +12,7 @@ import kr.co.jaehoon.springboottemplate.dto.ParticipantDTO;
 import kr.co.jaehoon.springboottemplate.dto.network.BasicResponse;
 import kr.co.jaehoon.springboottemplate.dto.network.ErrorResponse;
 import kr.co.jaehoon.springboottemplate.dto.network.ParticipantResponse;
+import kr.co.jaehoon.springboottemplate.dto.validation.Grade;
 import kr.co.jaehoon.springboottemplate.dto.validation.GradeUpdateRequest;
 import kr.co.jaehoon.springboottemplate.dto.validation.ParticipantRequest;
 import kr.co.jaehoon.springboottemplate.service.ParticipantCrudService;
@@ -109,12 +110,14 @@ public class ParticipantRestController {
      * @param currentUser 현재 로그인한 사용자 정보
      * @param page 요청 페이지 번호 (1부터 시작)
      * @param size 한 페이지당 항목(셀) 수
+     * @param grade 등급별 필터 (선택 사항)
      * @return 웹 브라우저에 응답할 현재 페이지 정보와 참가자 및 음성녹음 목록
      */
     @GetMapping("/paginated-list")
     public ResponseEntity<?> getPaginatedParticipantList(
             @AuthenticationPrincipal CustomUserDetails currentUser,
-            @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "5") int size  // pageSize
+            @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "5") int size,  // pageSize
+            @RequestParam(required = false) Grade grade
     ) throws AccessDeniedException, Exception {
         if (currentUser == null) {
 //            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
@@ -125,7 +128,8 @@ public class ParticipantRestController {
             String rolename = currentUser.getUser().getRolename();
 
             // 권한(역할)에 따른 데이터 필터링은 ParticipantCrudService를 통해서 수행
-            Map<String, Object> resultMap = participantCrudService.getPaginatedParticipantList(page, size, currentUserId, rolename);
+            Map<String, Object> resultMap =
+                    participantCrudService.getPaginatedParticipantList(page, size, grade, currentUserId, rolename);
             return ResponseEntity.ok(resultMap);
         } catch (AccessDeniedException e) {
 //            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("해당 참가자 정보에 접근할 권한이 없습니다.");
@@ -155,7 +159,8 @@ public class ParticipantRestController {
             String rolename = currentUser.getUser().getRolename();
 
             // 권한(역할)에 따른 데이터 필터링은 ParticipantCrudService를 통해서 수행
-            Map<String, Object> resultMap = participantCrudService.getParticipantRecordDetails(participantId, currentUserId, rolename);
+            Map<String, Object> resultMap =
+                    participantCrudService.getParticipantRecordDetails(participantId, currentUserId, rolename);
             return ResponseEntity.ok(resultMap);
         } catch (AccessDeniedException e) {
 //            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("해당 참가자 정보에 접근할 권한이 없습니다.");

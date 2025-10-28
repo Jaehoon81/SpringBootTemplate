@@ -583,7 +583,7 @@ hr {
 
 /* 툴팁 아래 화살표 스타일 */
 .custom-tooltip::after {
-    content: "";
+    content: '';
     position: absolute;
     top: 100%; /* 툴팁 박스 아래에 배치 */
     left: 50%;

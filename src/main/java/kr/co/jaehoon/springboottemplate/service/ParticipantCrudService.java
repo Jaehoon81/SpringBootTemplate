@@ -55,12 +55,15 @@ public class ParticipantCrudService {
     }
 
     @Transactional(readOnly = true)
-    public Map<String, Object> getPaginatedParticipantList(int page, int pageSize, Long currentUserId, String rolename) throws Exception {
+    public Map<String, Object> getPaginatedParticipantList(
+            int page, int pageSize, Grade grade, Long currentUserId, String rolename
+    ) throws Exception {
         int offset = (page - 1) * pageSize;
 
         Map<String, Object> params = new HashMap<>();
         params.put("offset", offset);
         params.put("limit", pageSize);
+        params.put("grade", grade);  // 등급에 따른 필터링을 위해 전달
         params.put("currentUserId", currentUserId);
         params.put("rolename", rolename);  // 권한(역할)에 따른 필터링을 위해 전달
 

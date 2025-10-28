@@ -22,8 +22,32 @@
             </p>
         </h2>
         <p style="margin-top: -20px;">
-            <a href="#" id="goToNoticeLink" style="display: inline;">공지사항으로 이동</a>
+            <a href="/contents/notice" id="goToNoticeLink" style="display: inline;">공지사항으로 이동</a>
         </p>
+        <!-- 검색 필터링 영역: 등급별(라디오 버튼), 기간별(달력), 검색어(입력 필드) -->
+        <div class="search-filters-container">
+            <!-- 등급별 라디오 버튼 섹션 -->
+            <label class="radio-button-container">
+                <input type="radio" name="gradeFilter" value="" checked>
+                <span class="radio-custom"></span> 전체
+            </label>
+            <label class="radio-button-container">
+                <input type="radio" name="gradeFilter" value="GOLD">
+                <span class="radio-custom"></span> GOLD
+            </label>
+            <label class="radio-button-container">
+                <input type="radio" name="gradeFilter" value="SILVER">
+                <span class="radio-custom"></span> SILVER
+            </label>
+            <label class="radio-button-container">
+                <input type="radio" name="gradeFilter" value="BRONZE">
+                <span class="radio-custom"></span> BRONZE
+            </label>
+            <label class="radio-button-container">
+                <input type="radio" name="gradeFilter" value="NONE">
+                <span class="radio-custom"></span> NONE
+            </label>
+        </div>
         <div id="participant-list-container">
             <table class="data-statistics-table">
                 <thead>

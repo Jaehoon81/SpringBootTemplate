@@ -314,7 +314,7 @@ $(document).ready(function () {
     // 방법 2) USER 권한의 계정은 '사용자 관리' 메뉴가 노출되지 않는 경우의 로직 -------------------------------------------------
 
     // 사이드바 메뉴에 따른 콘텐츠 로드 함수 ---------------------------------------------------------------------------------
-    function loadContent(url, title) {
+    function loadContent(targetUrl, title) {
         var $mainContentArea = $('#main-content-area');
         $mainContentArea.html('<p class="loading-contents">콘텐츠 로딩 중...</p>');  // 로딩 메시지
         // 콘텐츠 로드 시작 시 is-loading 클래스 제거(초기화) 및 다시 추가
@@ -322,7 +322,7 @@ $(document).ready(function () {
         $mainContentArea.addClass('is-loading');
 
         $.ajax({
-            url: url,
+            url: targetUrl,
             type: 'GET',
             dataType: 'html',  // 응답을 HTML로 받음을 명시
             success: function (response) {
@@ -336,27 +336,27 @@ $(document).ready(function () {
                     $.globalEval(this.text || this.textContent || this.innerHTML || '');
                 });
                 // 콘텐츠 로드 후 선택된 메뉴의 초기화/로드 함수를 호출 (전역 스코프에 노출되어 있으므로 직접 호출 가능)
-                if (url.includes('/system-approval')) {
+                if (targetUrl.includes('/system-approval')) {
                     if (typeof window.loadPendingAdmins === 'function') {
                         window.loadPendingAdmins();
                     }
-                } else if (url.includes('/admin-approval')) {
+                } else if (targetUrl.includes('/admin-approval')) {
                     if (typeof window.loadPendingUsers === 'function') {
                         window.loadPendingUsers();
                     }
-                } else if (url.includes('/secure')) {
+                } else if (targetUrl.includes('/secure')) {
 
-                } else if (url.includes('/statistics')) {
+                } else if (targetUrl.includes('/statistics')) {
                     if (typeof window.initDataStatistics === 'function') {
                         window.initDataStatistics();
                     }
-                } else if (url.includes('/profile')) {
+                } else if (targetUrl.includes('/profile')) {
                     if (typeof window.initProfileEdit === 'function') {
                         window.initProfileEdit();
                     }
                 }
                 // 콘텐츠 로드 후 스크롤바 상태에 따라 각 컨테이너(서브 화면)의 너비를 조절
-                adjustContainerWidthBasedOnScroll(url);
+                adjustContainerWidthBasedOnScroll(targetUrl);
                 // 콘텐츠 로드 후 새로운 DOM 구조를 기반으로 스크롤바 조정을 위한 전역(window) 함수 호출
                 // if (typeof window.checkScrollbarAndAdjustWidth === 'function') {
                 //     window.checkScrollbarAndAdjustWidth();
@@ -370,7 +370,7 @@ $(document).ready(function () {
                 // 오류 발생 시에도 is-loading 클래스 제거
                 // $mainContentArea.removeClass('is-loading');
                 $('#contentTitle').text('오류 발생');
-                console.error("Failed to load content from " + url, xhr);
+                console.error("Failed to load content from " + targetUrl, xhr);
             }
         });
     }
@@ -412,24 +412,24 @@ $(document).ready(function () {
     // Full Text 팝업창 모달 관련 로직 ------------------------------------------------------------------------------------
 
     // 스크롤바 상태에 따라 각 컨테이너(서브 화면)의 너비를 조절하는 함수
-    function adjustContainerWidthBasedOnScroll(url) {
-        if (url.includes('/system-approval')) {
+    function adjustContainerWidthBasedOnScroll(targetUrl) {
+        if (targetUrl.includes('/system-approval')) {
             if (typeof window.adjustSystemContainerWidthBasedOnScroll === 'function') {
                 window.adjustSystemContainerWidthBasedOnScroll();
             }
-        } else if (url.includes('/admin-approval')) {
+        } else if (targetUrl.includes('/admin-approval')) {
             if (typeof window.adjustAdminContainerWidthBasedOnScroll === 'function') {
                 window.adjustAdminContainerWidthBasedOnScroll();
             }
-        } else if (url.includes('/secure')) {
+        } else if (targetUrl.includes('/secure')) {
             if (typeof window.adjustSecureContainerWidthBasedOnScroll === 'function') {
                 window.adjustSecureContainerWidthBasedOnScroll();
             }
-        } else if (url.includes('/statistics')) {
+        } else if (targetUrl.includes('/statistics')) {
             if (typeof window.adjustStatisticsContainerWidthBasedOnScroll === 'function') {
                 window.adjustStatisticsContainerWidthBasedOnScroll();
             }
-        } else if (url.includes('/profile')) {
+        } else if (targetUrl.includes('/profile')) {
             if (typeof window.adjustProfileContainerWidthBasedOnScroll === 'function') {
                 window.adjustProfileContainerWidthBasedOnScroll();
             }

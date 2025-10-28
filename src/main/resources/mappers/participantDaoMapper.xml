@@ -80,6 +80,9 @@
         LEFT JOIN approval_requests ar ON u.id = ar.user_id
         LEFT JOIN users u_admin ON ar.assigned_admin_id = u_admin.id
         WHERE 1=1 <!-- 항상 참(true)인 조건 (동적으로 다른 AND 조건을 붙일 때 편리하게 사용됨) -->
+        <if test="grade != null"> <!-- 등급 필터링 조건 -->
+            AND p.grade = #{grade}
+        </if>
         <!-- SYSTEM 권한의 경우 WHERE 1=1만 적용되어 모든 참가자 정보를 조회 -->
         <if test="rolename == 'ADMIN'">
             AND ar.assigned_admin_id = #{currentUserId}
@@ -101,6 +104,9 @@
         LEFT JOIN approval_requests ar ON u.id = ar.user_id
         LEFT JOIN users u_admin ON ar.assigned_admin_id = u_admin.id
         WHERE 1=1
+        <if test="grade != null">
+            AND p.grade = #{grade}
+        </if>
         <if test="rolename == 'ADMIN'">
             AND ar.assigned_admin_id = #{currentUserId}
         </if>
