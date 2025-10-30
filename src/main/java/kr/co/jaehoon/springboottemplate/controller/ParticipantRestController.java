@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -28,6 +29,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -111,13 +113,18 @@ public class ParticipantRestController {
      * @param page 요청 페이지 번호 (1부터 시작)
      * @param size 한 페이지당 항목(셀) 수
      * @param grade 등급별 필터 (선택 사항)
+     * @param startDate yyyy-MM-dd 형식의 시작일 (선택 사항)
+     * @param endDate yyyy-MM-dd 형식의 종료일 (선택 사항)
      * @return 웹 브라우저에 응답할 현재 페이지 정보와 참가자 및 음성녹음 목록
      */
     @GetMapping("/paginated-list")
     public ResponseEntity<?> getPaginatedParticipantList(
             @AuthenticationPrincipal CustomUserDetails currentUser,
-            @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "5") int size,  // pageSize
-            @RequestParam(required = false) Grade grade
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "5") int size,  // pageSize
+            @RequestParam(required = false) Grade grade,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
     ) throws AccessDeniedException, Exception {
         if (currentUser == null) {
 //            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
@@ -128,8 +135,9 @@ public class ParticipantRestController {
             String rolename = currentUser.getUser().getRolename();
 
             // 권한(역할)에 따른 데이터 필터링은 ParticipantCrudService를 통해서 수행
-            Map<String, Object> resultMap =
-                    participantCrudService.getPaginatedParticipantList(page, size, grade, currentUserId, rolename);
+            Map<String, Object> resultMap = participantCrudService.getPaginatedParticipantList(
+                    page, size, grade, startDate, endDate, currentUserId, rolename
+            );
             return ResponseEntity.ok(resultMap);
         } catch (AccessDeniedException e) {
 //            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("해당 참가자 정보에 접근할 권한이 없습니다.");

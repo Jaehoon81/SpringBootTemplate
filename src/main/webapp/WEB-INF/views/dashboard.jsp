@@ -15,9 +15,12 @@
     <link rel="stylesheet" type="text/css" href="/static/css/main_layout.css">
     <link rel="stylesheet" type="text/css" href="/static/css/contents/statistics.css">
     <link rel="stylesheet" type="text/css" href="/static/css/contents/profile.css">
-    <!-- Font Awesome 아이콘 사용을 위해 추가 -->
-<%--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">--%>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <!-- Font-Awesome CDN -->
+<%--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>--%>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
+    <!-- Date-Range-Picker CSS -->
+<%--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>--%>
+    <link rel="stylesheet" type="text/css" href="/static/libs/daterangepicker/daterangepicker.css">
     <style>
         p {
             margin: 8px 0px 8px 0px;
@@ -81,19 +84,27 @@
         </div>
     </div>
 
+    <!-- jQuery CDN -->
 <%--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>--%>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="/static/js/dashboard.js"></script>
-    <script src="/static/js/contents/statistics.js"></script>
-    <script src="/static/js/contents/profile.js"></script>
+    <!-- Date-Range-Picker JS -->
+<%--    <script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>--%>
+<%--    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>--%>
+<%--    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>--%>
+    <script type="text/javascript" src="/static/libs/daterangepicker/moment.min.js"></script>
+    <script type="text/javascript" src="/static/libs/daterangepicker/daterangepicker.js"></script>
+
+    <script type="text/javascript" src="/static/js/dashboard.js"></script>
+    <script type="text/javascript" src="/static/js/contents/statistics.js"></script>
+    <script type="text/javascript" src="/static/js/contents/profile.js"></script>
     <c:if test="${userRole eq 'SYSTEM'}">
         <link rel="stylesheet" type="text/css" href="/static/css/contents/system.css">
-        <script src="/static/js/contents/system.js"></script>
+        <script type="text/javascript" src="/static/js/contents/system.js"></script>
     </c:if>
     <c:if test="${userRole eq 'ADMIN'}">
         <link rel="stylesheet" type="text/css" href="/static/css/contents/admin.css">
-        <script src="/static/js/contents/admin.js"></script>
+        <script type="text/javascript" src="/static/js/contents/admin.js"></script>
     </c:if>
     <script type="text/javascript">
         $(document).ready(function () {

@@ -83,6 +83,15 @@
         <if test="grade != null"> <!-- 등급 필터링 조건 -->
             AND p.grade = #{grade}
         </if>
+        <if test="startDate != null and endDate != null"> <!-- 기간 필터링 조건 -->
+            <!-- first_record_date 서브 쿼리가 반환하는 날짜와 비교 -->
+            AND (
+                SELECT r_inner.created_at
+                FROM records r_inner
+                WHERE r_inner.participant_id = p.participant_id AND r_inner.record_sequence = 1
+                LIMIT 1
+            ) BETWEEN #{startDate} AND #{endDate}
+        </if>
         <!-- SYSTEM 권한의 경우 WHERE 1=1만 적용되어 모든 참가자 정보를 조회 -->
         <if test="rolename == 'ADMIN'">
             AND ar.assigned_admin_id = #{currentUserId}
@@ -106,6 +115,14 @@
         WHERE 1=1
         <if test="grade != null">
             AND p.grade = #{grade}
+        </if>
+        <if test="startDate != null and endDate != null">
+            AND (
+                SELECT r_inner.created_at
+                FROM records r_inner
+                WHERE r_inner.participant_id = p.participant_id AND r_inner.record_sequence = 1
+                LIMIT 1
+            ) BETWEEN #{startDate} AND #{endDate}
         </if>
         <if test="rolename == 'ADMIN'">
             AND ar.assigned_admin_id = #{currentUserId}

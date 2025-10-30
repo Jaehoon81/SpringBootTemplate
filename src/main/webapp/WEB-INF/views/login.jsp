@@ -12,9 +12,9 @@
     <link rel="icon" type="image/x-icon" href="/favicon_01.ico"/>
 
     <link rel="stylesheet" type="text/css" href="/static/css/main.css">
-    <!-- Font Awesome 아이콘 사용을 위해 추가 -->
-<%--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">--%>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <!-- Font-Awesome CDN -->
+<%--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>--%>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
     <style>
         .login-tooltip {
             width: 130px; /* 로그인 툴팁의 너비 */
@@ -123,10 +123,12 @@
         </div>
     </div>
 
+    <!-- jQuery CDN -->
 <%--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>--%>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="/static/js/login.js"></script>
+
+    <script type="text/javascript" src="/static/js/login.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $('.tooltip-container').each(function () {
