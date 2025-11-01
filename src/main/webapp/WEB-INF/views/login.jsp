@@ -164,23 +164,23 @@
             const capslockTooltip = $('#capslock-tooltip');
 
             // Caps Lock ON 조건:
-            // - Shift 키가 눌리지 않았는데 대문자가 입력되려 할 때
-            // - Shift 키가 눌렸는데 소문자가 입력되려 할 때
+            // - Caps Lock 키 자체가 토글됐을 때
+            // - Shift 키가 눌리고 대문자가 입력되려 할 때
             loginPassword.on('keydown', function (event) {
                 const keyCode = event.keyCode || event.which;
                 const isShift = event.shiftKey || (event.modifiers && (event.modifiers & 4));
 
-                if (keyCode >= 65 && keyCode <= 90) {  // 대문자 A-Z 입력의 경우
-                    if (isShift) {  // 현재 Shift 키 눌림 (예상 입력: 소문자, Caps Lock OFF)
-                        capslockTooltip.hide();
-                    } else {  // Shift 키 안 눌림 (예상 입력: 대문자, Caps Lock ON)
+                if (keyCode >= 32 && keyCode <= 126) {  // 영문(한글), 숫자, 특수문자 입력의 경우
+                    if (isShift) {  // 현재 Shift 키 눌림 (예상 입력: 대문자, Caps Lock ON)
                         capslockTooltip.show();
+                    } else {  // Shift 키 안 눌림 (예상 입력: 소문자, Caps Lock OFF)
+                        capslockTooltip.hide();
                     }
-                } else {  // 대문자 외의 다른 키가 눌렸을 경우
+                } else {  // 그 외의 다른 키가 눌렸을 경우
                     if (keyCode === 20) {  // Caps Lock 키 자체를 토글
                         if (capslockTooltip.is(':visible')) {
                             capslockTooltip.hide();
-                        } else {
+                        } else {  // capslockTooltip.is(':hidden')
                             capslockTooltip.show();
                         }
                     }
