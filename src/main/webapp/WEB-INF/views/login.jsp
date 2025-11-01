@@ -16,6 +16,32 @@
 <%--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>--%>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
     <style>
+        .capslock-tooltip {
+            position: absolute;
+            background-color: #ffc107; /* 경고색 (노란색 계열) */
+            color: #343a40; /* 어두운 글자색 */
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            width: 33%; /* 캡스락 툴팁의 너비 */
+            padding: 8px 12px;
+            z-index: 100; /* 다른 요소 위에 표시되도록 z-index 설정 */
+            bottom: -45px; /* 비밀번호 입력 필드 아래에 배치 */
+            left: 0;
+            font-size: 0.85em;
+            font-weight: 400;
+            white-space: nowrap; /* 내용이 한 줄로 유지되도록 */
+            text-align: center;
+        }
+        .capslock-tooltip::before {
+            content: '';
+            position: absolute;
+            top: -5px; /* 캡스락 툴팁 위쪽 중앙에 배치 */
+            left: 38px; /* 화살표 위치 조정 */
+            border-width: 0 5px 5px 5px;
+            border-style: solid;
+            border-color: transparent transparent #ffc107 transparent; /* 화살표 모양 생성 */
+        }
+
         .login-tooltip {
             width: 130px; /* 로그인 툴팁의 너비 */
             margin-left: -74px; /* 툴팁 너비의 절반만큼 왼쪽으로 이동하여 중앙 정렬 */
@@ -31,9 +57,12 @@
             <label for="login-username">* 아이디:</label>
             <input type="text" id="login-username" name="username" placeholder="아이디를 입력해주세요." required>
         </div>
-        <div class="form-group">
+        <div class="form-group password-field-wrapper">
             <label for="login-password">* 비밀번호:</label>
             <input type="password" id="login-password" name="password" placeholder="비밀번호를 입력해주세요." required>
+            <div id="capslock-tooltip" class="capslock-tooltip" style="display: none;">
+                Caps Lock 키를 확인해주세요!
+            </div>
         </div>
         <div class="form-group checkbox-group">
             <input type="checkbox" id="remember-id" name="remember">
@@ -131,6 +160,37 @@
     <script type="text/javascript" src="/static/js/login.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
+            const loginPassword = $('#login-password');
+            const capslockTooltip = $('#capslock-tooltip');
+
+            // Caps Lock ON 조건:
+            // - Shift 키가 눌리지 않았는데 대문자가 입력되려 할 때
+            // - Shift 키가 눌렸는데 소문자가 입력되려 할 때
+            loginPassword.on('keydown', function (event) {
+                const keyCode = event.keyCode || event.which;
+                const isShift = event.shiftKey || (event.modifiers && (event.modifiers & 4));
+
+                if (keyCode >= 65 && keyCode <= 90) {  // 대문자 A-Z 입력의 경우
+                    if (isShift) {  // 현재 Shift 키 눌림 (예상 입력: 소문자, Caps Lock OFF)
+                        capslockTooltip.hide();
+                    } else {  // Shift 키 안 눌림 (예상 입력: 대문자, Caps Lock ON)
+                        capslockTooltip.show();
+                    }
+                } else {  // 대문자 외의 다른 키가 눌렸을 경우
+                    if (keyCode === 20) {  // Caps Lock 키 자체를 토글
+                        if (capslockTooltip.is(':visible')) {
+                            capslockTooltip.hide();
+                        } else {
+                            capslockTooltip.show();
+                        }
+                    }
+                }
+            });
+            // 비밀번호 입력 필드에서 포커스를 잃었을 때 툴팁 숨기기 (선택 사항)
+            loginPassword.on('blur', function () {
+                capslockTooltip.hide();
+            });
+
             $('.tooltip-container').each(function () {
                 const customTooltip = $(this).find('.custom-tooltip');
                 var tooltipText = customTooltip.data('tooltip-text');

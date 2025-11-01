@@ -546,6 +546,12 @@ hr {
     cursor: pointer;
 }
 
+/* 비밀번호 필드를 감싸는 래퍼 (캡스락 툴팁 포함) */
+.password-field-wrapper {
+    position: relative; /* 캡스락 툴팁이 이 요소를 기준으로 위치하도록 */
+    /*margin-bottom: 20px; !* 하단 공간 확보 *!*/
+}
+
 /* 툴팁을 감싸는 컨테이너 */
 .tooltip-container {
     display: inline-block; /* 인포 아이콘과 툴팁이 한 줄에 표시되도록 */
@@ -586,7 +592,7 @@ hr {
     content: '';
     position: absolute;
     top: 100%; /* 툴팁 박스 아래에 배치 */
-    left: 50%;
+    left: 50%; /* 화살표 위치 조정 */
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
