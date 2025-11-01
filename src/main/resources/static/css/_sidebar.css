@@ -88,7 +88,7 @@
 }
 
 .sidebar-logout-btn {
-    background-color: #dc3545; /* 로그아웃 버튼 색상 (Danger Color) */
+    background-color: #dc3545; /* 로그아웃 버튼 색상(Danger Color) */
     color: white;
     border: none;
     padding: 10px 15px;

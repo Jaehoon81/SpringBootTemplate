@@ -35,7 +35,7 @@
     flex-wrap: wrap; /* 내용이 많아지면 줄바꿈 */
     justify-content: center; /* 가로 중앙 정렬 */
     align-items: center; /* 세로 중앙 정렬 */
-    gap: 20px; /* 항목 간 간격 */
+    gap: 30px; /* 항목 간 간격 */
     /*margin-bottom: 20px;*/
 
     margin-bottom: -10px;
@@ -55,7 +55,8 @@
     /*border-radius: 8px;*/
     /*box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.2);*/
 
-    padding: 2.5px;
+    margin-right: -5px;
+    padding: 2px;
     background-color: transparent;
 }
 
@@ -158,7 +159,8 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.daterangepicker td.active, .daterangepicker td.active:hover {
+.daterangepicker td.active,
+.daterangepicker td.active:hover {
     background-color: #007bff;
     border-color: #007bff;
     color: #fff;
@@ -169,7 +171,92 @@
     color: #fff;
 }
 
-/* Date-Range-Picker 플러그인 버튼 컨테이너 */
+/* 캘린더 요일 헤더 (일, 월, 화, ...) */
+.daterangepicker .table-condensed thead tr th {
+    color: #333; /* 기본 요일 텍스트 색상 */
+}
+
+.daterangepicker .table-condensed thead tr th:nth-child(1) {
+    color: #dc3545 !important; /* 일요일은 빨간색 텍스트 */
+}
+
+.daterangepicker .table-condensed thead tr th:nth-child(7) {
+    color: #007bff !important; /* 토요일은 파란색 텍스트 */
+}
+
+/* 캘린더 날짜 본문 */
+.daterangepicker td.weekend:nth-child(1),
+.daterangepicker td.day:nth-child(1) {
+    color: #dc3545; /* 빨간색 일요일 숫자 */
+}
+
+.daterangepicker td.weekend:nth-child(7),
+.daterangepicker td.day:nth-child(7) {
+    color: #007bff; /* 파란색 토요일 숫자 */
+}
+
+/* 날짜가 선택(.active)되었을 때 또는 마우스 오버 상태의 색상도 조절 (옵션) */
+/*.daterangepicker td.available.in-range.weekend:nth-child(1),*/
+/*.daterangepicker td.available.in-range.day:nth-child(1),*/
+.daterangepicker td.available.active.weekend:nth-child(1),
+.daterangepicker td.available.active.day:nth-child(1) {
+    background-color: #dc3545; /* 일요일 숫자 선택 시 빨간색 배경 */
+    /*border-color: #dc3545;*/
+    color: #fff;
+}
+
+/*.daterangepicker td.available.in-range.weekend:nth-child(7),*/
+/*.daterangepicker td.available.in-range.day:nth-child(7),*/
+.daterangepicker td.available.active.weekend:nth-child(7),
+.daterangepicker td.available.active.day:nth-child(7) {
+    background-color: #007bff; /* 토요일 숫자 선택 시 파란색 배경 */
+    /*border-color: #007bff;*/
+    color: #fff;
+}
+
+/* 선택된 범위 안의 날짜 (.in-range) */
+/*.daterangepicker td.in-range.weekend:nth-child(1),*/
+.daterangepicker td.in-range.day:nth-child(1) {
+    color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.1); /* 연한 빨간색 배경으로 일요일 기간 표시 */
+}
+
+/*.daterangepicker td.in-range.weekend:nth-child(7),*/
+.daterangepicker td.in-range.day:nth-child(7) {
+    color: #007bff;
+    background-color: rgba(0, 123, 255, 0.1); /* 연한 파란색 배경으로 토요일 기간 표시 */
+}
+
+.daterangepicker td.in-range {
+    /*color: #333; !* 기본 날짜(숫자) 텍스트 색상 *!*/
+    color: #007bff;
+    background-color: rgba(0, 123, 255, 0.1); /* 나머지 요일은 in-range 기본 색상 유지 */
+}
+
+.daterangepicker td.in-range.weekend:nth-child(1) {
+    /* 선택된 범위 내의 일요일 텍스트 색상을 다시 적용 */
+    color: #dc3545;
+}
+
+.daterangepicker td.in-range.weekend:nth-child(7) {
+    /* 선택된 범위 내의 토요일 텍스트 색상을 다시 적용 */
+    color: #007bff;
+}
+
+/* 마우스 오버 시 색상 */
+/*.daterangepicker td.available:hover.weekend:nth-child(1),*/
+.daterangepicker td.available:hover.day:nth-child(1) {
+    background-color: rgba(220, 53, 69, 0.2); /* 연한 빨간색 배경의 일요일 */
+    color: #dc3545;
+}
+
+/*.daterangepicker td.available:hover.weekend:nth-child(7),*/
+.daterangepicker td.available:hover.day:nth-child(7) {
+    background-color: rgba(0, 123, 255, 0.2); /* 연한 파란색 배경의 토요일 */
+    color: #007bff;
+}
+
+/* Date-Range-Picker 플러그인의 버튼 컨테이너 */
 .daterangepicker .drp-buttons {
     display: flex; /* Flexbox를 사용하여 버튼들을 정렬 */
     justify-content: flex-end; /* 버튼들을 컨테이너 오른쪽으로 정렬 */
@@ -215,6 +302,93 @@
 .daterangepicker .drp-buttons .btn.cancelBtn:hover {
     background-color: #e2e6ea;
     border-color: #c6c6c6;
+}
+
+/* 검색어 필터링 영역 컨테이너 */
+.search-filter-container {
+    display: flex;
+    position: relative;
+    height: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 8px 12px;
+    align-items: center;
+    /*cursor: pointer;*/
+    transition: all 0.2s ease-in-out;
+}
+
+.search-filter-container:focus-within { /* 포커스 되었을 때 */
+    border-color: #007bff;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* 돋보기 아이콘 스타일 */
+.search-filter-container .search-icon {
+    margin-right: 8px;
+    color: #555;
+    font-size: 1.2em;
+    /*pointer-events: none; !* 아이콘 클릭이 Input으로 전달되도록 *!*/
+}
+
+/* 검색 입력 필드 스타일 */
+.search-filter-container .search-input {
+    background: transparent; /* 투명 배경 */
+    border: none;
+    outline: none;
+    width: 125px; /* 검색 입력 필드의 너비 설정 */
+    margin-bottom: 2px;
+    padding: 0; /* 내부 패딩 제거 */
+    line-height: normal; /* 라인 높이 정상화 */
+    font-size: 0.95em;
+    color: #333;
+    /*cursor: pointer; !* 클릭 가능한 모양 *!*/
+}
+
+/* 지우기 버튼 스타일 */
+.search-clear-btn {
+    visibility: hidden; /* 기본적으로 숨김 */
+    background: none;
+    border: none;
+    margin: 2px -5px 0 0;
+    padding: 0 5px;
+    color: #888;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.search-clear-btn:hover {
+    background-color: transparent;
+    color: #555;
+}
+
+.search-filter-container .search-input:not(:placeholder-shown) + .search-clear-btn {
+    /* 지우기 버튼이 필요할 때만 보이도록 */
+    visibility: visible;
+}
+
+/* 검색 버튼 스타일 */
+.search-execute-btn {
+    background-color: #007bff; /* 파란색 계열 */
+    color: white;
+    width: 50px; /* 길이 맞추기 */
+    height: 36px; /* 높이 맞추기 */
+    /*padding: 8px 15px;*/
+    /*margin-left: 10px;*/
+    padding: 0; /* 내부 패딩 제거 */
+    margin: 0 0 0 -20px; /* 외부 마진 제거 및 검색 입력 필드와의 간격 */
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.search-execute-btn:hover {
+    background-color: #0056b3;
 }
 
 #participant-list-container {

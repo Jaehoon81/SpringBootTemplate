@@ -52,8 +52,15 @@
             <!-- 기간별 필터링 영역 (달력 팝업 포함) -->
             <div class="date-range-filter-container">
                 <i class="fas fa-calendar-alt calendar-icon"></i>
-                <input type="text" id="dateRangePicker" class="date-range-input" name="dates" placeholder="시작과 종료 날짜를 선택" readonly>
+                <input type="text" id="dateRangePicker" class="date-range-input" name="dates" placeholder="시작/종료 날짜 선택" readonly>
             </div>
+            <!-- 검색어 필터링 영역 (입력 필드 + 검색 버튼) -->
+            <div class="search-filter-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="searchKeyword" class="search-input" placeholder="검색어 입력">
+                <button id="clearSearchBtn" class="search-clear-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <button id="executeSearchBtn" class="search-execute-btn">검색</button>
         </div>
         <div id="participant-list-container">
             <table class="data-statistics-table">

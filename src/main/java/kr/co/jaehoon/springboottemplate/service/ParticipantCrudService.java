@@ -57,7 +57,8 @@ public class ParticipantCrudService {
 
     @Transactional(readOnly = true)
     public Map<String, Object> getPaginatedParticipantList(
-            int page, int pageSize, Grade grade, LocalDate startDate, LocalDate endDate, Long currentUserId, String rolename
+            int page, int pageSize, Grade grade, LocalDate startDate, LocalDate endDate, String searchKeyword,
+            Long currentUserId, String rolename
     ) throws Exception {
         int offset = (page - 1) * pageSize;
 
@@ -66,7 +67,8 @@ public class ParticipantCrudService {
         params.put("limit", pageSize);
         params.put("grade", grade);  // 등급에 따른 필터링을 위해 전달
         params.put("startDate", startDate);  // 시작일에 따른 필터링을 위해 전달
-        params.put("endDate", endDate);  // 종료일에 따른 필터링을 위해 전달
+        params.put("endDate", endDate);      // 종료일에 따른 필터링을 위해 전달
+        params.put("searchKeyword", searchKeyword);  // 검색어에 따른 필터링을 위해 전달
         params.put("currentUserId", currentUserId);
         params.put("rolename", rolename);  // 권한(역할)에 따른 필터링을 위해 전달
 

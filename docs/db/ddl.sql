@@ -28,6 +28,11 @@ CREATE TABLE `users` (
 ALTER TABLE `users`
 ADD CONSTRAINT `fk_users_role_id` FOREIGN KEY (`role_id`) REFERENCES `roles`(`id`);
 
+--CREATE FULLTEXT INDEX `idx_fulltext_displayname`
+--ON `users`(`displayname`) WITH PARSER ngram;
+ALTER TABLE `users`
+ADD FULLTEXT `idx_fulltext_displayname` (`displayname`) WITH PARSER ngram;
+
 -- springframeworkdemo DB의 approval_requests Table Definition
 CREATE TABLE `approval_requests` (
     `request_id` BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -73,6 +78,11 @@ CREATE TABLE `participants` (
 ALTER TABLE `participants`
 ADD CONSTRAINT `fk_participants_user_id` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
 ON DELETE RESTRICT; -- 사용자 삭제 시 참가자는 유지
+
+--CREATE FULLTEXT INDEX `idx_fulltext_participant_name`
+--ON `participants`(`participant_name`) WITH PARSER ngram;
+ALTER TABLE `participants`
+ADD FULLTEXT `idx_fulltext_participant_name` (`participant_name`) WITH PARSER ngram;
 
 -- springframeworkdemo DB의 records Table Definition
 CREATE TABLE `records` (

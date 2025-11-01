@@ -115,6 +115,7 @@ public class ParticipantRestController {
      * @param grade 등급별 필터 (선택 사항)
      * @param startDate yyyy-MM-dd 형식의 시작일 (선택 사항)
      * @param endDate yyyy-MM-dd 형식의 종료일 (선택 사항)
+     * @param searchKeyword 이름, 성별, 담당 관리자 대상의 검색어 (선택 사항)
      * @return 웹 브라우저에 응답할 현재 페이지 정보와 참가자 및 음성녹음 목록
      */
     @GetMapping("/paginated-list")
@@ -124,7 +125,8 @@ public class ParticipantRestController {
             @RequestParam(defaultValue = "5") int size,  // pageSize
             @RequestParam(required = false) Grade grade,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @RequestParam(required = false) String searchKeyword
     ) throws AccessDeniedException, Exception {
         if (currentUser == null) {
 //            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
@@ -136,7 +138,8 @@ public class ParticipantRestController {
 
             // 권한(역할)에 따른 데이터 필터링은 ParticipantCrudService를 통해서 수행
             Map<String, Object> resultMap = participantCrudService.getPaginatedParticipantList(
-                    page, size, grade, startDate, endDate, currentUserId, rolename
+                    page, size, grade, startDate, endDate, searchKeyword,
+                    currentUserId, rolename
             );
             return ResponseEntity.ok(resultMap);
         } catch (AccessDeniedException e) {

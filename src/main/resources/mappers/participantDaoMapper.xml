@@ -80,10 +80,10 @@
         LEFT JOIN approval_requests ar ON u.id = ar.user_id
         LEFT JOIN users u_admin ON ar.assigned_admin_id = u_admin.id
         WHERE 1=1 <!-- 항상 참(true)인 조건 (동적으로 다른 AND 조건을 붙일 때 편리하게 사용됨) -->
-        <if test="grade != null"> <!-- 등급 필터링 조건 -->
+        <if test="grade != null"> <!-- 등급별 필터링 조건 -->
             AND p.grade = #{grade}
         </if>
-        <if test="startDate != null and endDate != null"> <!-- 기간 필터링 조건 -->
+        <if test="startDate != null and endDate != null"> <!-- 기간별 필터링 조건 -->
             <!-- first_record_date 서브 쿼리가 반환하는 날짜와 비교 -->
             AND (
                 SELECT r_inner.created_at
@@ -91,6 +91,31 @@
                 WHERE r_inner.participant_id = p.participant_id AND r_inner.record_sequence = 1
                 LIMIT 1
             ) BETWEEN #{startDate} AND #{endDate}
+        </if>
+        <if test="searchKeyword != null and searchKeyword != ''"> <!-- 검색어 필터링 조건 -->
+            <!-- 이름, 성별, 담당 관리자: 컬럼명 LIKE CONCAT('%', 검색어, '%') 방식 사용 -->
+<!--            AND (-->
+<!--                p.participant_name LIKE CONCAT('%', #{searchKeyword}, '%')-->
+<!--                OR CASE p.gender-->
+<!--                    WHEN 'MALE' THEN '남자'-->
+<!--                    WHEN 'FEMALE' THEN '여자'-->
+<!--                    WHEN 'OTHER' THEN '기타'-->
+<!--                    ELSE '알 수 없음'-->
+<!--                END LIKE CONCAT('%', #{searchKeyword}, '%')-->
+<!--                OR COALESCE(u_admin.displayname, '') LIKE CONCAT('%', #{searchKeyword}, '%')-->
+<!--            )-->
+            <!-- 이름, 담당 관리자: FULL-TEXT INDEX + N-GRAM PARSER 방식 사용 -->
+            <!-- 성별: 컬럼명 LIKE CONCAT('%', 검색어, '%') 방식 유지 -->
+            AND (
+                MATCH(p.participant_name) AGAINST(#{searchKeyword} IN BOOLEAN MODE)
+                OR CASE p.gender
+                    WHEN 'MALE' THEN '남자'
+                    WHEN 'FEMALE' THEN '여자'
+                    WHEN 'OTHER' THEN '기타'
+                    ELSE '알 수 없음'
+                END LIKE CONCAT('%', #{searchKeyword}, '%')
+                OR MATCH(u_admin.displayname) AGAINST(#{searchKeyword} IN BOOLEAN MODE)
+            )
         </if>
         <!-- SYSTEM 권한의 경우 WHERE 1=1만 적용되어 모든 참가자 정보를 조회 -->
         <if test="rolename == 'ADMIN'">
@@ -123,6 +148,28 @@
                 WHERE r_inner.participant_id = p.participant_id AND r_inner.record_sequence = 1
                 LIMIT 1
             ) BETWEEN #{startDate} AND #{endDate}
+        </if>
+        <if test="searchKeyword != null and searchKeyword != ''">
+<!--            AND (-->
+<!--                p.participant_name LIKE CONCAT('%', #{searchKeyword}, '%')-->
+<!--                OR CASE p.gender-->
+<!--                    WHEN 'MALE' THEN '남자'-->
+<!--                    WHEN 'FEMALE' THEN '여자'-->
+<!--                    WHEN 'OTHER' THEN '기타'-->
+<!--                    ELSE '알 수 없음'-->
+<!--                END LIKE CONCAT('%', #{searchKeyword}, '%')-->
+<!--                OR COALESCE(u_admin.displayname, '') LIKE CONCAT('%', #{searchKeyword}, '%')-->
+<!--            )-->
+            AND (
+                MATCH(p.participant_name) AGAINST(#{searchKeyword} IN BOOLEAN MODE)
+                OR CASE p.gender
+                    WHEN 'MALE' THEN '남자'
+                    WHEN 'FEMALE' THEN '여자'
+                    WHEN 'OTHER' THEN '기타'
+                    ELSE '알 수 없음'
+                END LIKE CONCAT('%', #{searchKeyword}, '%')
+                OR MATCH(u_admin.displayname) AGAINST(#{searchKeyword} IN BOOLEAN MODE)
+            )
         </if>
         <if test="rolename == 'ADMIN'">
             AND ar.assigned_admin_id = #{currentUserId}
