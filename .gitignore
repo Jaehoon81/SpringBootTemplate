@@ -43,15 +43,15 @@ out/
 .vscode/
 
 ### Logs ###
-#*.log
-#*.log.gz
-#logs/
+*.log
+*.log.gz
+logs/
 
 ### Uploads ###
-##*.png
-##*.jpg
-##*.mp4
-#uploads/
+#*.png
+#*.jpg
+#*.mp4
+uploads/
 
 ### Environment Variables ###
 .env
