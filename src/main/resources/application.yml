@@ -1,0 +1,72 @@
+spring:
+  application:
+    name: SpringBootTemplate
+
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: false
+
+  profiles:
+    active: local  # 운영 환경 배포 시 '-Dspring.profiles.active=prod' 등의 옵션으로 덮어씀
+
+  # JSP ViewResolver
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+
+  # Jackson JSON 직렬화 시 속성명 전략을 CAMEL_CASE로 설정
+  jackson:
+    property-naming-strategy: LOWER_CAMEL_CASE
+
+# MyBatis Path
+mybatis:
+  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath:mappers/*Mapper.xml
+
+# Slf4j Logging
+logging:
+  config: classpath:logback-spring.xml
+  level:
+    root: INFO
+    kr.co.jaehoon.springboottemplate: INFO
+
+# SpringDoc OpenAPI (Swagger UI)
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html  # Swagger UI 접근 경로 설정 (기본값: /swagger-ui/index.html)
+  api-docs:
+    path: /v3/api-docs  # OpenAPI 3.0 JSON/YAML 문서의 기본 경로
+
+# Swagger UI의 API 정보 (선택 사항)
+info:
+  title: Spring-Boot Template API
+  version: ${app.version}
+  description: Spring-Boot Template RESTful API Documentation
+  contact:
+    name: Jaehoon81
+    email: jungjh0519@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+# Server Port/Error
+server:
+  port: 8080
+  error:
+    include-exception: true  # whitelabel.enabled=true 시 적용
+    include-stacktrace: always  # whitelabel.enabled=true 시 적용
+    whitelabel:
+      enabled: false
+  forward-headers-strategy: native
+
+# 애플리케이션 버전 정보 (모바일 앱 요청 테스트용)
+app:
+  version: 1.0.0
+
+# SpringBootTemplate 프로젝트의 Release 버전을 기록
+springboot-template:
+  release:
+    version: 1.000.000

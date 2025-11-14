@@ -1,0 +1,253 @@
+/* 전체 앱 레이아웃 설정 */
+.app-layout {
+    display: flex; /* Flexbox로 사이드바와 메인 콘텐츠 영역을 가로로 배치 */
+    flex-direction: column; /* 헤더-메인 콘텐츠-푸터 순서로 세로로 배치 */
+    min-height: 100vh; /* 뷰포트 높이 전체를 차지 */
+    background-color: #f8f9fa; /* 전체(기본) 배경색 */
+}
+
+/* 메인 헤더 */
+.main-header {
+    background-color: #343a40; /* 사이드바와 동일한 배경색 */
+    color: #ffffff;
+    padding: 15px 30px;
+    display: flex; /* Flexbox로 좌우 요소 배치 */
+    justify-content: space-between; /* 좌측과 우측 끝으로 분리 */
+    align-items: center; /* 세로 중앙 정렬 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.main-header .project-title {
+    color: #ffffff;
+    font-size: 2.0em;
+    font-weight: bold;
+    text-decoration: none; /* 링크 밑줄 제거 */
+}
+
+.main-header .project-title:hover {
+    color: #e9ecef; /* 마우스 오버 시 색상 변경 */
+}
+
+.main-header .header-right {
+    display: flex; /* 환영 메시지와 로그아웃 버튼을 Flexbox로 배치 */
+    align-items: center;
+    gap: 20px; /* 요소들 간 간격 */
+}
+
+.main-header .welcome-message {
+    margin: 0;
+    font-size: 1.0em;
+    color: #adb5bd; /* 옅은 글자색 */
+    white-space: nowrap; /* 텍스트가 줄바꿈되지 않도록 설정 */
+}
+
+.main-header .welcome-message #currentUserName {
+    color: #ffffff; /* 사용자 이름은 하얗게 강조 */
+    font-weight: bold;
+}
+
+.main-header .header-logout-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+}
+
+.main-header .header-logout-btn:hover {
+    background-color: #c82333;
+}
+
+/* 사이드바와 메인 콘텐츠 및 푸터를 감싸는 래퍼 */
+.dashboard-body-wrapper {
+    display: flex; /* Flexbox로 사이드바와 메인 콘텐츠 영역을 가로로 배치 */
+    flex-grow: 1; /* 남은 수직 공간을 모두 차지하여 푸터가 맨 아래로 가도록 */
+}
+
+/* 사이드바 스타일 */
+.sidebar {
+    width: 250px; /* 사이드바의 고정 너비 */
+    background-color: #343a40; /* 사이드바 배경색 (다크 계열) */
+    color: #ffffff; /* 기본 글자색 */
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    display: flex;
+    flex-direction: column; /* 세로 방향으로 항목 배치 */
+    /*height: 100%; !* 주석처리: main-content-and-footer-area 내부에서 flex-grow:1로 대체 *!*/
+}
+
+.sidebar-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #4f5b66; /* 헤더 하단 테두리 */
+}
+
+.sidebar-header h3 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #e9ecef;
+}
+
+.sidebar-header h3 i {
+    margin-right: 10px; /* 아이콘과 텍스트 사이 간격 */
+    color: #17a2b8; /* 아이콘 색상 강조 */
+}
+
+.sidebar-menu {
+    list-style: none; /* 리스트 스타일 제거 */
+    padding: 0;
+    margin: 0;
+    flex-grow: 1; /* 메뉴가 가능한 공간을 채우도록 */
+}
+
+.sidebar-menu li {
+    margin-bottom: 10px;
+}
+
+.sidebar-menu li a {
+    display: block; /* 링크 전체를 클릭 가능하도록 */
+    color: #dee2e6; /* 메뉴 항목 글자색 */
+    text-decoration: none;
+    padding: 12px 15px;
+    border-radius: 8px; /* 모서리 둥글게 */
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-size: 1.1em;
+}
+
+.sidebar-menu li a:hover {
+    background-color: #495057; /* 마우스 오버 시 배경색 */
+    color: #ffffff;
+}
+
+/* 활성화된 메뉴 항목 스타일 */
+.sidebar-menu li.active a {
+    background-color: #007bff; /* 활성화된 메뉴 배경색 (Primary Color) */
+    color: #ffffff;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2); /* 그림자 효과 추가 */
+}
+
+.sidebar-menu li a i {
+    margin-right: 10px; /* 메뉴 아이콘과 텍스트 사이 간격 */
+}
+
+/* 메인 콘텐츠와 푸터 영역 */
+.main-content-and-footer-area {
+    display: flex; /* Flexbox로 메인 콘텐츠와 푸터를 세로로 배치 */
+    flex-direction: column;
+    flex-grow: 1; /* 사이드바 옆의 남은 가로 공간을 모두 차지 */
+}
+
+/* 메인 콘텐츠 영역 (사이드바와 본문 콘텐츠) */
+.main-container {
+    display: flex;
+    flex-grow: 1; /* 헤더와 푸터를 제외한 남은 공간을 모두 차지 */
+}
+
+/* 메인 푸터 */
+.main-footer {
+    background-color: #f8f9fa; /* 전체(기본)와 동일한 배경색 */
+    color: #343a40;
+    padding: 15px;
+    text-align: center;
+    font-size: 1.0em;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 메인 콘텐츠 래퍼 스타일 (main-content-and-footer-area 안에 있음) */
+.content-wrapper {
+    flex-grow: 1; /* content-header를 제외한 main-content-area가 남은 공간을 차지하도록 */
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-header {
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.content-header h1 {
+    margin: 0;
+    font-size: 1.8em;
+    color: #343a40;
+}
+
+.content-area {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    /*min-height: calc(100vh - 120px); !* 헤더, 푸터, 여백 고려 (주석처리: 콘텐츠의 높이에 따라 자연스럽게 조절되도록) *!*/
+    flex-grow: 1; /* content-wrapper의 남은 공간을 차지하도록 설정하여 푸터를 밀어냄 */
+
+    /* 콘텐츠를 세로로 중앙 정렬 */
+    display: flex; /* Flex 컨테이너로 만듬 */
+    flex-direction: column; /* 자식 요소들을 세로 방향으로 배열 (기본 블록 흐름 유지) */
+    justify-content: center; /* 주 축(세로)을 따라 가운데 정렬 */
+    align-items: center; /* 교차 축(가로)을 따라 가운데 정렬 */
+    text-align: center; /* 텍스트 내용도 가로로 중앙 정렬 */
+}
+
+/* 동적으로 로드되는 콘텐츠 내부의 container (content-area 안에 있음) */
+.content-area > .container {
+    max-width: 800px; /* 로드되는 콘텐츠의 최대 너비 제한 (필요 시 조정) */
+    width: 100%; /* 항상 부모 너비의 100%를 사용 (max-width 이내에서) */
+    margin: 0 auto; /* 가로로 중앙 정렬 보장 */
+    padding: 20px 0; /* content-area의 패딩이 적용되므로 container에는 상하 패딩만 적용 */
+    text-align: center; /* 텍스트 내용도 가로로 중앙 정렬 */
+}
+
+/* 프로필 사진(이미지) 컨테이너 */
+.profile-picture-container {
+    width: 120px; /* 프로필 사진 영역 너비 */
+    height: 120px; /* 프로필 사진 영역 높이 */
+    border-radius: 50%; /* 원형 */
+    overflow: hidden; /* 원형으로 크롭 */
+    margin: 20px auto 40px auto; /* 중앙 정렬 및 상하 여백 (상-우-하-좌 순서) */
+    background-color: #e0e0e0; /* 기본 배경색 */
+    border: 3px solid #17a2b8; /* 테두리 두께 및 색상 */
+    box-shadow: 0 0 10px rgba(23, 162, 184, 0.3); /* 평소 그림자 색상 */
+    cursor: pointer; /* 클릭 가능한 요소임을 나타냄 */
+    position: relative; /* 오버레이를 위해 */
+    transition: all 0.3s ease;
+}
+
+.profile-picture-container:hover {
+    box-shadow: 0 0 15px rgba(23, 162, 184, 0.6); /* 마우스 오버 시 그림자 색상 */
+    transform: scale(1.02); /* 조금만 확대 */
+}
+
+.profile-picture-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지를 컨테이너에 맞게 채우고, 넘치는 부분은 잘라냄 */
+    display: block;
+}
+
+/* 프로필 사진(이미지) 오버레이 (마우스 오버 시 폴더 아이콘) */
+.profile-picture-container .upload-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 검은색 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 2.0em;
+    opacity: 0; /* 평소에는 숨김 */
+    transition: opacity 0.3s ease;
+}
+
+.profile-picture-container:hover .upload-overlay {
+    opacity: 1; /* 마우스 오버 시 표시 */
+}

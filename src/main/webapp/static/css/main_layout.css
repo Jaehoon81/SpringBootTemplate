@@ -1,0 +1,360 @@
+/**
+ * --- 전역 및 초기화 스타일 ---
+ * 모든 HTML 문서의 기본 설정을 정의합니다.
+ */
+html, body {
+    height: 100%; /* 뷰포트 높이 100% 사용 */
+    margin: 0; /* 기본 마진 제거 */
+    padding: 0; /* 기본 패딩 제거 */
+    overflow: hidden; /* 페이지 전체 스크롤 방지 */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 기본 폰트 설정 */
+    color: #343a40; /* 기본 글자색 */
+    background-color: #f8f9fa; /* 전체 배경색 */
+}
+
+/**
+ * --- 앱 전체 레이아웃 (Flex 컨테이너) ---
+ * 헤더, 대시보드 본문(사이드바 + 메인 콘텐츠), 푸터를 세로로 배치합니다.
+ */
+.app-layout {
+    display: flex; /* Flexbox 활성화 */
+    flex-direction: column; /* 자식 요소들을 세로 방향으로 배열 (헤더-본문-푸터) */
+    /*min-height: 100vh; !* 뷰포트 높이의 최소 100%를 차지 *!*/
+    height: 100%; /* 뷰포트 높이의 100%를 정확히 차지 */
+}
+
+/**
+ * --- 메인 헤더 ---
+ * 화면 상단에 고정된 헤더 스타일입니다.
+ */
+.main-header {
+    background-color: #343a40; /* 사이드바와 동일한 배경색 (다크 계열) */
+    color: #ffffff; /* 글자색 */
+    padding: 15px 30px; /* 내부 여백 */
+    display: flex; /* Flexbox 활성화 */
+    justify-content: space-between; /* 좌측과 우측 요소를 양 끝으로 분리 */
+    align-items: center; /* 세로 중앙 정렬 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    flex-shrink: 0; /* 헤더가 줄어들지 않도록 고정 */
+    z-index: 10; /* 헤더가 다른 요소 위에 오도록 z-index 부여 */
+}
+
+.main-header .project-title {
+    color: #ffffff; /* 프로젝트 제목 글자색 */
+    font-size: 2.0em; /* 폰트 크기 */
+    font-weight: bold; /* 폰트 굵기 */
+    text-decoration: none; /* 링크 밑줄 제거 */
+}
+
+.main-header .project-title:hover {
+    color: #e9ecef; /* 마우스 오버 시 글자색 변경 */
+}
+
+.main-header .header-right {
+    display: flex; /* 환영 메시지와 로그아웃 버튼을 Flexbox로 배치 */
+    align-items: center; /* 세로 중앙 정렬 */
+    gap: 20px; /* 요소들 간 간격 */
+}
+
+.main-header .welcome-message {
+    margin: 0; /* 기본 마진 제거 */
+    font-size: 1.0em; /* 폰트 크기 */
+    color: #adb5bd; /* 옅은 글자색 */
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+}
+
+.main-header .welcome-message #currentUserName {
+    color: #ffffff; /* 사용자 이름 강조 색상 */
+    font-weight: bold; /* 사용자 이름 굵게 */
+}
+
+.main-header .header-logout-btn {
+    background-color: #dc3545; /* 로그아웃 버튼 배경색 (빨간색) */
+    color: white; /* 버튼 글자색 */
+    border: none; /* 테두리 제거 */
+    padding: 8px 15px; /* 내부 여백 */
+    margin-bottom: 15px;
+    border-radius: 5px; /* 모서리 둥글게 */
+    cursor: pointer; /* 마우스 커서 변경 */
+    font-size: 0.9em; /* 폰트 크기 */
+    transition: background-color 0.3s ease; /* 배경색 변화 애니메이션 */
+}
+
+.main-header .header-logout-btn:hover {
+    background-color: #c82333; /* 마우스 오버 시 배경색 */
+}
+
+/**
+ * --- 대시보드 본문 래퍼 (사이드바 + 메인 콘텐츠 및 푸터 영역) ---
+ * 헤더와 푸터를 제외한 남은 수직 공간을 모두 차지합니다.
+ * 사이드바와 메인 콘텐츠/푸터 영역을 가로로 배치합니다.
+ */
+.dashboard-body-wrapper {
+    display: flex; /* Flexbox 활성화 */
+    flex-grow: 1; /* 남은 수직 공간을 모두 차지 */
+    overflow: hidden; /* 내부 스크롤을 관리하므로 자체 오버플로우는 숨김 */
+}
+
+/**
+ * --- 사이드바 스타일 ---
+ * 좌측에 고정된 네비게이션 사이드바입니다.
+ */
+.sidebar {
+    width: 250px; /* 사이드바 고정 너비 */
+    background-color: #343a40; /* 배경색 (다크 계열) */
+    color: #ffffff; /* 기본 글자색 */
+    padding: 20px; /* 내부 여백 */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    display: flex; /* Flexbox 활성화 */
+    flex-direction: column; /* 자식 요소들을 세로 방향으로 배열 */
+    flex-shrink: 0; /* 사이드바가 줄어들지 않도록 고정 */
+    overflow-y: auto; /* 사이드바 내용이 길어지면 내부에서 스크롤 */
+    position: relative; /* 프로필 사진 오버레이 등의 z-index 컨텍스트를 위해 */
+    z-index: 5; /* 사이드바가 메인 콘텐츠 위에 오도록 */
+
+    /* 오버레이 스크롤바 스타일 */
+    /* Firefox */
+    scrollbar-width: thin; /* 얇은 스크롤바 (공간 차지) */
+    scrollbar-color: rgba(120, 120, 120, 0.4) transparent; /* Thumb 색상 및 트랙 색상 */
+    /* IE/Edge (Legacy) */
+    -ms-overflow-style: -ms-autohiding-scrollbar; /* 자동 숨김 스크롤바 */
+}
+
+/* Webkit(Chrome, Safari, Edge)용 스크롤바 스타일 */
+.sidebar::-webkit-scrollbar {
+    width: 8px; /* 스크롤바 너비 */
+    background-color: transparent; /* 트랙 배경은 투명 */
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: rgba(120, 120, 120, 0.0); /* 기본 상태: 거의 투명 */
+    border-radius: 10px; /* Thumb 부분 둥글게 */
+    border: 2px solid transparent; /* Thumb이 완전히 숨겨지지 않도록 투명 테두리 */
+}
+
+/* 스크롤 가능한 영역에 마우스를 올리거나 스크롤 중일 때 스크롤바 보이기 */
+.sidebar:hover::-webkit-scrollbar-thumb,
+.sidebar:focus::-webkit-scrollbar-thumb,
+.sidebar::-webkit-scrollbar-thumb:active {
+    background-color: rgba(120, 120, 120, 0.4); /* 마우스 오버 시 Thumb 부분 투명도 높임 */
+}
+
+.sidebar-header {
+    text-align: center; /* 텍스트 중앙 정렬 */
+    margin-bottom: 30px; /* 하단 여백 */
+    padding-bottom: 15px; /* 하단 패딩 */
+    border-bottom: 1px solid #4f5b66; /* 하단 테두리 */
+}
+
+.sidebar-header h3 {
+    margin: 0; /* 기본 마진 제거 */
+    font-size: 1.5em; /* 폰트 크기 */
+    color: #e9ecef; /* 글자색 */
+}
+
+.sidebar-header h3 i {
+    margin-right: 10px; /* 아이콘과 텍스트 사이 간격 */
+    color: #17a2b8; /* 아이콘 색상 강조 */
+}
+
+.sidebar-menu {
+    list-style: none; /* 리스트 스타일 제거 */
+    padding: 0; /* 패딩 제거 */
+    margin: 0; /* 마진 제거 */
+    flex-grow: 1; /* 메뉴가 가능한 공간을 채우도록 확장 */
+}
+
+.sidebar-menu li {
+    margin-bottom: 10px; /* 하단 여백 */
+}
+
+.sidebar-menu li a {
+    display: block; /* 링크 전체를 클릭 가능하도록 블록 레벨로 변경 */
+    color: #dee2e6; /* 메뉴 항목 글자색 */
+    text-decoration: none; /* 밑줄 제거 */
+    padding: 12px 15px; /* 내부 여백 */
+    border-radius: 8px; /* 모서리 둥글게 */
+    transition: background-color 0.3s ease, color 0.3s ease; /* 배경색, 글자색 변화 애니메이션 */
+    font-size: 1.1em; /* 폰트 크기 */
+}
+
+.sidebar-menu li a:hover {
+    background-color: #495057; /* 마우스 오버 시 배경색 */
+    color: #ffffff; /* 마우스 오버 시 글자색 */
+}
+
+/* 활성화된 메뉴 항목 스타일 */
+.sidebar-menu li.active a {
+    background-color: #007bff; /* 활성화된 메뉴 배경색 (Primary Color) */
+    color: #ffffff; /* 활성화된 메뉴 글자색 */
+    font-weight: bold; /* 활성화된 메뉴 굵게 */
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2); /* 그림자 효과 추가 */
+}
+
+.sidebar-menu li a i {
+    margin-right: 10px; /* 메뉴 아이콘과 텍스트 사이 간격 */
+}
+
+/**
+ * --- 메인 콘텐츠 및 푸터를 감싸는 영역 ---
+ * 사이드바 옆의 남은 가로 공간을 모두 차지합니다.
+ * 내부적으로 content-wrapper(헤더 + 본문)와 푸터를 세로로 배치합니다.
+ */
+.main-content-and-footer-area {
+    display: flex; /* Flexbox 활성화 */
+    flex-direction: column; /* 자식 요소들을 세로 방향으로 배열 */
+    flex-grow: 1; /* 남은 가로 공간을 모두 차지 */
+    overflow: hidden; /* 내부 content-wrapper의 스크롤을 위해 자체 오버플로우 숨김 */
+}
+
+/**
+ * --- 콘텐츠 래퍼 (서브 화면: 이 안에서 스크롤 발생) ---
+ * main-content-and-footer-area 내부에서 푸터를 제외한 모든 수직 공간을 채웁니다.
+ * content-header와 main-content-area를 포함하며, 이 요소(content-wrapper)가 스크롤바를 가지게 됩니다.
+ */
+.content-wrapper {
+    flex-grow: 1; /* main-content-and-footer-area의 남은 수직 공간을 모두 차지 */
+    display: flex; /* Flexbox 활성화 */
+    flex-direction: column; /* 자식 요소들을 세로 방향으로 배열 */
+    overflow-y: auto; /* <- 핵심: 이 컨테이너에서 스크롤이 발생하도록 */
+    padding: 30px; /* 전체 콘텐츠 영역의 패딩 */
+    box-sizing: border-box; /* 패딩이 width/height에 포함되도록 계산 */
+    background-color: #f8f9fa; /* 콘텐츠 래퍼의 배경색 */
+
+    /* 오버레이 스크롤바 스타일 */
+    /* Firefox */
+    scrollbar-width: thin; /* 얇은 스크롤바 (공간 차지) */
+    scrollbar-color: rgba(120, 120, 120, 0.4) transparent; /* Thumb 색상 및 트랙 색상 */
+    /* IE/Edge (Legacy) */
+    -ms-overflow-style: -ms-autohiding-scrollbar; /* 자동 숨김 스크롤바 */
+}
+
+/* Webkit(Chrome, Safari, Edge)용 스크롤바 스타일 */
+.content-wrapper::-webkit-scrollbar {
+    width: 8px; /* 스크롤바 너비 */
+    background-color: transparent; /* 트랙 배경은 투명 */
+}
+
+.content-wrapper::-webkit-scrollbar-thumb {
+    background-color: rgba(120, 120, 120, 0.0); /* 기본 상태: 거의 투명 */
+    border-radius: 10px; /* Thumb 부분 둥글게 */
+    border: 2px solid transparent; /* Thumb이 완전히 숨겨지지 않도록 투명 테두리 */
+}
+
+/* 스크롤 가능한 영역에 마우스를 올리거나 스크롤 중일 때 스크롤바 보이기 */
+.content-wrapper:hover::-webkit-scrollbar-thumb,
+.content-wrapper:focus::-webkit-scrollbar-thumb,
+.content-wrapper::-webkit-scrollbar-thumb:active {
+    background-color: rgba(120, 120, 120, 0.4); /* 마우스 오버 시 Thumb 부분 투명도 높임 */
+}
+
+.content-header {
+    margin-bottom: 30px; /* 하단 여백 */
+    padding-bottom: 15px; /* 하단 패딩 */
+    border-bottom: 1px solid #e9ecef; /* 하단 테두리 */
+    flex-shrink: 0; /* content-header가 줄어들지 않도록 고정 */
+}
+
+.content-header h1 {
+    margin: 0; /* 기본 마진 제거 */
+    font-size: 1.8em; /* 폰트 크기 */
+    color: #343a40; /* 글자색 */
+}
+
+/**
+ * --- 메인 콘텐츠 영역 (동적으로 로드되는 JSP 내용이 들어갈 <main> 태그) ---
+ * content-wrapper 내부에서 content-header를 제외한 남은 공간을 차지합니다.
+ * 실제 로드되는 div.container(profile_content.jsp 내부)를 정렬하는 역할을 합니다.
+ */
+.content-area {
+    /* 이 컨테이너 자체는 스크롤되지 않습니다. 상위 content-wrapper가 스크롤합니다. */
+    flex-grow: 1; /* content-wrapper의 남은 공간을 채움 */
+    display: flex; /* Flexbox 활성화 */
+    flex-direction: column; /* 자식 요소들을 세로 방향으로 배열 */
+    /*justify-content: center; !* 세로 중앙 정렬 *!*/
+    justify-content: flex-start; /* 콘텐츠를 상단에서부터 시작 (스크롤 가능한 영역) */
+    align-items: center; /* 가로 중앙 정렬은 유지 */
+    text-align: initial; /* 텍스트 정렬은 콘텐츠 내부에서 정의 */
+}
+
+.content-area.is-loading {
+    justify-content: center; /* 로딩 중일 때는 세로로 중앙 정렬 */
+}
+
+/* 동적으로 로드되는 콘텐츠 내부의 .container (profile_content.jsp 등) */
+/* 이 .container는 .content-area의 자식으로 페이지에 로드되는 실제 콘텐츠 블록입니다. */
+.content-area > .container {
+    max-width: 800px; /* 로드되는 콘텐츠의 최대 너비 제한 (필요 시 조정) */
+    width: 100%; /* 부모 너비의 100% 사용 (max-width 이내에서) */
+    /*margin: 0 auto; !* 가로 중앙 정렬은 상위 content-area의 align-items: center로 처리됨 *!*/
+    padding: 20px 30px; /* 콘텐츠 내부 여백 */
+    text-align: left; /* 기본 텍스트 정렬은 왼쪽 */
+    background-color: #ffffff; /* 콘텐츠 배경색 */
+    border-radius: 8px; /* 모서리 둥글게 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* 그림자 효과 */
+    box-sizing: border-box; /* 패딩이 width/height에 포함되도록 계산 */
+    flex-shrink: 0; /* 내용이 넘쳐도 줄어들지 않도록 (스크롤이 발생해야 하므로) */
+}
+
+/**
+ * --- 메인 푸터 ---
+ * 화면 하단에 고정된 푸터 스타일입니다.(main-content-and-footer-area의 자식)
+ */
+.main-footer {
+    background-color: #f8f9fa; /* 전체(기본)와 동일한 배경색 */
+    color: #343a40; /* 글자색 */
+    padding: 15px; /* 내부 여백 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+    font-size: 1.0em; /* 폰트 크기 */
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    flex-shrink: 0; /* 푸터가 줄어들지 않도록 고정 */
+    z-index: 10; /* 푸터가 다른 요소 위에 오도록 z-index 부여 */
+}
+
+/* 프로필 사진(이미지) 컨테이너 */
+.profile-picture-container {
+    width: 120px; /* 프로필 사진 영역 너비 */
+    height: 120px; /* 프로필 사진 영역 높이 */
+    border-radius: 50%; /* 원형 */
+    overflow: hidden; /* 원형으로 크롭 */
+    margin: 20px auto 40px auto; /* 중앙 정렬 및 상하 여백 (상-우-하-좌 순서) */
+    background-color: #e0e0e0; /* 기본 배경색 */
+    border: 3px solid #17a2b8; /* 테두리 두께 및 색상 */
+    box-shadow: 0 0 10px rgba(23, 162, 184, 0.3); /* 그림자 효과 */
+    cursor: pointer; /* 클릭 가능한 요소임을 나타냄 */
+    position: relative; /* 오버레이를 위해 */
+    transition: all 0.3s ease; /* 모든 변화 애니메이션 */
+}
+
+.profile-picture-container:hover {
+    box-shadow: 0 0 15px rgba(23, 162, 184, 0.6); /* 마우스 오버 시 그림자 색상 */
+    transform: scale(1.02); /* 살짝 확대 */
+}
+
+.profile-picture-container img {
+    width: 100%; /* 이미지 너비 100% */
+    height: 100%; /* 이미지 높이 100% */
+    object-fit: cover; /* 이미지를 컨테이너에 맞게 채우고, 넘치는 부분은 잘라냄 */
+    display: block; /* 인라인 요소의 기본 여백 제거 */
+}
+
+/* 프로필 사진(이미지) 오버레이 (마우스 오버 시 폴더 아이콘) */
+.profile-picture-container .upload-overlay {
+    position: absolute; /* 컨테이너 내부에 절대 위치 */
+    top: 0; /* 상단 0 */
+    left: 0; /* 좌측 0 */
+    width: 100%; /* 너비 100% */
+    height: 100%; /* 높이 100% */
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 검은색 배경 */
+    display: flex; /* Flexbox 활성화 */
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    color: white; /* 글자색 흰색 */
+    font-size: 2.0em; /* 폰트 크기 */
+    opacity: 0; /* 평소에는 숨김 (투명도 0) */
+    transition: opacity 0.3s ease; /* 투명도 변화 애니메이션 */
+}
+
+.profile-picture-container:hover .upload-overlay {
+    opacity: 1; /* 마우스 오버 시 표시 (투명도 1) */
+}

@@ -1,0 +1,121 @@
+spring:
+  application:
+    name: SpringBootTemplate
+
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: false
+
+  # JSP ViewResolver
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+
+  # Thymeleaf Path (Jsp와 양립불가 -> 사용 X)
+#  thymeleaf:
+#    prefix: classpath:/templates/error/
+#    suffix: .html
+
+  # Jackson JSON 직렬화 시 속성명 전략을 CAMEL_CASE로 설정
+  jackson:
+    property-naming-strategy: LOWER_CAMEL_CASE
+
+  # Email Properties
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}  # 실제 이메일 주소
+    password: ${MAIL_PASSWORD}  # Spring-Boot Template 앱 비밀번호 사용 (16자리)
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.gmail.com
+
+  # MySQL DataSource
+  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/springframeworkdemo?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: ${DATABASE_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+# MyBatis Path
+mybatis:
+  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath:mappers/*Mapper.xml
+#  type-aliases-package: kr.co.jaehoon.springboottemplate.dto  # mybatis-config.xml 설정으로 대체
+#  configuration:  # config-location과 설정 충돌로 에러남 -> mybatis-config.xml 파일의 <settings>에 별도 지정
+#    map-underscore-to-camel-case: true  # DB 테이블의 컬럼명 자동매핑
+
+# 파일 업로드 디렉토리 설정 (프로젝트 루트 경로 하위에 uploads 디렉토리 생성)
+file:
+  upload-dir: ${FILE_UPLOAD_DIR}
+  log-dir: ${FILE_LOG_DIR}
+# Linux/MacOS 환경 예시 (사용자 홈 디렉토리에 spring-uploads 폴더 생성)
+# file.upload-dir=/home/user/spring-uploads
+# file.upload-dir=${user.home}/spring-uploads
+
+# Spring Security (JWT 관련 설정)
+jwt:
+  secret: ${JWT_SECRET}
+  expiration:
+    web: 3600000  # 웹 브라우저: 1시간 (밀리초)
+    mobile: 86400000  # 모바일 앱: 1일 (밀리초), 모바일 앱은 토큰만료 시간을 보통 더 길게 설정
+
+# Slf4j Logging
+logging:
+  config: classpath:logback-spring.xml
+  # 아래 level: 설정은 logback-spring.xml의 Root Logger 설정으로 대체
+  # (특정 로깅 레벨만 오버라이드하고 싶다면 추가 가능)
+  level:
+    root: DEBUG
+    kr.co.jaehoon.springboottemplate: DEBUG
+
+# SpringDoc OpenAPI (Swagger UI)
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html  # Swagger UI 접근 경로 설정 (기본값: /swagger-ui/index.html)
+  api-docs:
+    path: /v3/api-docs  # OpenAPI 3.0 JSON/YAML 문서의 기본 경로
+
+# Swagger UI의 API 정보 (선택 사항)
+info:
+  title: Spring-Boot Template API
+  version: ${app.version}
+  description: Spring-Boot Template RESTful API Documentation
+  contact:
+    name: Jaehoon81
+    email: jungjh0519@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+# Server Port/Error
+server:
+  port: 8181
+  error:
+#    path: classpath:/templates/error/*.html  # Spring Boot가 자동으로 맵핑(Html)하는 방식
+    include-exception: true  # whitelabel.enabled=true 시 적용
+    include-stacktrace: always  # whitelabel.enabled=true 시 적용
+    whitelabel:
+      enabled: false
+  # Nginx와 같은 리버스 프록시 뒤에서 웹 서버(Tomcat, Jetty 등) 자체적으로 Forwarded 헤더를 파싱하여
+  # HttpServletRequest의 스킴, 호스트, 원격 IP 등의 정보를 정확하게 업데이트
+  forward-headers-strategy: native
+
+# 애플리케이션 버전 정보 (모바일 앱 요청 테스트용)
+app:
+  version: 1.0.0
+
+# SpringBootTemplate 프로젝트의 Release 버전을 기록
+springboot-template:
+  release:
+    version: 1.000.000

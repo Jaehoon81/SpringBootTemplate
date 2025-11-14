@@ -1,0 +1,106 @@
+version: '3.8'
+
+services:
+  # 웹 애플리케이션 컨테이너
+  web:
+    build:  # 개발 환경에서 로컬 빌드를 용이하게 하기 위해 포함
+      context: .  # docker-compose.yml이 있는 현재 디렉토리가 Dockerfile의 컨텍스트
+      dockerfile: Dockerfile  # 이 Dockerfile을 사용하여 로컬에서 이미지를 빌드
+
+#    image: springboot-template:latest  # 빌드될 이미지 이름 (Jenkins 파이프라인의 이미지 이름과 일치해야 함)
+    image: ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}  # Jenkinsfile의 환경 변수를 참조하도록 변경
+    container_name: web_app_container
+    restart: unless-stopped  # 컨테이너가 중단되면 자동으로 재시작
+
+    ports:
+      - "8080"  # Nginx에서 이 포트로 접근 (호스트에는 직접 노출하지 않음)
+
+#    env_file: ./.env  # 환경 변수 설정 파일
+    environment:
+      - "TZ=Asia/Seoul"  # 타임존 설정
+      - "SPRING_PROFILES_ACTIVE=prod"  # Spring 프로파일 명시 (Dockerfile CMD와 중복되더라도 명시)
+      # 이메일 전송 계정
+      - MAIL_USERNAME=${MAIL_USERNAME}
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
+      # AWS RDS의 MySQL 데이터베이스 접속 주소
+      - DATABASE_URL=${DATABASE_URL}
+      # MySQL 데이터베이스 접속 계정
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      # 파일 업로드 디렉토리
+      - FILE_UPLOAD_DIR=${FILE_UPLOAD_DIR}
+      # 파일 로그 디렉토리
+      - FILE_LOG_DIR=${FILE_LOG_DIR}
+      # JWT 비밀키
+      - JWT_SECRET=${JWT_SECRET}
+
+    volumes:  # 왼쪽 호스트의 상대 경로를 구분자(:) 오른쪽 컨테이너에 마운트
+      - ../share/uploads:/share/uploads  # 사용자 파일 업로드 등 공유 데이터
+      - ../share/logs/app:/share/logs/app  # 애플리케이션 로그 저장
+#      - ~/.gradle:/root/.gradle  # 최종 실행 컨테이너에서 .gradle 캐시는 불필요하므로 주석처리
+
+    logging:
+      driver: json-file  # 로그 드라이버 설정
+      options:
+        max-size: 10m  # 로그 파일 최대 크기
+
+    networks:
+      - app-network
+
+  # Nginx 리버스 프록시 컨테이너 (SSL 설정 포함)
+  nginx:
+    image: nginx:1.29.3
+    container_name: nginx_proxy_container
+
+    ports:
+      - "80:80"  # HTTP 요청 수신
+      - "443:443"  # HTTPS 요청 수신
+
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro  # Nginx 설정 파일 마운트
+      # Certbot으로 발급받은 SSL 인증서 파일들을 컨테이너 내부에 마운트
+      # (Certbot이 SSL 인증서를 발급하여 저장하는 기본 경로는 '/etc/letsencrypt/live/도메인'이므로
+      # '/home/ubuntu/springboottemplate/ssl_certs/도메인' 경로에 복사)
+      - ./ssl_certs/www.jaehoon.link/fullchain.pem:/etc/nginx/ssl/www.jaehoon.link/fullchain.pem:ro
+      - ./ssl_certs/www.jaehoon.link/privkey.pem:/etc/nginx/ssl/www.jaehoon.link/privkey.pem:ro
+      - ./ssl_certs/jenkins.jaehoon.link/fullchain.pem:/etc/nginx/ssl/jenkins.jaehoon.link/fullchain.pem:ro
+      - ./ssl_certs/jenkins.jaehoon.link/privkey.pem:/etc/nginx/ssl/jenkins.jaehoon.link/privkey.pem:ro
+
+    depends_on:  # 의존성 설정: web과 jenkins가 먼저 시작되어야 함
+      - web
+      - jenkins
+
+    networks:
+      - app-network
+
+  # Jenkins CI/CD 서버 컨테이너
+  jenkins:
+    image: jenkins/jenkins:lts-jdk21  # JDK 21을 포함한 최신 LTS 이미지 사용
+    container_name: jenkins_server_container
+
+    privileged: true  # Docker-in-Docker 또는 호스트 Docker 접근을 위해 필요 (보안상 주의)
+    user: root  # 권한 문제 방지를 위해 root로 실행 (보안상 더 나은 방법 고려 가능)
+
+    ports:
+      - "8081:8080"  # Jenkins UI 포트: 호스트의 8081번 포트를 컨테이너의 8080번 포트에 연결
+      - "50000:50000"  # Jenkins 에이전트(Agent)와의 통신을 위한 포트
+
+    environment:
+      - "TZ=Asia/Seoul"  # 타임존 설정
+#      - JENKINS_OPTS="--prefix=/jenkins"  # 서브 도메인 접근 시 이 설정은 필요 없음
+      # Jenkinsfile에서 사용하는 변수를 위한 placeholder (Jenkinsfile에서 직접 env로 주입)
+#      - DOCKER_IMAGE_NAME=${DOCKER_IMAGE_NAME}
+#      - DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG}
+#      - EC2_HOST=${EC2_HOST}
+
+    volumes:
+      - ./jenkins_home:/var/jenkins_home  # Jenkins 데이터 영구 저장 볼륨
+      - /var/run/docker.sock:/var/run/docker.sock  # Jenkins가 호스트 Docker 데몬에 접근하도록 허용
+      - /usr/bin/docker:/usr/bin/docker  # Docker CLI 실행을 위한 마운트
+
+    networks:
+      - app-network
+
+networks:
+  app-network:  # 모든 컨테이너가 통신할 사용자 정의 브릿지 네트워크
+    driver: bridge

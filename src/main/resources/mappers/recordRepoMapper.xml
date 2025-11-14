@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Record">
+
+    <!-- 새로운 녹음 정보를 저장 -->
+    <insert id="saveRecord" parameterType="recordDTO" useGeneratedKeys="true" keyProperty="recordId">
+        INSERT INTO records (participant_id, record_sequence, file_path, mime_type)
+        VALUES (#{participantId}, #{recordSequence}, #{filePath}, #{mimeType})
+    </insert>
+
+    <!-- 기존 녹음 정보를 업데이트 (특정 참가자의 특정 순서 녹음) -->
+    <update id="updateRecord" parameterType="recordDTO">
+        UPDATE records
+        SET file_path = #{filePath}, mime_type = #{mimeType}, updated_at = CURRENT_TIMESTAMP
+        WHERE participant_id = #{participantId} AND record_sequence = #{recordSequence}
+    </update>
+
+</mapper>

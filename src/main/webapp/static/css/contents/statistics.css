@@ -1,0 +1,849 @@
+.data-statistics-container {
+    background-color: #ffffff;
+    padding: 40px;
+    margin: 0 auto;
+    border-radius: 12px;
+    /*box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);*/
+    width: 1200px;
+    max-width: 90%;
+    text-align: center;
+    box-sizing: border-box;
+    /*transition: width 0.3s ease; !* 너비 변경 시 부드러운 애니메이션 효과 *!*/
+}
+
+/* 스크롤 발생 시 적용될 스타일 */
+.data-statistics-container.scrolling {
+    width: 1190px; /* 스크롤바 공간을 고려하여 살짝 줄임 */
+    /* 필요에 따라 margin-right: 100px; 등으로 조정 가능 */
+}
+
+.data-statistics-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 1.6em; /* 폰트 크기 */
+}
+
+/* 페이지 하단 버튼 그룹 스타일 */
+/*.data-statistics-container > button {*/
+/*    margin: 15px 8px; !* 하단 버튼 마진 조정 *!*/
+/*}*/
+
+/* 리스트 다운로드 아이콘 버튼 래퍼 */
+.download-button-wrapper {
+    text-align: right; /* 오른쪽 정렬 */
+    margin-top: -20px; /* 제목 및 공지사항과의 간격 */
+    margin-bottom: -10px; /* 필터 컨트롤 그룹과의 간격 */
+}
+
+.download-excel-btn {
+    background-color: #28a745; /* 녹색 계열 (엑셀 색상과 유사) */
+    color: white;
+    width: 148px;
+    padding: 8px 15px; /* 사이즈 약간 크게 */
+    border: none;
+    border-radius: 6px; /* 더 둥글게 */
+    font-size: 0.9em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+
+    display: inline-flex; /* 텍스트와 아이콘을 한 줄에 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    gap: 8px; /* 텍스트와 아이콘 간격 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.download-excel-btn:hover {
+    background-color: #218838; /* 호버 시 진한 초록색 */
+    transform: translateY(-1px); /* 살짝 위로 올라가는 효과 */
+}
+
+.download-excel-btn:active {
+    background-color: #1e7e34; /* 클릭 시 더 진한 초록색 */
+    transform: translateY(0); /* 다시 원래 위치로 */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* 엑셀 아이콘 스타일 */
+.download-excel-btn i.fa-file-excel {
+    color: white;
+    font-size: 1.2em; /* 아이콘 크기 */
+}
+
+/* 필터 컨트롤 전체를 감싸는 그룹 */
+.filter-controls-group {
+    display: flex; /* Flexbox를 사용하여 등급, 기간, 검색 필터를 가로로 배치 */
+    flex-wrap: wrap; /* 내용이 많아지면 줄바꿈 */
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    gap: 30px; /* 항목 간 간격 */
+    /*margin-bottom: 20px;*/
+
+    margin-bottom: -10px;
+    margin-top: 25px;
+    padding: 15px;
+    background-color: #eef;
+    border-radius: 8px;
+    box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.2);
+}
+
+/* 등급별 필터링 영역 컨테이너 */
+.grade-filter-container {
+    text-align: center; /* 텍스트 가운데 정렬 */
+    /*margin: 20px 0;*/
+    /*padding: 15px;*/
+    /*background-color: #eef;*/
+    /*border-radius: 8px;*/
+    /*box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.2);*/
+
+    margin-right: -5px;
+    padding: 2px;
+    background-color: transparent;
+}
+
+/* 라디오 버튼 섹션 컨테이너 */
+.radio-button-container {
+    display: inline-flex; /* 라벨과 라디오 버튼을 한 줄에 정렬 */
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    margin: 4px 4px 0; /* 라디오 버튼 간격 */
+    font-size: 0.95em;
+    color: #333;
+    cursor: pointer;
+}
+
+/* 커스텀 라디오 버튼 스타일 */
+.radio-custom {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #bbb;
+    background-color: #fff;
+    position: relative;
+    margin-right: 8px;
+    transition: all 0.2s ease;
+}
+
+.radio-button-container input[type="radio"] {
+    opacity: 0; /* 기본 라디오 버튼 숨김 */
+    position: absolute; /* 절대 위치로 화면 밖으로 이동 */
+}
+
+/* 커스텀 라디오 버튼 체크 시 */
+.radio-button-container input[type="radio"]:checked + .radio-custom {
+    border-color: #007bff; /* 체크 시 파란색 테두리 */
+    background-color: #e0f2ff; /* 체크 시 연한 파란색 배경 */
+}
+
+/* 체크 표시 스타일 */
+.radio-button-container input[type="radio"]:checked + .radio-custom::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #007bff; /* 체크 시 내부 원 색상 */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.radio-button-container:hover .radio-custom {
+    border-color: #007bff;
+}
+
+/* 기간별 필터링 영역 컨테이너 */
+.date-range-filter-container {
+    display: flex;
+    position: relative;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 8px 12px;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.date-range-filter-container:hover {
+    border-color: #007bff;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* 달력 아이콘 스타일 */
+.date-range-filter-container .calendar-icon {
+    margin-right: 10px;
+    color: #555;
+    font-size: 1.2em;
+    pointer-events: none; /* 아이콘 클릭이 Input으로 전달되도록 */
+}
+
+/* 기간 입력 필드 스타일 */
+.date-range-filter-container .date-range-input {
+    background: transparent; /* 투명 배경 */
+    border: none;
+    outline: none;
+    width: 170px; /* 기간 입력 필드의 너비 설정 */
+    margin-top: 1px;
+    padding: 0; /* 내부 패딩 제거 */
+    line-height: normal; /* 라인 높이 정상화 */
+    font-size: 0.95em;
+    color: #333;
+    cursor: pointer; /* 클릭 가능한 모양 */
+}
+
+/* Date-Range-Picker 플러그인 자체 스타일에 대한 오버라이드 (선택 사항) */
+.daterangepicker {
+    font-family: Arial, sans-serif; /* 폰트 통일 */
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.daterangepicker td.active,
+.daterangepicker td.active:hover {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #fff;
+}
+
+.daterangepicker .ranges li.active {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* 캘린더 요일 헤더 (일, 월, 화, ...) */
+.daterangepicker .table-condensed thead tr th {
+    color: #333; /* 기본 요일 텍스트 색상 */
+}
+
+.daterangepicker .table-condensed thead tr th:nth-child(1) {
+    color: #dc3545 !important; /* 일요일은 빨간색 텍스트 */
+}
+
+.daterangepicker .table-condensed thead tr th:nth-child(7) {
+    color: #007bff !important; /* 토요일은 파란색 텍스트 */
+}
+
+/* 캘린더 날짜 본문 */
+.daterangepicker td.weekend:nth-child(1),
+.daterangepicker td.day:nth-child(1) {
+    color: #dc3545; /* 빨간색 일요일 숫자 */
+}
+
+.daterangepicker td.weekend:nth-child(7),
+.daterangepicker td.day:nth-child(7) {
+    color: #007bff; /* 파란색 토요일 숫자 */
+}
+
+/* 날짜가 선택(.active)되었을 때 또는 마우스 오버 상태의 색상도 조절 (옵션) */
+/*.daterangepicker td.available.in-range.weekend:nth-child(1),*/
+/*.daterangepicker td.available.in-range.day:nth-child(1),*/
+.daterangepicker td.available.active.weekend:nth-child(1),
+.daterangepicker td.available.active.day:nth-child(1) {
+    background-color: #dc3545; /* 일요일 숫자 선택 시 빨간색 배경 */
+    /*border-color: #dc3545;*/
+    color: #fff;
+}
+
+/*.daterangepicker td.available.in-range.weekend:nth-child(7),*/
+/*.daterangepicker td.available.in-range.day:nth-child(7),*/
+.daterangepicker td.available.active.weekend:nth-child(7),
+.daterangepicker td.available.active.day:nth-child(7) {
+    background-color: #007bff; /* 토요일 숫자 선택 시 파란색 배경 */
+    /*border-color: #007bff;*/
+    color: #fff;
+}
+
+/* 선택된 범위 안의 날짜 (.in-range) */
+/*.daterangepicker td.in-range.weekend:nth-child(1),*/
+.daterangepicker td.in-range.day:nth-child(1) {
+    color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.1); /* 연한 빨간색 배경으로 일요일 기간 표시 */
+}
+
+/*.daterangepicker td.in-range.weekend:nth-child(7),*/
+.daterangepicker td.in-range.day:nth-child(7) {
+    color: #007bff;
+    background-color: rgba(0, 123, 255, 0.1); /* 연한 파란색 배경으로 토요일 기간 표시 */
+}
+
+.daterangepicker td.in-range {
+    /*color: #333; !* 기본 날짜(숫자) 텍스트 색상 *!*/
+    color: #007bff;
+    background-color: rgba(0, 123, 255, 0.1); /* 나머지 요일은 in-range 기본 색상 유지 */
+}
+
+.daterangepicker td.in-range.weekend:nth-child(1) {
+    /* 선택된 범위 내의 일요일 텍스트 색상을 다시 적용 */
+    color: #dc3545;
+}
+
+.daterangepicker td.in-range.weekend:nth-child(7) {
+    /* 선택된 범위 내의 토요일 텍스트 색상을 다시 적용 */
+    color: #007bff;
+}
+
+/* 마우스 오버 시 색상 */
+/*.daterangepicker td.available:hover.weekend:nth-child(1),*/
+.daterangepicker td.available:hover.day:nth-child(1) {
+    background-color: rgba(220, 53, 69, 0.2); /* 연한 빨간색 배경의 일요일 */
+    color: #dc3545;
+}
+
+/*.daterangepicker td.available:hover.weekend:nth-child(7),*/
+.daterangepicker td.available:hover.day:nth-child(7) {
+    background-color: rgba(0, 123, 255, 0.2); /* 연한 파란색 배경의 토요일 */
+    color: #007bff;
+}
+
+/* Date-Range-Picker 플러그인의 버튼 컨테이너 */
+.daterangepicker .drp-buttons {
+    display: flex; /* Flexbox를 사용하여 버튼들을 정렬 */
+    justify-content: flex-end; /* 버튼들을 컨테이너 오른쪽으로 정렬 */
+    align-items: center; /* 버튼들을 세로 중앙으로 정렬 */
+    padding: 10px 15px;
+    margin-top: 5px;
+    margin-bottom: 7px;
+    border-top: 1px solid #eee; /* 캘린더 본문과의 구분선 */
+    background-color: #fcfcfc;
+}
+
+/* 적용, 취소 버튼의 공통 스타일 */
+.daterangepicker .drp-buttons button {
+    width: 75px; /* 버튼 가로 길이 고정 */
+    border-radius: 5px; /* 모서리 둥글게 */
+    margin-left: 8px; /* 버튼 간 간격 (취소 버튼 오른쪽 여백) */
+    padding: 7px 0;
+    font-size: 0.9em;
+    font-weight: normal;
+    cursor: pointer; /* 마우스 오버 시 커서 변경 */
+    transition: all 0.05s ease-in-out; /* 부드러운 전환 효과 */
+}
+
+/* 적용 버튼 특정 스타일 */
+.daterangepicker .drp-buttons .btn.applyBtn {
+    background-color: #007bff; /* 파란색 배경 */
+    color: white; /* 흰색 글자색 */
+    border: 1px solid #007bff; /* 파란색 테두리 */
+}
+
+.daterangepicker .drp-buttons .btn.applyBtn:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+/* 취소 버튼 특정 스타일 */
+.daterangepicker .drp-buttons .btn.cancelBtn {
+    background-color: #f8f9fa; /* 밝은 회색 배경 */
+    color: #343a40; /* 어두운 글자색 */
+    border: 1px solid #ccc; /* 회색 테두리 */
+}
+
+.daterangepicker .drp-buttons .btn.cancelBtn:hover {
+    background-color: #e2e6ea;
+    border-color: #c6c6c6;
+}
+
+/* 검색어 필터링 영역 컨테이너 */
+.search-filter-container {
+    display: flex;
+    position: relative;
+    height: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 8px 12px;
+    align-items: center;
+    /*cursor: pointer;*/
+    transition: all 0.2s ease-in-out;
+}
+
+.search-filter-container:focus-within { /* 포커스 되었을 때 */
+    border-color: #007bff;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* 돋보기 아이콘 스타일 */
+.search-filter-container .search-icon {
+    margin-right: 8px;
+    color: #555;
+    font-size: 1.2em;
+    /*pointer-events: none; !* 아이콘 클릭이 Input으로 전달되도록 *!*/
+}
+
+/* 검색 입력 필드 스타일 */
+.search-filter-container .search-input {
+    background: transparent; /* 투명 배경 */
+    border: none;
+    outline: none;
+    width: 100px; /* 검색 입력 필드의 너비 설정 */
+    margin-bottom: 2px;
+    padding: 0; /* 내부 패딩 제거 */
+    line-height: normal; /* 라인 높이 정상화 */
+    font-size: 0.95em;
+    color: #333;
+    /*cursor: pointer; !* 클릭 가능한 모양 *!*/
+}
+
+/* 지우기 버튼 스타일 */
+.search-clear-btn {
+    visibility: hidden; /* 기본적으로 숨김 */
+    background: none;
+    border: none;
+    margin: 2px -5px 0 0;
+    padding: 0 5px;
+    color: #888;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.search-clear-btn:hover {
+    background-color: transparent;
+    color: #555;
+}
+
+.search-filter-container .search-input:not(:placeholder-shown) + .search-clear-btn {
+    /* 지우기 버튼이 필요할 때만 보이도록 */
+    visibility: visible;
+}
+
+/* 검색 버튼 스타일 */
+.search-execute-btn {
+    background-color: #007bff; /* 파란색 계열 */
+    color: white;
+    width: 50px; /* 길이 맞추기 */
+    height: 36px; /* 높이 맞추기 */
+    /*padding: 8px 15px;*/
+    /*margin-left: 10px;*/
+    padding: 0; /* 내부 패딩 제거 */
+    margin: 0 0 0 -24px; /* 외부 마진 제거 및 검색 입력 필드와의 간격 */
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.search-execute-btn:hover {
+    background-color: #0056b3;
+}
+
+#participant-list-container {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    overflow-x: auto; /* 테이블이 화면보다 넓을 경우 스크롤 허용 */
+    /*position: relative; !* 헤더를 absolute로 띄울 경우 필요 *!*/
+}
+
+.data-statistics-table {
+    /*width: 100%;*/
+    /*border-collapse: collapse;*/
+    /*margin-top: 20px;*/
+
+    width: 100%;
+    /*min-width: 800px; !* table-layout: fixed와 width로 제어하므로 주석처리 *!*/
+    table-layout: fixed; /* 컬럼 너비를 고정하여 정렬 유지 */
+
+    border-collapse: collapse;
+    border-radius: 8px; /* 모서리 둥글게 */
+    overflow: hidden; /* 둥근 모서리가 테이블 내용에 잘 적용되도록 */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* 더 부드러운 그림자 효과 */
+    background-color: #fff;
+    margin: 0 auto; /* 중앙 정렬 */
+
+    /* scrollbar-width의 정의는 JavaScript에서 동적으로 설정하므로 주석처리 */
+    /*--scrollbar-width: 8px; !* 스크롤바 너비의 CSS 변수 정의 (table에 정의하여 자식 요소에서 사용 가능) *!*/
+}
+
+.data-statistics-table th,
+.data-statistics-table td {
+    /*border: 1px solid #ddd;*/
+    /*padding: 10px;*/
+    /*text-align: center;*/
+    /*vertical-align: middle; !* 세로 정렬 *!*/
+
+    text-align: center; /* 테이블 표 안의 텍스트를 가로로 가운데 정렬 */
+    vertical-align: middle; /* 테이블 표 안의 버튼을 세로로 가운데 정렬 */
+
+    border-bottom: 1px solid #e8e8e8; /* 부드러운 하단 테두리 */
+    padding: 10px;
+    font-size: 0.95em;
+    white-space: nowrap; /* 셀 내용이 줄바꿈되지 않도록 */
+    overflow: hidden; /* 내용이 길어질 경우 숨김 처리 */
+    text-overflow: ellipsis; /* 내용이 길어질 경우 ...으로 표시 */
+}
+
+/* 테이블 헤더(thead) 스타일 */
+.data-statistics-table thead {
+    display: block; /* thead를 블록 요소로 만들어 너비를 정확히 제어 */
+    width: 100%; /* 부모 table 너비에 맞춤 */
+
+    /* thead 자체는 스크롤바가 필요 없으므로 overflow-y 관련 속성 제거 */
+    /* thead::-webkit-scrollbar 관련 속성도 제거 */
+    /*overflow-y: scroll; !* 스크롤바 너비를 확보하기 위해 항상 스크롤바를 보여줌 *!*/
+    /*visibility: hidden; !* 스크롤바 자체를 숨기고 싶다면 주석해제 *!*/
+
+    /* 스크롤바를 시각적으로 숨기기 */
+    /*scrollbar-width: none; !* Firefox에서 스크롤바 숨기기 *!*/
+    /*-ms-overflow-style: none; !* IE 및 Edge에서 스크롤바 숨기기 *!*/
+}
+
+/* Webkit 브라우저(Chrome, Safari)에서 스크롤바 숨기기 */
+/*.data-statistics-table thead::-webkit-scrollbar {*/
+/*    display: none;*/
+/*}*/
+
+.data-statistics-table thead tr {
+    display: table; /* thead의 tr도 table처럼 동작하도록 컬럼 정렬 */
+    width: 100%; /* 스크롤을 더이상 허용하지 않으므로 100% 설정 (아래는 주석처리) */
+    /*width: calc(100% - var(--scrollbar-width, 0px)); !* tbody 스크롤바 너비만큼 thead tr 너비에서 차감 (0px은 폴백 값) *!*/
+
+    table-layout: fixed;
+}
+
+.data-statistics-table th {
+    /*background-color: #f8f8f8;*/
+    /*font-weight: bold;*/
+    /*color: #555;*/
+
+    padding: 15px 20px; /* 헤더의 상하 패딩: 상하, 좌우 */
+    background-color: #D3D3D3; /* 헤더 배경색 (회색 계열) */
+    color: #3B3B3B; /* 흑색: #1D1E23 */
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #D3D3D3; /* 헤더 하단에 더 진한 선 */
+}
+
+/* 헤더에 둥근 모서리 적용 */
+.data-statistics-table th:first-child {
+    border-top-left-radius: 8px;
+}
+
+.data-statistics-table th:last-child {
+    border-top-right-radius: 8px;
+}
+
+/* 테이블 바디(tbody) 스타일 */
+.data-statistics-table tbody {
+    display: block; /* tbody를 블록 요소로 만들어 독립적인 스크롤 영역 설정 */
+    max-height: 100%; /* 스크롤을 더이상 허용하지 않으므로 100% 설정 (아래는 주석처리) */
+    /*max-height: 300px; !* 스크롤되는 높이를 조절 (예: 250px, 400px 등) *!*/
+    /*overflow-y: auto; !* 세로 스크롤 활성화 *!*/
+    width: 100%; /* 부모 table 너비에 맞춤 */
+
+    /* 스크롤바 너비만큼 thead를 줄였으므로 주석처리 */
+    /*scrollbar-gutter: stable both-edges; !* 스크롤바가 공간을 차지하지 않으므로 레이아웃 밀림 방지 *!*/
+}
+
+.data-statistics-table tbody::-webkit-scrollbar {
+    width: 8px; /* 스크롤바 너비를 얇게 설정 */
+    height: 8px;
+    background-color: transparent; /* 스크롤바 트랙 배경을 투명하게 */
+}
+
+.data-statistics-table tbody::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2); /* 스크롤 핸들(움직이는 부분) 색상 */
+    border-radius: 10px;
+    border: 2px solid transparent; /* 스크롤 핸들이 컨테이너와 떨어져 보이도록 테두리 투명 처리 */
+    background-clip: padding-box; /* 테두리 안쪽만 색상이 채워지도록 */
+}
+
+.data-statistics-table tbody::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.4); /* 마우스 오버 시 색상 진하게 */
+}
+
+.data-statistics-table tbody tr {
+    display: table; /* tbody의 tr도 table처럼 동작하도록 컬럼 정렬 */
+    width: 100%; /* tbody의 너비를 100%로 설정하고, 스크롤바는 오버레이되도록 */
+    table-layout: fixed;
+}
+
+.data-statistics-table td {
+    padding: 15px 20px; /* 데이터 셀의 상하 패딩: 상하, 좌우 */
+}
+
+/* 테이블 표의 제목은 유지되면서 데이터 셀 부분만 상하로 스크롤 */
+/* 각 컬럼의 너비를 명시적 지정 (매우 중요!) */
+/* (statistics_content.jsp의 th/td 순서와 동일하게 맞춰야 함) */
+/* (전체 너비 100%를 기준으로 비율을 맞추거나, 픽셀로 지정할 수 있음) */
+/* (스크롤바의 너비(대략 8px)를 고려하여 thead tr과 tbody tr의 너비를 맞출 수도 있음) */
+.data-statistics-table thead th:nth-child(1),
+.data-statistics-table #participant-list-body td:nth-child(1) { width: 7.5%; } /* 번호 */
+.data-statistics-table thead th:nth-child(2),
+.data-statistics-table #participant-list-body td:nth-child(2) { width: 15%; }  /* 이름 */
+.data-statistics-table thead th:nth-child(3),
+.data-statistics-table #participant-list-body td:nth-child(3) { width: 15%; }  /* 출생연월 */
+.data-statistics-table thead th:nth-child(4),
+.data-statistics-table #participant-list-body td:nth-child(4) { width: 7.5%; } /* 성별 */
+.data-statistics-table thead th:nth-child(5),
+.data-statistics-table #participant-list-body td:nth-child(5) { width: 15%; }  /* 등급 */
+.data-statistics-table thead th:nth-child(6),
+.data-statistics-table #participant-list-body td:nth-child(6) { width: 15%; }  /* 담당관리자 */
+.data-statistics-table thead th:nth-child(7),
+.data-statistics-table #participant-list-body td:nth-child(7) { width: 10%; }  /* 음성녹음 */
+.data-statistics-table thead th:nth-child(8),
+.data-statistics-table #participant-list-body td:nth-child(8) { width: 15%; }  /* 녹음일자 */
+
+/* 짝수 행 배경색 교차 */
+.data-statistics-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* 연한 회색 */
+}
+
+/* 마우스 오버 효과 */
+.data-statistics-table tbody tr:hover {
+    /*background-color: #f1f1f1;*/
+
+    background-color: #f0f8ff; /* 연한 파란색 */
+    transition: background-color 0.2s ease;
+}
+
+/* 마지막 행의 하단 테두리 제거 */
+.data-statistics-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.data-statistics-table .loading-contents {
+    text-align: center;
+    padding: 20px;
+    color: #888;
+}
+
+.data-statistics-table .no-data {
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+    /*color: #888;*/
+    color: #666;
+}
+
+/* 등급 드롭다운 스타일 */
+.grade-select {
+    background-color: #fff;
+    min-width: 80px; /* 드롭다운 최소 너비 */
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* 단일 재생 버튼 스타일 개선 */
+.play-records-button {
+    /*background: none;*/
+    /*border: none;*/
+    /*color: #28a745; !* 녹색 계열 *!*/
+    /*cursor: pointer;*/
+    /*font-size: 1.5em; !* 아이콘 크기 키움 *!*/
+    /*transition: color 0.2s ease-in-out;*/
+
+    background-color: #FFFFFF00; /* 흰색 투명값 */
+    color: #7410d0; /* 자색 계열 */
+    margin-top: -10px; /* 상단 여백을 추가하여 위 아래의 중앙 정렬 효과 */
+    margin-bottom: -15px; /* 하단 여백을 추가하여 위 아래의 중앙 정렬 효과 */
+    border: none;
+    font-size: 1.5em; /* 아이콘 크기 키움 */
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.play-records-button:hover {
+    /*color: #218838; !* 호버 시 진한 초록색 *!*/
+    color: #8b00ff; /* 호버 시 연한 보라색 */
+
+    background-color: #FFFFFF00;
+    box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+}
+
+/* 목록이 없을 때 메시지 중앙 정렬 */
+/*.data-statistics-table tbody tr td[colspan] {*/
+/*    text-align: center; !* 텍스트는 center를 유지 *!*/
+/*    padding: 20px;*/
+/*    color: #666;*/
+/*    font-style: italic;*/
+/*}*/
+
+.no-data-message {
+    text-align: center;
+    padding: 30px;
+    font-size: 1.0em;
+    color: #888;
+    border: 1px dashed #ddd;
+    margin-top: 20px;
+    background-color: #fcfcfc;
+}
+
+/* 페이지네이션 컨트롤 스타일 */
+.pagination-controls {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination-controls a {
+    display: inline-block;
+    padding: 8px 12px;
+    margin: 0 4px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #007bff;
+    background-color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+.pagination-controls a:hover:not(.active):not(.disabled) {
+    background-color: #e9ecef;
+}
+
+.pagination-controls a.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.pagination-controls a.disabled {
+    color: #ccc;
+    pointer-events: none;
+    background-color: #f8f8f8;
+}
+
+/* 음성녹음 상세 정보 및 오디오 플레이어 모달 스타일 */
+.audio-player-popup {
+    display: none; /* 기본 숨김 */
+    justify-content: center;
+    align-items: center;
+    position: fixed; /* 고정 위치 */
+    z-index: 1001; /* 다른 요소들 위에 표시 */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* 내용이 넘칠 경우 스크롤 */
+    background-color: rgba(0, 0, 0, 0.4); /* 반투명 배경 */
+}
+
+/* 오디오 플레이어 모달의 z-index 조정 */
+.audio-player-popup {
+    z-index: 2000; /* 사이드바나 다른 요소보다 위에 표시되도록 */
+}
+
+.audio-player-popup.show {
+    display: flex; /* 'show' 클래스가 있으면 표시 */
+}
+
+.audio-player-content {
+    background-color: #fefefe;
+    padding: 25px; /* 패딩 증가 */
+    border: 1px solid #888;
+    border-radius: 10px; /* 둥근 모서리 */
+    width: 90%; /* 모달 너비 */
+    max-width: 650px; /* 최대 너비 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative; /* 닫기(X) 버튼 위치 지정을 위해 */
+    animation: fadeIn 0.3s ease-out;
+}
+
+.audio-player-popup.show .audio-player-content {
+    transform: scale(1); /* 최종 스케일 (원래 크기) */
+}
+
+/* 닫기(X) 버튼 스타일 */
+.close-audio-player {
+    color: #aaa;
+    float: right;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-audio-player:hover,
+.close-audio-player:focus {
+    color: #333;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.audio-player-content h3 {
+    text-align: center;
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+/* 참가자 정보 표시 영역 스타일 */
+.participant-info-display {
+    background-color: #eef;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: left; /* 텍스트 왼쪽 정렬 */
+    line-height: 1.6; /* 줄 간격으로 가독성 확보 */
+    font-size: 0.95em;
+    color: #555;
+    box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.2);
+}
+
+.participant-info-display p {
+    /*font-size: 0.95em;*/
+    /*color: #555;*/
+    /*margin: 0; !* p 태그의 기본 마진 제거 *!*/
+    margin: 10px 0;
+    display: flex; /* Flexbox를 사용하여 한 줄에 요소 배치 */
+    flex-wrap: wrap; /* 내용이 길면 다음 줄로 자동 줄바꿈 */
+
+    /*text-align: center;*/
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+}
+
+.participant-info-display p span {
+    /*font-weight: bold;*/
+    /*color: #333;*/
+    margin-right: 15px; /* 항목별 우측 마진 */
+    white-space: nowrap; /* 줄바꿈 방지 */
+}
+
+.participant-info-display .p-info-label {
+    font-weight: bold;
+    color: #333;
+    margin-right: 5px; /* 라벨과 값 사이 간격 */
+}
+
+.participant-info-display span:not(.p-info-label) {
+    font-weight: normal; /* 값 부분은 보통 굵기로 */
+    color: #555;
+}
+
+/* 개별 오디오 트랙 스타일 */
+.audio-tracks-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* 각 오디오 트랙 간 간격 */
+}
+
+.audio-track {
+    background-color: #f8f8f8;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.audio-track p {
+    margin: 0 0 10px 0;
+    font-weight: bold;
+    color: #444;
+}
+
+.audio-track audio {
+    width: 100%;
+    /*margin-top: 15px;*/
+    /*margin-bottom: 15px;*/
+    outline: none; /* 포커스 아웃라인 제거 */
+}

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Error(Html)</title>
+</head>
+<body>
+    <h2>500 Error!!</h2>
+
+    상태값: <p th:text="${status}" style="display: inline-block"></p><br>
+    에러명: <p th:text="${error}" style="display: inline-block"></p><br>
+    경로: <p th:text="${path}" style="display: inline-block"></p><br>
+    에러메시지: <p th:text="${message}" style="display: inline-block"></p><br>
+    에러원인: <p th:text="${exception}" style="display: inline-block"></p><br>
+</body>
+</html>

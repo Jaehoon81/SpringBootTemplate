@@ -1,0 +1,34 @@
+spring:
+  # Email Properties
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}  # 실제 이메일 주소
+    password: ${MAIL_PASSWORD}  # Spring-Boot Template 앱 비밀번호 사용 (16자리)
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.gmail.com
+
+  # MySQL DataSource
+  datasource:
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: ${DATABASE_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+# 파일 업로드 디렉토리 설정 (프로젝트 루트 경로 하위에 uploads 디렉토리 생성)
+file:
+  upload-dir: ${FILE_UPLOAD_DIR}
+  log-dir: ${FILE_LOG_DIR}
+
+# Spring Security (JWT 관련 설정)
+jwt:
+  secret: ${JWT_SECRET}
+  expiration:
+    web: 3600000  # 웹 브라우저: 1시간 (밀리초)
+    mobile: 86400000  # 모바일 앱: 1일 (밀리초), 모바일 앱은 토큰만료 시간을 보통 더 길게 설정

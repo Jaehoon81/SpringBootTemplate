@@ -1,0 +1,109 @@
+plugins {
+    id 'java'
+    id 'war'
+    id 'org.springframework.boot' version '3.3.12'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'kr.co.jaehoon'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '21'  // 또는 JavaVersion.VERSION_21
+    targetCompatibility = '21'
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Spring-Boot Starter/DevTools
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // WAR 배포를 위한 의존성
+    // providedRuntime은 WAR 파일 생성 시 WEB-INF/lib-provided에 포함되며, 외부 Tomcat 사용 시 충돌을 방지합니다.
+    // 하지만 Spring Boot의 executable WAR는 자체적으로 서버를 포함하므로 내장 Tomcat 사용을 위해 implementation을 사용합니다.
+//    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+    implementation 'org.springframework.boot:spring-boot-starter-tomcat'
+
+    // Configuration Processor, Lombok
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // Bean Validation (Hibernate Validator)
+    implementation 'jakarta.validation:jakarta.validation-api'
+    implementation 'org.hibernate.validator:hibernate-validator'
+
+    // Spring-Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    // JWT
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+    // JSP/JSTL
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+    implementation 'jakarta.servlet:jakarta.servlet-api'
+    implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api'
+//    implementation 'org.glassfish.jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-impl'
+    implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl'
+
+    // Thymeleaf
+//    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+//    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.1.RELEASE'
+
+    // MySQL + MyBatis
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
+    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
+    // Slf4j (Log4j2)
+    implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
+    testImplementation 'ch.qos.logback:logback-classic:1.5.13'
+
+    // SpringDoc OpenAPI (Swagger UI)
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
+
+    // Email Service
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    // Apache POI for Excel
+    implementation 'org.apache.poi:poi:5.4.0'  // Excel 97-2003(.xls)
+    implementation 'org.apache.poi:poi-ooxml:5.4.0'  // Excel 2007+(.xlsx)
+    implementation 'com.opencsv:opencsv:5.10'  // CSV 파일
+}
+
+//bootWar {
+//    archiveBaseName = 'springboot-template'
+//    archiveFileName = 'springboot-template.war'
+//    archiveVersion = '1.0.0'
+//}
+//bootWar.enabled = true
+//war.enabled = false
+
+bootWar {
+    archiveFileName = 'springboot-template.war'
+}
+jar {
+    enabled = false  // JAR 빌드를 비활성화 (선택 사항)
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

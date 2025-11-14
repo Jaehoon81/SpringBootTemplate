@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "https://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+    <typeAliases>
+<!--        <package name="kr.co.jaehoon.springboottemplate.dto"/>-->
+
+        <typeAlias type="kr.co.jaehoon.springboottemplate.dto.validation.Gender" alias="gender"/>
+        <typeAlias type="kr.co.jaehoon.springboottemplate.dto.validation.Grade" alias="grade"/>
+
+        <typeAlias type="kr.co.jaehoon.springboottemplate.dto.validation.RegistrationRequest" alias="registrationRequest"/>
+        <typeAlias type="kr.co.jaehoon.springboottemplate.dto.validation.FindAccountRequest" alias="findAccountRequest"/>
+        <typeAlias type="kr.co.jaehoon.springboottemplate.dto.network.MobileAuthRequest" alias="mobileAuthRequest"/>
+        <typeAlias type="kr.co.jaehoon.springboottemplate.dto.validation.UserUpdateRequest" alias="userUpdateRequest"/>
+        <typeAlias type="kr.co.jaehoon.springboottemplate.dto.validation.ParticipantRequest" alias="participantRequest"/>
+        <typeAlias type="kr.co.jaehoon.springboottemplate.dto.validation.GradeUpdateRequest" alias="gradeUpdateRequest"/>
+        <typeAlias type="kr.co.jaehoon.springboottemplate.dto.validation.RecordRequest" alias="recordRequest"/>
+
+        <typeAlias type="kr.co.jaehoon.springboottemplate.dto.MemberDTO" alias="memberDTO"/>
+        <typeAlias type="kr.co.jaehoon.springboottemplate.dto.UserDTO" alias="userDTO"/>
+        <typeAlias type="kr.co.jaehoon.springboottemplate.dto.ApprovalRequestDTO" alias="approvalRequestDTO"/>
+        <typeAlias type="kr.co.jaehoon.springboottemplate.dto.LoginApprovalDTO" alias="loginApprovalDTO"/>
+        <typeAlias type="kr.co.jaehoon.springboottemplate.dto.BlacklistedTokenDTO" alias="blacklistedTokenDTO"/>
+        <typeAlias type="kr.co.jaehoon.springboottemplate.dto.ParticipantDTO" alias="participantDTO"/>
+        <typeAlias type="kr.co.jaehoon.springboottemplate.dto.RecordDTO" alias="recordDTO"/>
+    </typeAliases>
+
+</configuration>

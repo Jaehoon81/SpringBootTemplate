@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.jaehoon.springboottemplate.repository.dao.ParticipantDAO">
+
+    <!-- participantResultMap: Participant 모델(DTO)의 기본 필드 매핑용 -->
+    <resultMap id="participantResultMap" type="kr.co.jaehoon.springboottemplate.dto.ParticipantDTO">
+        <id property="participantId" column="participant_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="participantName" column="participant_name"/>
+        <result property="birthYear" column="birth_year"/>
+        <result property="birthMonth" column="birth_month"/>
+        <result property="gender" column="gender" javaType="kr.co.jaehoon.springboottemplate.dto.validation.Gender"/><!-- Enum 타입 매핑 -->
+        <result property="grade" column="grade" javaType="kr.co.jaehoon.springboottemplate.dto.validation.Grade"/><!-- Enum 타입 매핑 -->
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <!-- participantListResponseMap: ParticipantListResponse 모델의 기본 필드 매핑용 -->
+    <resultMap id="participantListResponseMap" type="kr.co.jaehoon.springboottemplate.dto.network.ParticipantListResponse">
+        <id property="participantId" column="p_id"/>
+        <result property="participantName" column="p_name"/>
+        <result property="birthYearMonth" column="p_birth_year_month"/>
+        <result property="genderKor" column="p_gender_kor"/>
+        <result property="grade" column="p_grade" javaType="kr.co.jaehoon.springboottemplate.dto.validation.Grade"/>
+        <result property="assignedAdminName" column="assigned_admin_name"/>
+        <result property="firstRecordDate" column="first_record_date"/>
+        <!-- 음성녹음 재생 정보를 매핑하는 collection 태그 -->
+        <!-- audioRecordList: ParticipantListResponse 모델의 음성녹음 재생정보 필드 이름 -->
+        <collection property="audioRecordList" ofType="kr.co.jaehoon.springboottemplate.dto.network.ParticipantListResponse$RecordInfo"
+                    select="findAllRecordInfoByParticipantId" column="p_id"/>
+    </resultMap>
+
+    <!-- recordInfoMap: ParticipantListResponse의 내부 RecordInfo 모델의 기본 필드 매핑용 -->
+    <resultMap id="recordInfoMap" type="kr.co.jaehoon.springboottemplate.dto.network.ParticipantListResponse$RecordInfo">
+        <id property="recordId" column="record_id"/>
+        <result property="recordSequence" column="record_sequence"/>
+        <result property="mimeType" column="mime_type"/>
+        <result property="updatedAt" column="formatted_updated_at"/>
+    </resultMap>
+
+    <!-- 특정 참가자(participantId) 정보를 조회 -->
+    <select id="findByParticipantId" parameterType="long" resultMap="participantResultMap">
+        SELECT participant_id, user_id, participant_name, birth_year, birth_month, gender, grade, created_at, updated_at
+        FROM participants
+        WHERE participant_id = #{participantId}
+    </select>
+
+    <!-- 특정 사용자(userId)의 모든 참가자 정보를 조회 -->
+    <select id="findParticipantsByUserId" parameterType="long" resultMap="participantResultMap">
+        SELECT participant_id, user_id, participant_name, birth_year, birth_month, gender, grade, created_at, updated_at
+        FROM participants
+        WHERE user_id = #{userId}
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- 페이징 처리된 참가자 목록을 조회 (필터링 및 페이지네이션 포함) -->
+    <select id="findPaginatedParticipantList" parameterType="map" resultMap="participantListResponseMap">
+        SELECT
+            p.participant_id AS p_id,
+            p.participant_name AS p_name,
+            CONCAT(p.birth_year, '/', LPAD(p.birth_month, 2, '0')) AS p_birth_year_month,
+            CASE p.gender
+                WHEN 'MALE' THEN '남자'
+                WHEN 'FEMALE' THEN '여자'
+                WHEN 'OTHER' THEN '기타'
+                ELSE '알 수 없음'
+            END AS p_gender_kor,
+            p.grade AS p_grade,
+            COALESCE(u_admin.displayname, '-') AS assigned_admin_name,
+            (
+                SELECT DATE_FORMAT(r.created_at, '%Y/%m/%d')
+                FROM records r
+                WHERE r.participant_id = p.participant_id AND r.record_sequence = 1
+                ORDER BY r.created_at ASC
+                LIMIT 1
+            ) AS first_record_date
+        FROM participants p
+        JOIN users u ON p.user_id = u.id
+        LEFT JOIN approval_requests ar ON u.id = ar.user_id
+        LEFT JOIN users u_admin ON ar.assigned_admin_id = u_admin.id
+        WHERE 1=1 <!-- 항상 참(true)인 조건 (동적으로 다른 AND 조건을 붙일 때 편리하게 사용됨) -->
+        <if test="grade != null"> <!-- 등급별 필터링 조건 -->
+            AND p.grade = #{grade}
+        </if>
+        <if test="startDate != null and endDate != null"> <!-- 기간별 필터링 조건 -->
+            <!-- first_record_date 서브 쿼리가 반환하는 날짜와 비교 -->
+            AND (
+                SELECT r_inner.created_at
+                FROM records r_inner
+                WHERE r_inner.participant_id = p.participant_id AND r_inner.record_sequence = 1
+                LIMIT 1
+            ) BETWEEN #{startDate} AND CONCAT(#{endDate}, ' ', '23:59:59.999')
+        </if>
+        <if test="searchKeyword != null and searchKeyword != ''"> <!-- 검색어 필터링 조건 -->
+            <!-- 이름, 성별, 담당 관리자: 컬럼명 LIKE CONCAT('%', 검색어, '%') 방식 사용 -->
+<!--            AND (-->
+<!--                p.participant_name LIKE CONCAT('%', #{searchKeyword}, '%')-->
+<!--                OR CASE p.gender-->
+<!--                    WHEN 'MALE' THEN '남자'-->
+<!--                    WHEN 'FEMALE' THEN '여자'-->
+<!--                    WHEN 'OTHER' THEN '기타'-->
+<!--                    ELSE '알 수 없음'-->
+<!--                END LIKE CONCAT('%', #{searchKeyword}, '%')-->
+<!--                OR COALESCE(u_admin.displayname, '') LIKE CONCAT('%', #{searchKeyword}, '%')-->
+<!--            )-->
+            <!-- 이름, 담당 관리자: FULL-TEXT INDEX + N-GRAM PARSER 방식 사용 -->
+            <!-- 성별: 컬럼명 LIKE CONCAT('%', 검색어, '%') 방식 유지 -->
+            AND (
+                MATCH(p.participant_name) AGAINST(#{searchKeyword} IN BOOLEAN MODE)
+                OR CASE p.gender
+                    WHEN 'MALE' THEN '남자'
+                    WHEN 'FEMALE' THEN '여자'
+                    WHEN 'OTHER' THEN '기타'
+                    ELSE '알 수 없음'
+                END LIKE CONCAT('%', #{searchKeyword}, '%')
+                OR MATCH(u_admin.displayname) AGAINST(#{searchKeyword} IN BOOLEAN MODE)
+            )
+        </if>
+        <!-- SYSTEM 권한의 경우 WHERE 1=1만 적용되어 모든 참가자 정보를 조회 -->
+        <if test="rolename == 'ADMIN'">
+            AND ar.assigned_admin_id = #{currentUserId}
+        </if>
+        <if test="rolename == 'USER'">
+            AND p.user_id = #{currentUserId}
+        </if>
+        ORDER BY p.participant_id DESC
+        <!-- offset: 건너뛸 레코드(행)의 수 (예: (페이지 번호 - 1) * 페이지당 항목 수) -->
+        <!-- limit: 한 번에 가져올 최대 레코드(행) 수 (페이지당 항목 수) -->
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <!-- 페이지네이션 없이 필터링된 모든 참가자 목록을 조회 -->
+    <select id="findAllFilteredParticipants" parameterType="map" resultMap="participantListResponseMap">
+        SELECT
+            p.participant_id AS p_id,
+            p.participant_name AS p_name,
+            CONCAT(p.birth_year, '/', LPAD(p.birth_month, 2, '0')) AS p_birth_year_month,
+            CASE p.gender
+                WHEN 'MALE' THEN '남자'
+                WHEN 'FEMALE' THEN '여자'
+                WHEN 'OTHER' THEN '기타'
+                ELSE '알 수 없음'
+            END AS p_gender_kor,
+            p.grade AS p_grade,
+            COALESCE(u_admin.displayname, '-') AS assigned_admin_name,
+            (
+                SELECT DATE_FORMAT(r.created_at, '%Y/%m/%d')
+                FROM records r
+                WHERE r.participant_id = p.participant_id AND r.record_sequence = 1
+                ORDER BY r.created_at ASC
+                LIMIT 1
+            ) AS first_record_date
+        FROM participants p
+        JOIN users u ON p.user_id = u.id
+        LEFT JOIN approval_requests ar ON u.id = ar.user_id
+        LEFT JOIN users u_admin ON ar.assigned_admin_id = u_admin.id
+        WHERE 1=1
+        <if test="grade != null">
+            AND p.grade = #{grade}
+        </if>
+        <if test="startDate != null and endDate != null">
+            AND (
+                SELECT r_inner.created_at
+                FROM records r_inner
+                WHERE r_inner.participant_id = p.participant_id AND r_inner.record_sequence = 1
+                LIMIT 1
+            ) BETWEEN #{startDate} AND CONCAT(#{endDate}, ' ', '23:59:59.999')
+        </if>
+        <if test="searchKeyword != null and searchKeyword != ''">
+<!--            AND (-->
+<!--                p.participant_name LIKE CONCAT('%', #{searchKeyword}, '%')-->
+<!--                OR CASE p.gender-->
+<!--                    WHEN 'MALE' THEN '남자'-->
+<!--                    WHEN 'FEMALE' THEN '여자'-->
+<!--                    WHEN 'OTHER' THEN '기타'-->
+<!--                    ELSE '알 수 없음'-->
+<!--                END LIKE CONCAT('%', #{searchKeyword}, '%')-->
+<!--                OR COALESCE(u_admin.displayname, '') LIKE CONCAT('%', #{searchKeyword}, '%')-->
+<!--            )-->
+            AND (
+                MATCH(p.participant_name) AGAINST(#{searchKeyword} IN BOOLEAN MODE)
+                OR CASE p.gender
+                    WHEN 'MALE' THEN '남자'
+                    WHEN 'FEMALE' THEN '여자'
+                    WHEN 'OTHER' THEN '기타'
+                    ELSE '알 수 없음'
+                END LIKE CONCAT('%', #{searchKeyword}, '%')
+                OR MATCH(u_admin.displayname) AGAINST(#{searchKeyword} IN BOOLEAN MODE)
+            )
+        </if>
+        <if test="rolename == 'ADMIN'">
+            AND ar.assigned_admin_id = #{currentUserId}
+        </if>
+        <if test="rolename == 'USER'">
+            AND p.user_id = #{currentUserId}
+        </if>
+        ORDER BY p.participant_id ASC
+        <!-- 페이지네이션 없이 필터링된 모든 참가자 목록을 조회하기 위해 LIMIT 제한 조건은 주석처리 -->
+<!--        LIMIT #{offset}, #{limit}-->
+    </select>
+
+    <!-- 조건에 맞는 전체 참가자 수를 조회 (필터링 포함) -->
+    <select id="countParticipants" parameterType="map" resultType="int">
+        SELECT COUNT(p.participant_id)
+        FROM participants p
+        JOIN users u ON p.user_id = u.id
+        LEFT JOIN approval_requests ar ON u.id = ar.user_id
+        LEFT JOIN users u_admin ON ar.assigned_admin_id = u_admin.id
+        WHERE 1=1
+        <if test="grade != null">
+            AND p.grade = #{grade}
+        </if>
+        <if test="startDate != null and endDate != null">
+            AND (
+                SELECT r_inner.created_at
+                FROM records r_inner
+                WHERE r_inner.participant_id = p.participant_id AND r_inner.record_sequence = 1
+                LIMIT 1
+            ) BETWEEN #{startDate} AND CONCAT(#{endDate}, ' ', '23:59:59.999')
+        </if>
+        <if test="searchKeyword != null and searchKeyword != ''">
+<!--            AND (-->
+<!--                p.participant_name LIKE CONCAT('%', #{searchKeyword}, '%')-->
+<!--                OR CASE p.gender-->
+<!--                    WHEN 'MALE' THEN '남자'-->
+<!--                    WHEN 'FEMALE' THEN '여자'-->
+<!--                    WHEN 'OTHER' THEN '기타'-->
+<!--                    ELSE '알 수 없음'-->
+<!--                END LIKE CONCAT('%', #{searchKeyword}, '%')-->
+<!--                OR COALESCE(u_admin.displayname, '') LIKE CONCAT('%', #{searchKeyword}, '%')-->
+<!--            )-->
+            AND (
+                MATCH(p.participant_name) AGAINST(#{searchKeyword} IN BOOLEAN MODE)
+                OR CASE p.gender
+                    WHEN 'MALE' THEN '남자'
+                    WHEN 'FEMALE' THEN '여자'
+                    WHEN 'OTHER' THEN '기타'
+                    ELSE '알 수 없음'
+                END LIKE CONCAT('%', #{searchKeyword}, '%')
+                OR MATCH(u_admin.displayname) AGAINST(#{searchKeyword} IN BOOLEAN MODE)
+            )
+        </if>
+        <if test="rolename == 'ADMIN'">
+            AND ar.assigned_admin_id = #{currentUserId}
+        </if>
+        <if test="rolename == 'USER'">
+            AND p.user_id = #{currentUserId}
+        </if>
+    </select>
+
+    <!-- 단일 참가자의 모든 음성녹음 정보를 조회 (record_sequence 순서대로) -->
+    <select id="findAllRecordInfoByParticipantId" parameterType="long" resultMap="recordInfoMap">
+        SELECT record_id, record_sequence, mime_type, DATE_FORMAT(updated_at, '%Y/%m/%d') AS formatted_updated_at
+        FROM records
+        WHERE participant_id = #{participantId}
+        ORDER BY record_sequence ASC
+    </select>
+
+    <!-- 단일 참가자의 녹음 일자를 조회 (첫 번째 음성: record_sequence = 1) -->
+    <select id="findFirstRecordDate" parameterType="long" resultType="String">
+        SELECT DATE_FORMAT(created_at, '%Y/%m/%d')
+        FROM records
+        WHERE participant_id = #{participantId} AND record_sequence = 1
+        ORDER BY created_at ASC
+        LIMIT 1
+    </select>
+
+    <!-- 해당 ADMIN 계정이 특정 USER를 관리(담당)하는지 확인 -->
+    <select id="isAdminManagingUser" parameterType="map" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM approval_requests ar
+        WHERE ar.assigned_admin_id = #{adminUserId} AND ar.user_id = #{managedUserId}
+    </select>
+
+    <!-- 특정 USER를 관리(담당)하는 ADMIN의 이름(displayname)을 조회 -->
+    <select id="findAdminNameForUser" parameterType="long" resultType="String">
+        SELECT u_admin.displayname
+        FROM approval_requests ar
+        JOIN users u_admin ON ar.assigned_admin_id = u_admin.id
+        WHERE ar.user_id = #{managedUserId}
+    </select>
+
+</mapper>

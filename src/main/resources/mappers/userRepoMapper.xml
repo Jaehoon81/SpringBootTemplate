@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="User">
+
+    <insert id="saveUser" parameterType="userDTO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO users (username, password, displayname, profile_picture_path, email, role_id, active_session_jti, is_deleted)
+        VALUES (#{username}, #{password}, #{displayname}, #{profilePicturePath}, #{email}, #{roleId}, #{activeSessionJti}, #{isDeleted})
+    </insert>
+
+    <!-- 마이 페이지 메뉴 화면에서 사용자 정보를 업데이트 (내 정보 수정 기능) -->
+    <update id="updateUser" parameterType="userUpdateRequest">
+        UPDATE users
+        SET
+            displayname = #{displayname},
+            email = #{email}
+            <if test="newPassword != null and newPassword != ''">
+                , password = #{newPassword}
+            </if>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 아이디/비밀번호 찾기 진행 시 사용자 비밀번호(랜덤)를 업데이트 -->
+    <update id="updatePassword" parameterType="map">
+        UPDATE users
+        SET password = #{password}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 마이 페이지 메뉴 화면에서 사용자 탈퇴 상태를 업데이트 (USER 계정만 가능) -->
+    <update id="updateUserDeleteStatus" parameterType="map">
+        UPDATE users
+        SET is_deleted = #{isDeleted}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteUser" parameterType="long">
+        DELETE FROM users
+        WHERE id = #{id}
+    </delete>
+
+    <!-- ADMIN, USER 계정의 승인 요청 정보를 저장 -->
+    <insert id="saveApprovalRequest" parameterType="approvalRequestDTO" useGeneratedKeys="true" keyProperty="requestId">
+        INSERT INTO approval_requests (user_id, req_message, assigned_admin_id, is_approved)
+        VALUES (#{userId}, #{reqMessage}, #{assignedAdminId}, #{isApproved})
+    </insert>
+
+    <!-- ADMIN, USER 계정의 승인 상태를 업데이트 -->
+    <update id="updateApprovalStatus" parameterType="map">
+        UPDATE approval_requests
+        SET is_approved = #{isApproved}, approved_at = CASE WHEN #{isApproved} = TRUE THEN NOW() ELSE NULL END
+        WHERE user_id = #{userId}
+    </update>
+
+    <!-- USER 계정의 active_session_jti 컬럼을 업데이트 -->
+    <update id="updateActiveSessionJti" parameterType="map">
+        UPDATE users
+        SET active_session_jti = #{jti}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 해당 계정의 프로필 사진(이미지) 경로를 업데이트 -->
+    <update id="updateProfilePicturePath" parameterType="map">
+        UPDATE users
+        SET profile_picture_path = #{path}
+        WHERE id = #{id}
+    </update>
+
+</mapper>

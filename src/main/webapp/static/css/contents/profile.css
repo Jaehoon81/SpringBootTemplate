@@ -1,0 +1,226 @@
+.profile-edit-container {
+    background-color: #ffffff;
+    padding: 40px;
+    margin: 0 auto;
+    border-radius: 12px;
+    /*box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);*/
+    width: 1200px;
+    max-width: 45%;
+    /*text-align: center;*/
+    box-sizing: border-box;
+    /*transition: width 0.3s ease; !* 너비 변경 시 부드러운 애니메이션 효과 *!*/
+}
+
+/* 스크롤 발생 시 적용될 스타일 */
+.profile-edit-container.scrolling {
+    width: 1190px; /* 스크롤바 공간을 고려하여 살짝 줄임 */
+    /* 필요에 따라 margin-right: 100px; 등으로 조정 가능 */
+}
+
+.profile-edit-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 1.6em; /* 폰트 크기 */
+}
+
+/* 페이지 하단 버튼 그룹 스타일 */
+/*.profile-edit-container > button {*/
+/*    margin: 15px 8px; !* 하단 버튼 마진 조정 *!*/
+/*}*/
+
+.profile-edit-form .form-group {
+    margin-bottom: 20px;
+}
+
+.profile-edit-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+}
+
+.profile-edit-form input[type="text"],
+.profile-edit-form input[type="email"],
+.profile-edit-form input[type="password"] {
+    width: calc(100% - 0px); /* 패딩을 고려한 계산 */
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box; /* 패딩이 너비에 포함되도록 */
+    transition: border-color 0.3s ease;
+}
+
+.profile-edit-form input[type="text"]:focus,
+.profile-edit-form input[type="email"]:focus,
+.profile-edit-form input[type="password"]:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.profile-edit-form input[readonly] {
+    background-color: #e8f0fe; /* 옅은 회색: #e9ecef */
+    color: #555; /* 회색: #6c757d */
+    cursor: not-allowed;
+}
+
+.profile-edit-form .error-message {
+    color: #dc3545;
+    font-size: 0.85em;
+    margin-top: 5px;
+    display: block; /* 각각의 에러 메시지를 별도의 줄에 표시 */
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #ddd; /* 얇은 회색 선 */
+    margin: 25px 0 20px 0; /* 위아래 여백 */
+}
+
+.profile-edit-form button {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.profile-edit-form button:hover {
+    background-color: #0056b3;
+}
+
+.deactivate-button {
+    width: 100%;
+    padding: 12px 20px;
+    margin-top: 15px; /* 프로필 업데이트 버튼과의 간격 */
+    background-color: #dc3545; /* 빨간색 (Danger Color) */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.deactivate-button:hover {
+    background-color: #c82333;
+}
+
+/* 회원탈퇴 팝업창 모달 스타일 재정의 (기존 popup-content 재사용) */
+#deactivateUserModal {
+    display: none; /* 기본은 숨김 */
+    position: fixed;
+    z-index: 2001; /* 다른 모달보다 위에 (최상위) */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    align-items: center; /* Flex로 가운데 정렬 */
+    justify-content: center; /* Flex로 가운데 정렬 */
+}
+
+#deactivateUserModal.show {
+    display: flex; /* 보여줄 때 Flex로 변경 */
+}
+
+#deactivateUserModal .popup-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 30px;
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    position: relative;
+}
+
+#deactivateUserModal.show #deactivateUserModal .popup-content {
+    transform: scale(1); /* 최종 스케일 (원래 크기) */
+}
+
+#deactivateUserModal .popup-content h3 {
+    margin-top: 0;
+    color: #333;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+#deactivateUserModal .popup-content p {
+    color: #666;
+    margin-bottom: 25px;
+}
+
+/* 입력 필드의 placeholder 스타일 */
+#deactivateUserModal .popup-content input::placeholder {
+    color: #999;
+    font-style: normal;
+}
+
+#deactivateUserModal .popup-content input[type="text"] {
+    width: calc(100% - 36px); /* 패딩을 고려한 계산 */
+    height: 44px;
+    padding: 12px 15px;
+    /*margin-bottom: 20px;*/
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1.05em;
+    color: #333;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+#deactivateUserModal .popup-content input[type="text"]:focus {
+    border-color: #dc3545; /* 빨간색으로 테두리 색상 변경 */
+    box-shadow: 0 0 5px rgba(220, 53, 69, 0.5); /* 선택 시 그림자 효과 추가 (선택 사항) */
+    outline: none; /* 브라우저 기본 아웃라인 제거 (필요 시) */
+}
+
+#deactivateUserModal .popup-content .modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* 버튼 사이의 간격 */
+}
+
+#deactivateUserModal .popup-content .modal-buttons button {
+    width: 45%; /* 버튼 너비 */
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+#deactivateUserModal .popup-content .modal-buttons .confirm-deactivate-btn {
+    background-color: #dc3545; /* 적색 계열 */
+    color: white;
+}
+
+#deactivateUserModal .popup-content .modal-buttons .confirm-deactivate-btn:hover {
+    background-color: #c82333;
+}
+
+#deactivateUserModal .popup-content .modal-buttons .cancel-deactivate-btn {
+    background-color: #6c757d; /* 회색 계열 */
+    color: white;
+}
+
+#deactivateUserModal .popup-content .modal-buttons .cancel-deactivate-btn:hover {
+    background-color: #5a6268;
+}
+
+#deactivateUserModal .modal-error-message {
+    color: #dc3545;
+    font-size: 0.9em;
+    margin-top: 10px;
+    display: block;
+}
