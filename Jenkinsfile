@@ -16,7 +16,7 @@ pipeline {
         // --- 3. AWS EC2 배포 정보 ---
 //         EC2_SSH_CREDENTIALS = 'my-ec2-ssh-credentials'  // Jenkins에 등록된 EC2 SSH 키 자격증명 ID
         EC2_USER = 'ubuntu'  // EC2 인스턴스의 사용자 이름
-        EC2_HOST = 'ec2-54-116-28-149.ap-northeast-2.compute.amazonaws.com'  // EC2 인스턴스 퍼블릭 IP 또는 도메인
+        EC2_HOST = 'ec2-52-79-127-32.ap-northeast-2.compute.amazonaws.com'  // EC2 인스턴스 퍼블릭 IP 또는 도메인
         EC2_DEPLOY_PATH = '/home/ubuntu/springboottemplate'  // docker-compose.yml이 있는 EC2 경로
 
         // --- 4. 서비스명 및 파일 이름 ---
